@@ -1,4 +1,4 @@
-package com.example.nicklawler222.shopping;
+package com.example.denver.myapplication;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
