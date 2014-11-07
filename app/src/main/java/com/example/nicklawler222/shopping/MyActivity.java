@@ -10,7 +10,6 @@ import android.view.Window;
 
 public class MyActivity extends Activity {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,8 +17,9 @@ public class MyActivity extends Activity {
         getActionBar().hide();
         setContentView(R.layout.activity_my);
 
-        Intent i = new Intent(getApplicationContext(),LoginActivity.class);
+        Intent i = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(i);
+
     }
 
 

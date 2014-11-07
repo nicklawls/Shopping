@@ -20,6 +20,6 @@
         android:layout_width="@dimen/navigation_drawer_width" android:layout_height="match_parent"
         android:layout_gravity="start"
         android:name="com.example.nicklawler222.shopping.NavigationDrawerFragment"
-        tools:layout="@layout/fragment_navigation_drawer" />
+        tools:layout="@layout/fragment_navigation_drawer2" />
 
 </android.support.v4.widget.DrawerLayout>
