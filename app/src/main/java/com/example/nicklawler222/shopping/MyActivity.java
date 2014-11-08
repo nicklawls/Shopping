@@ -3,13 +3,16 @@ package com.example.nicklawler222.shopping;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 
 
+
 public class MyActivity extends Activity {
 
+    private static int TIME_OUT = 2000;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -17,8 +20,16 @@ public class MyActivity extends Activity {
         getActionBar().hide();
         setContentView(R.layout.activity_my);
 
-        Intent i = new Intent(getApplicationContext(), LoginActivity.class);
-        startActivity(i);
+        // wait for 2 seconds
+        new Handler().postDelayed( new Runnable() {
+            @Override
+            public void run() {
+                Intent i = new Intent(MyActivity.this, LoginActivity.class);
+                startActivity(i);
+                finish();
+            }
+        }, TIME_OUT);
+
 
     }
 

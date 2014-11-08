@@ -1,5 +1,11 @@
 package com.example.nicklawler222.shopping;
 
+import java.sql.*;
+import android.app.Activity;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.widget.TextView;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
@@ -147,7 +153,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
-        return email.contains("@");
+        return true;
     }
 
     private boolean isPasswordValid(String password) {
@@ -262,6 +268,37 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
+            String retval = "";
+            try {
+                Class.forName("org.postgresql.Driver");
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            String url;
+            url = "jdbc:postgresql://shopandgodb.cv80ayxyiqrh.us-west-2.rds.amazonaws.com:5432/sagdb?user=shopandgo&password=goandshop";
+            Connection conn;
+            try {
+                DriverManager.setLoginTimeout(5);
+                conn = DriverManager.getConnection(url);
+                Statement st = conn.createStatement();
+                String sql;
+                sql = "SELECT * FROM users WHERE username = '" + mEmail + "'";
+                ResultSet rs = st.executeQuery(sql);
+                while (rs.next()) {
+                    retval = rs.getString("password");
+                }
+
+                rs.close();
+                st.close();
+                conn.close();
+                if (retval.equals(mPassword)) {
+                    return true;
+                }
+                else return false;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                retval = e.toString();
+            }
 
             try {
                 // Simulate network access.
@@ -270,16 +307,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 return false;
             }
 
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
+
 
             // TODO: register the new account here.
-            return true;
+            return false;
         }
 
         @Override
@@ -289,7 +320,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
             if (success) {
                 finish();
-                Intent i = new Intent(getApplicationContext(),HomeActivity.class);
+                Intent i = new Intent(LoginActivity.this,HomeActivity.class);
                 startActivity(i);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
