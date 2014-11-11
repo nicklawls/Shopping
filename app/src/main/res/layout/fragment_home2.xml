@@ -6,7 +6,19 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.example.nicklawler222.shopping.HomeActivity$PlaceholderFragment">
 
-    <TextView android:id="@+id/section_label" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <!--<TextView android:id="@+id/section_label" android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content" />-->
+
+    <!--<GridLayout-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="fill_parent"-->
+        <!--android:layout_toRightOf="@+id/section_label"-->
+        <!--android:layout_toEndOf="@+id/section_label"-->
+        <!--android:layout_alignTop="@+id/section_label"-->
+        <!--android:id="@+id/gridLayout">-->
+
+    <!--</GridLayout>-->
+
+
 
 </RelativeLayout>

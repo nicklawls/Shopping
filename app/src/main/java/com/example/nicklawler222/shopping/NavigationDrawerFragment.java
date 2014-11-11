@@ -4,6 +4,9 @@ package com.example.nicklawler222.shopping;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
+import android.app.SearchManager;
+import android.content.pm.PackageManager;
+import android.content.Intent;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -143,30 +146,30 @@ public class NavigationDrawerFragment extends Fragment {
         ) {
             @Override
             public void onDrawerClosed(View drawerView) {
-                super.onDrawerClosed(drawerView);
-                if (!isAdded()) {
-                    return;
-                }
-
+//                super.onDrawerClosed(drawerView);
+//                if (!isAdded()) {
+//                    return;
+//                }
+                getActionBar().setTitle("Test");
                 getActivity().invalidateOptionsMenu(); // calls onPrepareOptionsMenu()
             }
 
             @Override
             public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                if (!isAdded()) {
-                    return;
-                }
+//                super.onDrawerOpened(drawerView);
+//                if (!isAdded()) {
+//                    return;
+//                }
 
-                if (!mUserLearnedDrawer) {
-                    // The user manually opened the drawer; store this flag to prevent auto-showing
-                    // the navigation drawer automatically in the future.
-                    mUserLearnedDrawer = true;
-                    SharedPreferences sp = PreferenceManager
-                            .getDefaultSharedPreferences(getActivity());
-                    sp.edit().putBoolean(PREF_USER_LEARNED_DRAWER, true).apply();
-                }
-
+//                if (!mUserLearnedDrawer) {
+//                    // The user manually opened the drawer; store this flag to prevent auto-showing
+//                    // the navigation drawer automatically in the future.
+//                    mUserLearnedDrawer = true;
+//                    SharedPreferences sp = PreferenceManager
+//                            .getDefaultSharedPreferences(getActivity());
+//                    sp.edit().putBoolean(PREF_USER_LEARNED_DRAWER, true).apply();
+//                }
+                getActivity().setTitle("test2");
                 getActivity().invalidateOptionsMenu(); // calls onPrepareOptionsMenu()
             }
         };
@@ -244,13 +247,24 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (mDrawerToggle.onOptionsItemSelected(item)) {
+           // Intent i = new Intent(, listProductsActivity.class);
+            //startActivity(i);
             return true;
         }
 
-        if (item.getItemId() == R.id.action_example) {
-            Toast.makeText(getActivity(), "Example action.", Toast.LENGTH_SHORT).show();
+        if (item.getItemId() == R.id.action_websearch) {
+            // create intent to perform web search for this planet
+            Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
+            intent.putExtra(SearchManager.QUERY, "Le Shoppe");
+            // catch event that there's no activity to handle intent
+            if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+                startActivity(intent);
+            } else {
+                Toast.makeText(getActivity(), R.string.app_not_available, Toast.LENGTH_LONG).show();
+            }
             return true;
         }
+
 
         return super.onOptionsItemSelected(item);
     }
