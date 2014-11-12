@@ -17,7 +17,7 @@
     <string name="app_not_available">Sorry, there\'s no web browser available</string>
     <string-array name="categories_array">
         <item>Cars</item>
-        <item>Men's Clothing</item>
+        <item>Men\'s Clothing</item>
         <item>Office Supplies</item>
         <item>Pets</item>
         <item>Video Games</item>
