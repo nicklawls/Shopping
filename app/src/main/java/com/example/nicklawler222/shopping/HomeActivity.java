@@ -1,25 +1,14 @@
 package com.example.nicklawler222.shopping;
 
-import android.app.Activity;
-import java.sql.*;
-import java.util.ArrayList;
-
 import android.app.ActionBar;
-import android.app.Fragment;
+import android.app.Activity;
 import android.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.AsyncTask;
-import android.view.Gravity;
-import android.view.LayoutInflater;
+import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
+
+import java.util.ArrayList;
 
 
 public class HomeActivity extends Activity
@@ -116,127 +105,5 @@ public class HomeActivity extends Activity
         return super.onOptionsItemSelected(item);
     }
 
-    public static class product_fragment extends Fragment {
-    //private WeakReference<FetchSQL> asyncTaskWeakRef;
-
-
-    TextView productno;
-    TextView productname;
-    TextView productcategory;
-    TextView productprice;
-    TextView productdescription;
-    TextView productfeatures;
-
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static product_fragment newInstance(int sectionNumber,int productNumber) {
-            product_fragment fragment = new product_fragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            args.putInt("product_number",productNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        public product_fragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            Bundle args = getArguments();
-            int productnumber = args.getInt("product_number",0);
-
-
-
-            View rootView = inflater.inflate(R.layout.product_fragment, container, false);
-            productno = (TextView) rootView.findViewById(R.id.productno);
-            productno.setText(Integer.toString(productnumber));
-
-            productname = (TextView) rootView.findViewById(R.id.productname);
-
-            productcategory = (TextView) rootView.findViewById(R.id.productcategory);
-
-            productprice = (TextView) rootView.findViewById(R.id.productprice);
-
-            productdescription = (TextView) rootView.findViewById(R.id.productdescription);
-
-            productfeatures = (TextView) rootView.findViewById(R.id.productfeatures);
-            new FetchSQL().execute(productnumber);
-
-
-
-            return rootView;
-        }
-
-        private class FetchSQL extends AsyncTask <Integer,Void,Bundle> {
-            protected Bundle doInBackground(Integer... productnumbers) {
-                try {
-                    Class.forName("org.postgresql.Driver");
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
-                Bundle product = new Bundle();
-                String url;
-                url = "jdbc:postgresql://shopandgodb.cv80ayxyiqrh.us-west-2.rds.amazonaws.com:5432/sagdb?user=shopandgo&password=goandshop";
-                Connection conn;
-                try {
-                    DriverManager.setLoginTimeout(5);
-                    conn = DriverManager.getConnection(url);
-                    Statement st = conn.createStatement();
-                    String sql;
-                    sql = "SELECT * FROM products WHERE product_no = '" + productnumbers[0] + "'";
-                    ResultSet rs = st.executeQuery(sql);
-                    while (rs.next()) {
-                        product.putString("product_name", rs.getString("name"));
-                        product.putString("product_category", rs.getString("category"));
-                        product.putString("product_price", rs.getString("price"));
-                        product.putString("product_description", rs.getString("description"));
-                        product.putString("product_features", rs.getString("features"));
-                        product.putString("product_imgurl", rs.getString("img_url"));
-                    }
-
-                    rs.close();
-                    st.close();
-                    conn.close();
-                    return product;
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    return null;
-                }
-            }
-
-                protected void onPostExecute(Bundle product) {
-                    productname.setText(product.getString("product_name",""));
-                    productcategory.setText(product.getString("product_category",""));
-                    productprice.setText(product.getString("product_price",""));
-                    productdescription.setText(product.getString("product_description",""));
-                    productfeatures.setText(product.getString("product_features",""));
-
-                }
-
-
-            }
-
-
-
-
-
-
-        @Override
-        public void onAttach(Activity activity) {
-            super.onAttach(activity);
-            ((HomeActivity) activity).onSectionAttached(
-                    getArguments().getInt(ARG_SECTION_NUMBER));
-        }
-    }
 
 }
