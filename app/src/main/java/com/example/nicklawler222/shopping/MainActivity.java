@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
     private DrawerLayout mDrawerLayout;
@@ -41,7 +43,15 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+        Context context = getApplicationContext();
+        CharSequence text = "LET'S SHOPPE";
+        int duration = Toast.LENGTH_SHORT;
+
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
+
+        setContentView(R.layout.activity_main2);
 
         mTitle = mDrawerTitle = getTitle();
 
@@ -181,8 +191,7 @@ public class MainActivity extends Activity {
             case 5:
                 fragment = new WomensClothingFragment();
                 break;
-            case 6:
-                fragment = new VideoGamesFragment();
+
             default:
                 break;
         }
