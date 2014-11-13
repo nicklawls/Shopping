@@ -11,4 +11,6 @@
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
+    <string name="error_pwfield_required">Password can\'t be empty</string>
+    <string name="error_bad_login">Invalid username or password</string>
 </resources>
