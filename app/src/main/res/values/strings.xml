@@ -15,15 +15,38 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_list_products">listProductsActivity</string>
     <string name="app_not_available">Sorry, there\'s no web browser available</string>
+    <string name="drawer_open">Slider Menu Opened</string>
+    <string name="drawer_close">Slider Menu Closed</string>
 
-    <string-array name="categories_array">
+    <!-- Nav Drawer Menu Items -->
+    <string-array name="nav_drawer_items">
+        <item>Home</item>
         <item>Cars</item>
         <item>Men\'s Clothing</item>
-        <item>Office Supplies</item>
+        <item>Office</item>
         <item>Pets</item>
         <item>Video Games</item>
+        <item>Women\'s Clothing</item>
+        <item>Logout</item>
     </string-array>
 
-    <string name="title_activity_product">ProductActivity</string>
+    <!-- Nav Drawer List Item Icons -->
+    <!-- Keep them in order as the titles are in -->
+    <array name="nav_drawer_icons">
+        <item>@drawable/ic_home</item>
+        <item>@drawable/ic_cars</item>
+        <item>@drawable/ic_mens_clothing</item>
+        <item>@drawable/ic_office</item>
+        <item>@drawable/ic_pets</item>
+        <item>@drawable/ic_video_games</item>
+        <item>@drawable/ic_womens_clothing</item>
+        <item>@drawable/ic_exit</item>
+    </array>
+
+    <!-- Content Description -->
+    <string name="desc_list_item_icon">Item Icon</string>
+    <string name="title_activity_splash_screen">LeShoppe2</string>
+    <string name="title_activity_splash">LeShoppe3</string>
+    <string name="title_activity_main">LeShoppe4</string>
 
 </resources>

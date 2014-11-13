@@ -65,7 +65,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login2);
+        setContentView(R.layout.activity_login);
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
@@ -141,7 +141,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         }
         //no empty password allowed
         if (TextUtils.isEmpty(password)) {
-            mPasswordView.setError((getString(R.string.error_pwfield_required)));
+            mPasswordView.setError((getString(R.string.error_incorrect_password)));
             focusView = mPasswordView;
             cancel = true;
         }
@@ -394,7 +394,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
             if (success) {
                 finish();
-                Intent i = new Intent(LoginActivity.this,HomeActivity.class);
+                Intent i = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(i);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
