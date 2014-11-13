@@ -27,6 +27,7 @@
         <item>Pets</item>
         <item>Women\'s Clothing</item>
         <item>Video Games</item>
+        <item>Logout</item>
     </string-array>
 
     <!-- Nav Drawer List Item Icons -->
@@ -43,8 +44,8 @@
 
     <!-- Content Description -->
     <string name="desc_list_item_icon">Item Icon</string>
-    <string name="title_activity_splash_screen">SplashScreen</string>
-    <string name="title_activity_splash">SplashActivity</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_splash_screen">LeShoppe2</string>
+    <string name="title_activity_splash">LeShoppe3</string>
+    <string name="title_activity_main">LeShoppe4</string>
 
 </resources>
