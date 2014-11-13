@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/product_fragment_root">
+    <TableRow>
+    <TextView
+        android:id="@+id/productno"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+
+        android:gravity="left|top"/>
+    </TableRow>
+    <TableRow>
+    <TextView
+        android:id="@+id/productname"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:gravity="left|top"/>
+    </TableRow>
+    <TableRow>
+    <TextView
+        android:id="@+id/productcategory"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:gravity="left|top" />
+    </TableRow>
+    <TableRow>
+    <TextView
+        android:id="@+id/productprice"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:gravity="left|top" />
+    </TableRow>
+    <TableRow>
+    <TextView
+        android:id="@+id/productdescription"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:gravity="left|top" />
+    </TableRow>
+    <TableRow>
+    <TextView
+        android:id="@+id/productfeatures"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:gravity="left|top" />
+    </TableRow>
+
+</TableLayout>
