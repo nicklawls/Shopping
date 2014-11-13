@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 
 public class HomeActivity extends Activity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks,CategoryFragment.OnFragmentInteractionListener {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks,ProductListFragment.OnFragmentInteractionListener {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -50,7 +50,7 @@ public class HomeActivity extends Activity
         productnames.add("Ford Mustang");
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, CategoryFragment.newInstance(productnumbers,productnames))
+                .replace(R.id.container, ProductListFragment.newInstance(productnumbers, productnames))
                 .commit();
 
     }

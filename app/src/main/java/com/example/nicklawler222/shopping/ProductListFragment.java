@@ -10,17 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
-
-import com.example.nicklawler222.shopping.dummy.DummyContent;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 /**
  * A fragment representing a list of Items.
@@ -31,7 +26,7 @@ import java.util.Vector;
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
-public class CategoryFragment extends Fragment implements AbsListView.OnItemClickListener {
+public class ProductListFragment extends Fragment implements AbsListView.OnItemClickListener {
     private List ProductListItemList;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -54,8 +49,8 @@ public class CategoryFragment extends Fragment implements AbsListView.OnItemClic
     private ListAdapter mAdapter;
 
     // TODO: Rename and change types of parameters
-    public static CategoryFragment newInstance(ArrayList productnumbers, ArrayList productnames) {
-        CategoryFragment fragment = new CategoryFragment();
+    public static ProductListFragment newInstance(ArrayList productnumbers, ArrayList productnames) {
+        ProductListFragment fragment = new ProductListFragment();
         Bundle args = new Bundle();
         args.putStringArrayList("product_numbers",productnumbers);
         args.putStringArrayList("product_names",productnames);
@@ -67,7 +62,7 @@ public class CategoryFragment extends Fragment implements AbsListView.OnItemClic
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public CategoryFragment() {
+    public ProductListFragment() {
     }
 
     @Override
