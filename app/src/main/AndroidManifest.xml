@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.nicklawler222.shopping" >
+    package="com.example.nicklawler222.shopping">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -14,8 +14,8 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.example.nicklawler222.shopping.MyActivity"
-            android:label="@string/app_name" >
+            android:name="com.example.nicklawler222.shopping.SplashActivity"
+            android:label="@string/title_activity_splash" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,17 +28,10 @@
             android:windowSoftInputMode="adjustResize|stateVisible" >
         </activity>
         <activity
-            android:name="com.example.nicklawler222.shopping.HomeActivity"
-            android:label="@string/title_activity_home" >
+            android:name="com.example.nicklawler222.shopping.MainActivity"
+            android:label="@string/app_name" >
         </activity>
-        <activity
-            android:name="com.example.nicklawler222.shopping.listProductsActivity"
-            android:label="@string/title_activity_list_products"
-            android:parentActivityName="com.example.nicklawler222.shopping.HomeActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.nicklawler222.shopping.HomeActivity" />
-        </activity>
+
     </application>
 
 </manifest>

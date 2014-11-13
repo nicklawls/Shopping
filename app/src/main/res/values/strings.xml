@@ -2,25 +2,35 @@
 <resources>
 
     <string name="app_name">Le Shoppe</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="action_websearch">Web search</string>
-    <string name="title_activity_home"> </string>
-    <string name="title_section1">Home</string>
-    <string name="title_section2">Shop by Category</string>
-    <string name="title_section3">Recently Viewed</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="action_example">Shopping Cart</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_list_products">listProductsActivity</string>
-    <string name="app_not_available">Sorry, there\'s no web browser available</string>
-    <string-array name="categories_array">
-        <item>Cars</item>
-        <item>Men\'s Clothing</item>
-        <item>Office Supplies</item>
-        <item>Pets</item>
-        <item>Video Games</item>
+    <string name="hello_world">Hello world!</string>
+    <string name="drawer_open">Slider Menu Opened</string>
+    <string name="drawer_close">Slider Menu Closed</string>
+
+    <!-- Nav Drawer Menu Items -->
+    <string-array name="nav_drawer_items">
+        <item>Home</item>
+        <item>Find People</item>
+        <item>Photos</item>
+        <item>Communities</item>
+        <item>Pages</item>
+        <item>What\'s Hot</item>
     </string-array>
+
+    <!-- Nav Drawer List Item Icons -->
+    <!-- Keep them in order as the titles are in -->
+    <array name="nav_drawer_icons">
+        <item>@drawable/ic_home</item>
+        <item>@drawable/ic_people</item>
+        <item>@drawable/ic_photos</item>
+        <item>@drawable/ic_communities</item>
+        <item>@drawable/ic_pages</item>
+        <item>@drawable/ic_whats_hot</item>
+    </array>
+
+    <!-- Content Description -->
+    <string name="desc_list_item_icon">Item Icon</string>
+    <string name="title_activity_splash_screen"></string>
+    <string name="title_activity_splash">Le Shoppe</string>
 
 </resources>
