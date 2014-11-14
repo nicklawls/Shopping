@@ -32,6 +32,20 @@
             android:name="com.example.nicklawler222.shopping.MainActivity"
             android:label="@string/title_activity_main" >
         </activity>
+        <activity
+            android:name="com.example.nicklawler222.shopping.SearchActivity"
+            android:label="@string/title_activity_search"
+            android:parentActivityName="com.example.nicklawler222.shopping.MainActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.nicklawler222.shopping.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
