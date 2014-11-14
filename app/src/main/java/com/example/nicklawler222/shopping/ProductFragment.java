@@ -1,6 +1,9 @@
 package com.example.nicklawler222.shopping;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.database.DatabaseUtils;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -126,7 +129,8 @@ public class ProductFragment extends Fragment {
                 }
 
                 String sql_store_browse_history;
-                String username = "'bob'";
+                String username = DataHolder.getInstance().getData();
+                username = "'" + username + "'";
                 java.util.Date date = new Date();
                 String timestamp = (new Timestamp(date.getTime())).toString();
 
