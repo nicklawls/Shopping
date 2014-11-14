@@ -76,7 +76,7 @@ public class SearchFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         Bundle args = getArguments();
-        View rootView = inflater.inflate(R.layout.fragment_search, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_search_history, container, false);
         String query = args.getString("query","");
         new FetchSQL().execute(query);
         return rootView;

@@ -5,6 +5,12 @@
     android:layout_height="match_parent"
     android:id="@+id/product_fragment_root">
     <TableRow>
+        <ImageView
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:id="@+id/imageView" />
+    </TableRow>
+    <TableRow>
     <TextView
         android:id="@+id/productno"
         android:layout_height="wrap_content"
@@ -47,5 +53,6 @@
         android:layout_width="match_parent"
         android:gravity="left|top" />
     </TableRow>
+
 
 </TableLayout>

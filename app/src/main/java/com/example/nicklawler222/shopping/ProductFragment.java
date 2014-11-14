@@ -1,5 +1,6 @@
 package com.example.nicklawler222.shopping;
 
+import com.androidquery.AQuery;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -12,6 +13,7 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.Date;
 
@@ -34,6 +36,7 @@ public class ProductFragment extends Fragment {
     TextView productprice;
     TextView productdescription;
     TextView productfeatures;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -44,6 +47,7 @@ public class ProductFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private AQuery aq;
 
     /**
      * Use this factory method to create a new instance of
@@ -72,6 +76,7 @@ public class ProductFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
@@ -83,6 +88,7 @@ public class ProductFragment extends Fragment {
 
 
         View rootView = inflater.inflate(R.layout.product_fragment, container, false);
+        aq = new AQuery(getActivity(), rootView);
         productno = (TextView) rootView.findViewById(R.id.productno);
         productno.setText(productnumber);
 
@@ -95,6 +101,7 @@ public class ProductFragment extends Fragment {
         productdescription = (TextView) rootView.findViewById(R.id.productdescription);
 
         productfeatures = (TextView) rootView.findViewById(R.id.productfeatures);
+
         new FetchSQL().execute(productnumber);
 
 
@@ -152,14 +159,12 @@ public class ProductFragment extends Fragment {
         }
 
         protected void onPostExecute(Bundle product) {
+            aq.id(R.id.imageView).image(product.getString("product_imgurl",""),false, true);
             productname.setText(product.getString("product_name",""));
             productcategory.setText(product.getString("product_category",""));
             productprice.setText(product.getString("product_price",""));
             productdescription.setText(product.getString("product_description",""));
             productfeatures.setText(product.getString("product_features",""));
-
-
-
         }
 
 
