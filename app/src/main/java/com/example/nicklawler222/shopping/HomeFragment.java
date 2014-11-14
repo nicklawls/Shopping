@@ -3,12 +3,15 @@ package com.example.nicklawler222.shopping;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import java.io.FileOutputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -51,6 +54,7 @@ public class HomeFragment extends Fragment {
                 String sql;
                 sql = "SELECT DISTINCT b.product_no,p.name  FROM browsings b,products p WHERE username = '" + username + "' AND b.product_no = p.product_no";
                 ResultSet rs = st.executeQuery(sql);
+
                 while (rs.next()) {
                     productnumbers.add(rs.getString("product_no"));
                     productnames.add(rs.getString("name"));

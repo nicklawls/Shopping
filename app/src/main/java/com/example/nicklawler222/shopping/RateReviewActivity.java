@@ -1,6 +1,7 @@
 package com.example.nicklawler222.shopping;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,8 +11,10 @@ import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import java.sql.Timestamp;
-import java.util.Date;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 
 public class RateReviewActivity extends Activity {
@@ -44,6 +47,16 @@ public class RateReviewActivity extends Activity {
             public void onClick(View v) {
                 textReview = (EditText) findViewById(R.id.review_post);
                 str = textReview.getText().toString();
+                if( ratingValue.getText().equals("")) return;
+
+                String sql;
+                String username = "'" + DataHolder.getInstance().getData() + "'";
+                String sqlrating = ratingValue.getText().toString();
+                String product = DataHolder.getInstance().getPNO();
+                String sqlreview = str;
+                sql = "INSERT INTO ratings VALUES (" + product + ", " + username + ", " +sqlrating + ", '" + sqlreview + "')";
+
+                new FetchSQL().execute(sql);
             }
         });
 
@@ -53,11 +66,40 @@ public class RateReviewActivity extends Activity {
                 RateReviewActivity.this.finish();
             }
         });
-
-
     }
 
+    private class FetchSQL extends AsyncTask<String, Void, Void> {
+        protected Void doInBackground(String... insertreview) {
+            try {
+                Class.forName("org.postgresql.Driver");
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            Bundle product = new Bundle();
+            String url;
+            url = "jdbc:postgresql://shopandgodb.cv80ayxyiqrh.us-west-2.rds.amazonaws.com:5432/sagdb?user=shopandgo&password=goandshop";
+            Connection conn;
+            try {
+                DriverManager.setLoginTimeout(5);
+                conn = DriverManager.getConnection(url);
+                Statement st = conn.createStatement();
+                String sql;
+                sql = insertreview[0];
+                st.executeUpdate(sql);
+                st.close();
+                conn.close();
 
+                RateReviewActivity.this.finish();
+                return null;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        protected void onPostExecute(Void product) {
+        }
+    }
 
     public void addListenerOnRatingBar() {
         ratingBar = (RatingBar) findViewById(R.id.rating);

@@ -83,7 +83,7 @@ public class ProductFragment extends Fragment {
                              Bundle savedInstanceState) {
         Bundle args = getArguments();
         String productnumber = args.getString("product_number","");
-
+        DataHolder.getInstance().setPNO(productnumber);
 
 
         View rootView = inflater.inflate(R.layout.product_fragment, container, false);
