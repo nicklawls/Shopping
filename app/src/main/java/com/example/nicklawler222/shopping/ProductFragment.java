@@ -140,6 +140,7 @@ public class ProductFragment extends Fragment {
             productdescription.setText(product.getString("product_description",""));
             productfeatures.setText(product.getString("product_features",""));
 
+
         }
 
 
