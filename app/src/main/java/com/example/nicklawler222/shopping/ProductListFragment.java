@@ -116,7 +116,7 @@ public class ProductListFragment extends Fragment implements AbsListView.OnItemC
         ProductListItem item = (ProductListItem) this.ProductListItemList.get(position);
         FragmentManager manager = getFragmentManager();
         FragmentTransaction ft = manager.beginTransaction();
-        ft.replace(R.id.container,ProductFragment.newInstance(item.getItemNumber().toString()));
+        ft.replace(R.id.frame_container,ProductFragment.newInstance(item.getItemNumber().toString()));
         ft.addToBackStack(null);
         ft.commit();
     }
