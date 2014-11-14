@@ -160,6 +160,20 @@ public class MainActivity extends Activity {
         searchView.setSearchableInfo(searchManager
                 .getSearchableInfo(getComponentName()));
 
+        SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        };
+        searchView.setOnQueryTextListener(queryTextListener);
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -171,8 +185,8 @@ public class MainActivity extends Activity {
         }
         // Handle action bar actions click
         switch (item.getItemId()) {
-            case R.id.action_settings:
-                return true;
+//            case R.id.action_settings:
+//                return true;
 //            case R.id.action_search:
 //                Intent intent = new Intent(Intent.ACTION_SEARCH);
 //                intent.putExtra(SearchManager.QUERY, getActionBar().getTitle());
