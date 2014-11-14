@@ -228,6 +228,12 @@ public class MainActivity extends Activity {
                 fragment = new WomensClothingFragment();
                 break;
             case 7:
+                fragment = new BrowseHistoryFragment();
+                break;
+            case 8:
+                fragment = new SearchHistoryFragment();
+                break;
+            case 9:
                 finish();
             default:
                 break;
