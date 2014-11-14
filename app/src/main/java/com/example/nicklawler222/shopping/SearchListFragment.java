@@ -112,7 +112,7 @@ public class SearchListFragment extends Fragment implements AbsListView.OnItemCl
         SearchListItem item = (SearchListItem) this.SearchListItemList.get(position);
         FragmentManager manager = getFragmentManager();
         FragmentTransaction ft = manager.beginTransaction();
-        //ft.replace(R.id.frame_container,ProductFragment.newInstance(item.getSearchText().toString()));
+        ft.replace(R.id.frame_container,SearchFragment.newInstance(item.getSearchText()));
         //redo search if they click on search history text
         ft.addToBackStack(null);
         ft.commit();

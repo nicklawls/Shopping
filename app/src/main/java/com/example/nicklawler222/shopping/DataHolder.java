@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 public class DataHolder {
     private String data_username;
-    private ArrayList searchHistory;
+    private ArrayList searchHistory = new ArrayList();
     public String getData() { return data_username; }
     public ArrayList getHistory() {return searchHistory; }
     public void setData(String data) { this.data_username = data; }

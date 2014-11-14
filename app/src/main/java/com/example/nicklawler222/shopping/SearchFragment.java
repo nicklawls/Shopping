@@ -1,10 +1,8 @@
 package com.example.nicklawler222.shopping;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.database.DatabaseUtils;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,28 +10,24 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import java.util.Date;
 
-import java.sql.*;
-
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ProductFragment.OnFragmentInteractionListener} interface
+ * {@link SearchFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link ProductFragment#newInstance} factory method to
+ * Use the {@link SearchFragment#newInstance} factory method to
  * create an instance of this fragment.
  *
  */
-public class ProductFragment extends Fragment {
-    TextView productno;
-    TextView productname;
-    TextView productcategory;
-    TextView productprice;
-    TextView productdescription;
-    TextView productfeatures;
+public class SearchFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -51,17 +45,20 @@ public class ProductFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ProductFragment.
+     * @return A new instance of fragment SearchFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ProductFragment newInstance(String productNumber) {
-        ProductFragment fragment = new ProductFragment();
+    public static SearchFragment newInstance(String query) {
+        if (!DataHolder.getInstance().getHistory().contains(query)) {
+            DataHolder.getInstance().addHistory(query);
+        }
+        SearchFragment fragment = new SearchFragment();
         Bundle args = new Bundle();
-        args.putString("product_number", productNumber);
+        args.putString("query",query);
         fragment.setArguments(args);
         return fragment;
     }
-    public ProductFragment() {
+    public SearchFragment() {
         // Required empty public constructor
     }
 
@@ -77,37 +74,23 @@ public class ProductFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
         Bundle args = getArguments();
-        String productnumber = args.getString("product_number","");
-
-
-
-        View rootView = inflater.inflate(R.layout.product_fragment, container, false);
-        productno = (TextView) rootView.findViewById(R.id.productno);
-        productno.setText(productnumber);
-
-        productname = (TextView) rootView.findViewById(R.id.productname);
-
-        productcategory = (TextView) rootView.findViewById(R.id.productcategory);
-
-        productprice = (TextView) rootView.findViewById(R.id.productprice);
-
-        productdescription = (TextView) rootView.findViewById(R.id.productdescription);
-
-        productfeatures = (TextView) rootView.findViewById(R.id.productfeatures);
-        new FetchSQL().execute(productnumber);
-
-
-
+        View rootView = inflater.inflate(R.layout.fragment_search, container, false);
+        String query = args.getString("query","");
+        new FetchSQL().execute(query);
         return rootView;
     }
     private class FetchSQL extends AsyncTask<String,Void,Bundle> {
-        protected Bundle doInBackground(String... productnumbers) {
+
+        protected Bundle doInBackground(String... params) {
             try {
                 Class.forName("org.postgresql.Driver");
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
+            ArrayList productnumbers = new ArrayList();
+            ArrayList productnames = new ArrayList();
             Bundle product = new Bundle();
             String url;
             url = "jdbc:postgresql://shopandgodb.cv80ayxyiqrh.us-west-2.rds.amazonaws.com:5432/sagdb?user=shopandgo&password=goandshop";
@@ -117,33 +100,17 @@ public class ProductFragment extends Fragment {
                 conn = DriverManager.getConnection(url);
                 Statement st = conn.createStatement();
                 String sql;
-                sql = "SELECT * FROM products WHERE product_no = '" + productnumbers[0] + "'";
+                sql = "SELECT * FROM products WHERE name = '" + params[0]+ "'";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
-                    product.putString("product_name", rs.getString("name"));
-                    product.putString("product_category", rs.getString("category"));
-                    product.putString("product_price", rs.getString("price"));
-                    product.putString("product_description", rs.getString("description"));
-                    product.putString("product_features", rs.getString("features"));
-                    product.putString("product_imgurl", rs.getString("img_url"));
+                    productnumbers.add(rs.getString("product_no"));
+                    productnames.add(rs.getString("name"));
                 }
-
-                String sql_store_browse_history;
-                String username = DataHolder.getInstance().getData();
-                username = "'" + username + "'";
-                java.util.Date date = new Date();
-                String timestamp = (new Timestamp(date.getTime())).toString();
-
-
-                sql_store_browse_history = "INSERT INTO browsings VALUES (";
-                sql_store_browse_history += username + ", '" + productnumbers[0] + "', '" + timestamp + "')";
-
-                int update_result = st.executeUpdate(sql_store_browse_history);
-
-
                 rs.close();
                 st.close();
                 conn.close();
+                product.putStringArrayList("product_no",productnumbers);
+                product.putStringArrayList("productname",productnames);
                 return product;
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -152,18 +119,16 @@ public class ProductFragment extends Fragment {
         }
 
         protected void onPostExecute(Bundle product) {
-            productname.setText(product.getString("product_name",""));
-            productcategory.setText(product.getString("product_category",""));
-            productprice.setText(product.getString("product_price",""));
-            productdescription.setText(product.getString("product_description",""));
-            productfeatures.setText(product.getString("product_features",""));
-
-
-
+            if (!product.getStringArrayList("product_no").isEmpty()) {
+                FragmentManager manager = getFragmentManager();
+                FragmentTransaction ft = manager.beginTransaction();
+                ft.replace(R.id.frame_container, ProductListFragment.newInstance(product.getStringArrayList("product_no"), product.getStringArrayList("productname")));
+                ft.addToBackStack(null);
+                ft.commit();
+            }
         }
-
-
     }
+
 
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -176,7 +141,6 @@ public class ProductFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-
     }
 
     @Override
