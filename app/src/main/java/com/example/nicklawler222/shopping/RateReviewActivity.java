@@ -10,6 +10,9 @@ import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
 
 public class RateReviewActivity extends Activity {
 
@@ -53,6 +56,8 @@ public class RateReviewActivity extends Activity {
 
 
     }
+
+
 
     public void addListenerOnRatingBar() {
         ratingBar = (RatingBar) findViewById(R.id.rating);

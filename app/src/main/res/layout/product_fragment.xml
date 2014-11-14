@@ -13,7 +13,7 @@
     </TableRow>
     <TableRow>
     <TextView
-        android:id="@+id/productno"
+        android:id="@+id/productrating"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:gravity="start|top"/>
@@ -25,6 +25,7 @@
         android:layout_width="match_parent"
         android:gravity="start|top"/>
     </TableRow>
+
     <TableRow>
     <TextView
         android:id="@+id/productcategory"

@@ -30,7 +30,7 @@ import java.sql.*;
  *
  */
 public class ProductFragment extends Fragment {
-    TextView productno;
+    TextView productrating;
     TextView productname;
     TextView productcategory;
     TextView productprice;
@@ -53,8 +53,7 @@ public class ProductFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+     * @param productNumber Parameter 1.
      * @return A new instance of fragment ProductFragment.
      */
     // TODO: Rename and change types and number of parameters
@@ -89,8 +88,7 @@ public class ProductFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.product_fragment, container, false);
         aq = new AQuery(getActivity(), rootView);
-        productno = (TextView) rootView.findViewById(R.id.productno);
-        productno.setText(productnumber);
+        productrating = (TextView) rootView.findViewById(R.id.productrating);
 
         productname = (TextView) rootView.findViewById(R.id.productname);
 
@@ -147,7 +145,20 @@ public class ProductFragment extends Fragment {
 
                 int update_result = st.executeUpdate(sql_store_browse_history);
 
+                String average_rating_query;
+                average_rating_query = "SELECT round(avg(rating),1) FROM ratings WHERE product_no =";
+                average_rating_query += "'" + productnumbers[0] + "'";
+                ResultSet rating_rs = st.executeQuery(average_rating_query);
+                rating_rs.next(); // only need one invocation, assuming one row in ResultSet
 
+                String rating;
+                rating = rating_rs.getString("round");
+                if (rating == "" || rating == null) {
+                    rating = "No Ratings";
+                }
+                product.putString("product_avg_rating",rating);
+
+                rating_rs.close();
                 rs.close();
                 st.close();
                 conn.close();
@@ -160,6 +171,7 @@ public class ProductFragment extends Fragment {
 
         protected void onPostExecute(Bundle product) {
             aq.id(R.id.imageView).image(product.getString("product_imgurl",""),false, true);
+            productrating.setText(product.getString("product_avg_rating",""));
             productname.setText(product.getString("product_name",""));
             productcategory.setText(product.getString("product_category",""));
             productprice.setText(product.getString("product_price",""));
