@@ -1,6 +1,7 @@
 package com.example.nicklawler222.shopping;
 
 import android.app.Activity;
+import android.database.DatabaseUtils;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import java.util.Date;
 
 import java.sql.*;
 
@@ -122,6 +124,17 @@ public class ProductFragment extends Fragment {
                     product.putString("product_features", rs.getString("features"));
                     product.putString("product_imgurl", rs.getString("img_url"));
                 }
+
+                String sql_store_browse_history;
+                String username = "'bob'";
+                java.util.Date date = new Date();
+                String timestamp = (new Timestamp(date.getTime())).toString();
+
+
+                sql_store_browse_history = "INSERT INTO browsings VALUES (";
+                sql_store_browse_history += username + ", '" + productnumbers[0] + "', '" + timestamp + "')";
+
+                int update_result = st.executeUpdate(sql_store_browse_history);
 
                 rs.close();
                 st.close();
