@@ -2,9 +2,12 @@ package com.example.nicklawler222.shopping;
 
 import java.sql.*;
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Looper;
+import android.preference.PreferenceManager;
 import android.widget.TextView;
 
 import android.animation.Animator;
@@ -34,7 +37,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -265,59 +267,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-/*
-            String retusr = "";
-            String retpw = "";
-            try {
-                Class.forName("org.postgresql.Driver");
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-            //check if username is used
-            //      if used and password matches then log in
-            //      otherwise error is "wrong password"
-            //otherwise create user w/ uname & pw
-            String url;
-            url = "jdbc:postgresql://shopandgodb.cv80ayxyiqrh.us-west-2.rds.amazonaws.com:5432/sagdb?user=shopandgo&password=goandshop";
-            Connection conn;
-            try {
-                DriverManager.setLoginTimeout(5);
-                conn = DriverManager.getConnection(url);
-                Statement st = conn.createStatement();
-                String sql;
-                sql = "SELECT * FROM users WHERE username = '" + email + "'";
-                ResultSet rs = st.executeQuery(sql);
 
-                while (rs.next()) {
-                    retpw = rs.getString("password");
-                    retusr = rs.getString("username");
-                }
-
-                if (retusr.equals("")) {
-                    String createuser;
-                    createuser = "INSERT INTO users VALUES ( '" + email + "', '" + password + "' )";
-                    st.executeUpdate(createuser);
-
-                    Toast.makeText(getApplicationContext(), "We made an account for you", Toast.LENGTH_LONG).show();
-
-                } else {
-                    if (retpw.equals(password)) {
-                        Toast.makeText(getApplicationContext(), "valid login", Toast.LENGTH_SHORT).show();
-                    }
-                    else {
-                        mEmailView.setError((getString(R.string.error_bad_login)));
-                        focusView = mEmailView;
-                    }
-                }
-
-
-                rs.close();
-                st.close();
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-*/
 
 
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
@@ -374,6 +324,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 rs.close();
                 st.close();
                 conn.close();
+                if ( login_sucess ) {
+                    DataHolder.getInstance().setData(mEmail);
+                }
                 return login_sucess;
             } catch (SQLException e) {
                 e.printStackTrace();
