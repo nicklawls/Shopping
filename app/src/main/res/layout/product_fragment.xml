@@ -8,7 +8,8 @@
         <ImageView
             android:layout_width="300dp"
             android:layout_height="300dp"
-            android:id="@+id/imageView" />
+            android:id="@+id/imageView"
+            android:gravity="center_horizontal"/>
     </TableRow>
     <TableRow>
     <TextView
@@ -61,7 +62,7 @@
             android:id="@+id/rate_review"
             android:text="@string/rate_review_label"
             android:layout_marginTop="15dp"
-            android:layout_marginLeft="70dp"
+            android:layout_marginLeft="90dp"
             android:onClick="toRateReviewActivity"/>
     </LinearLayout>
 </TableLayout>
