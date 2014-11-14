@@ -16,7 +16,8 @@
         android:theme="@android:style/Theme.Holo.Light" >
         <activity
             android:name="com.example.nicklawler222.shopping.SplashActivity"
-            android:label="@string/title_activity_splash" >
+            android:label="@string/title_activity_splash"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,15 +27,18 @@
         <activity
             android:name="com.example.nicklawler222.shopping.LoginActivity"
             android:label="@string/title_activity_login"
-            android:windowSoftInputMode="adjustResize|stateVisible" >
+            android:windowSoftInputMode="adjustResize|stateVisible"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="com.example.nicklawler222.shopping.MainActivity"
-            android:label="@string/title_activity_main" >
+            android:label="@string/title_activity_main"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="com.example.nicklawler222.shopping.RateReviewActivity"
             android:label="@string/title_activity_rate_review"
+            android:screenOrientation="portrait"
             android:parentActivityName="com.example.nicklawler222.shopping.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

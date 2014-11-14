@@ -57,12 +57,15 @@
     <string name="title_activity_search">Search</string>
     <string name="title_activity_rate_review">RateReviewActivity</string>
 
-
-    <!--Review and Rating-->
+    <!-- Review and Rating -->
     <string name="rate_review_label">Rate and Review</string>
     <string name="rate_label">Rate</string>
     <string name="rating_result">Result: </string>
     <string name="review_box_fill">Type in review here...</string>
     <string name="submit">Submit</string>
     <string name="cancel">Cancel</string>
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
 </resources>
