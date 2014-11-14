@@ -24,7 +24,7 @@ import java.sql.*;
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
  * {@link ProductFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
+ * to handle   interaction events.
  * Use the {@link ProductFragment#newInstance} factory method to
  * create an instance of this fragment.
  *

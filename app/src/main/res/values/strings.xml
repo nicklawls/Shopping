@@ -7,7 +7,7 @@
     <string name="action_settings">Settings</string>
     <string name="action_search">Web search</string>
     <string name="search_hint">Product Name</string>
-    <string name="title_activity_home"> </string>
+    <string name="title_activity_home"></string>
     <string name="title_section1">Home</string>
     <string name="title_section2">Shop by Category</string>
     <string name="title_section3">Recently Viewed</string>
@@ -45,7 +45,7 @@
         <item>@drawable/ic_video_games</item>
         <item>@drawable/ic_womens_clothing</item>
         <item>@drawable/ic_launcher</item>
-        <item>@drawable/ic_launcher</item>
+        <item>@drawable/ic_search</item>
         <item>@drawable/ic_exit</item>
     </array>
 
@@ -55,5 +55,14 @@
     <string name="title_activity_splash">Le Shoppe</string>
     <string name="title_activity_main">Le Shoppe</string>
     <string name="title_activity_search">Search</string>
+    <string name="title_activity_rate_review">RateReviewActivity</string>
 
+
+    <!--Review and Rating-->
+    <string name="rate_review_label">Rate and Review</string>
+    <string name="rate_label">Rate</string>
+    <string name="rating_result">Result: </string>
+    <string name="review_box_fill">Type in review here...</string>
+    <string name="submit">Submit</string>
+    <string name="cancel">Cancel</string>
 </resources>

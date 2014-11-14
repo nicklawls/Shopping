@@ -15,44 +15,53 @@
         android:id="@+id/productno"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-
-        android:gravity="left|top"/>
+        android:gravity="start|top"/>
     </TableRow>
     <TableRow>
     <TextView
         android:id="@+id/productname"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:gravity="left|top"/>
+        android:gravity="start|top"/>
     </TableRow>
     <TableRow>
     <TextView
         android:id="@+id/productcategory"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:gravity="left|top" />
+        android:gravity="start|top" />
     </TableRow>
     <TableRow>
     <TextView
         android:id="@+id/productprice"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:gravity="left|top" />
+        android:gravity="start|top" />
     </TableRow>
     <TableRow>
     <TextView
         android:id="@+id/productdescription"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:gravity="left|top" />
+        android:gravity="start|top" />
     </TableRow>
     <TableRow>
     <TextView
         android:id="@+id/productfeatures"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:gravity="left|top" />
+        android:gravity="start|top" />
     </TableRow>
 
 
+    <LinearLayout>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rate_review"
+            android:text="@string/rate_review_label"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="70dp"
+            android:onClick="toRateReviewActivity"/>
+    </LinearLayout>
 </TableLayout>

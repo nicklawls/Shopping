@@ -299,4 +299,10 @@ public class MainActivity extends Activity {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
+    public void toRateReviewActivity(View view)
+    {
+        Intent i = new Intent(MainActivity.this, RateReviewActivity.class);
+        startActivity(i);
+    }
+
 }
