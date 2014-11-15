@@ -1,6 +1,8 @@
 package com.example.nicklawler222.shopping;
 
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,11 +12,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import javax.xml.transform.Result;
 
 
 public class RateReviewActivity extends Activity {
@@ -50,13 +56,12 @@ public class RateReviewActivity extends Activity {
                 if( ratingValue.getText().equals("")) return;
 
                 String sql;
-                String username = "'" + DataHolder.getInstance().getData() + "'";
+                String username = DataHolder.getInstance().getData();//////PRODUCT_NO,USERNAME,RATING<REVIEW
                 String sqlrating = ratingValue.getText().toString();
                 String product = DataHolder.getInstance().getPNO();
                 String sqlreview = str;
-                sql = "INSERT INTO ratings VALUES (" + product + ", " + username + ", " +sqlrating + ", '" + sqlreview + "')";
-
-                new FetchSQL().execute(sql);
+                sql = "INSERT INTO ratings VALUES (" + product + ", '" + username + "', " +sqlrating + ", '" + sqlreview + "')";
+                new FetchSQL().execute(sql, product, username, sqlrating, sqlreview );
             }
         });
 
@@ -69,7 +74,7 @@ public class RateReviewActivity extends Activity {
     }
 
     private class FetchSQL extends AsyncTask<String, Void, Void> {
-        protected Void doInBackground(String... insertreview) {
+        protected Void doInBackground(String... sqldata ) {
             try {
                 Class.forName("org.postgresql.Driver");
             } catch (ClassNotFoundException e) {
@@ -83,9 +88,23 @@ public class RateReviewActivity extends Activity {
                 DriverManager.setLoginTimeout(5);
                 conn = DriverManager.getConnection(url);
                 Statement st = conn.createStatement();
-                String sql;
-                sql = insertreview[0];
-                st.executeUpdate(sql);
+                String sqltest;
+                sqltest = "SELECT username FROM ratings WHERE product_no = " + sqldata[1] + " AND username = '" + sqldata[2] + "'";
+                ResultSet rtest = st.executeQuery(sqltest);
+                boolean already_sumbitted = false;
+                while( rtest.next() ) {already_sumbitted = true; }
+                String query;
+                if( already_sumbitted ) {
+                    query = "UPDATE ratings SET rating = " + sqldata[3] + ", review = '"
+                            + sqldata[4] + "' WHERE product_no = " + sqldata[1] + " AND username = '" + sqldata[2] + "'";
+                }
+                else {
+                    query = sqldata[0];
+                }
+
+                st.execute(query);
+
+                rtest.close();
                 st.close();
                 conn.close();
 
