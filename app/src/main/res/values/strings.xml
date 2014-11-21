@@ -1,15 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Shopping</string>
+    <string name="app_name">Le Shoppe</string>
+    <string name="app_label">Le Shoppe</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_home">HomeActivity</string>
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
+    <string name="action_search">Web search</string>
+    <string name="search_hint">Product Name</string>
+    <string name="title_activity_home"></string>
+    <string name="title_section1">Home</string>
+    <string name="title_section2">Shop by Category</string>
+    <string name="title_section3">Recently Viewed</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="action_example">Example action</string>
+    <string name="action_example">Shopping Cart</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_list_products">listProductsActivity</string>
+    <string name="app_not_available">Sorry, there\'s no web browser available</string>
+    <string name="drawer_open">Slider Menu Opened</string>
+    <string name="drawer_close">Slider Menu Closed</string>
+
+    <!-- Nav Drawer Menu Items -->
+    <string-array name="nav_drawer_items">
+        <item>Home</item>
+        <item>Cars</item>
+        <item>Men\'s Clothing</item>
+        <item>Office</item>
+        <item>Pets</item>
+        <item>Video Games</item>
+        <item>Women\'s Clothing</item>
+        <item>Browse History</item>
+        <item>Search History</item>
+        <item>Logout</item>
+    </string-array>
+
+    <!-- Nav Drawer List Item Icons -->
+    <!-- Keep them in order as the titles are in -->
+    <array name="nav_drawer_icons">
+        <item>@drawable/ic_home</item>
+        <item>@drawable/ic_cars</item>
+        <item>@drawable/ic_mens_clothing</item>
+        <item>@drawable/ic_office</item>
+        <item>@drawable/ic_pets</item>
+        <item>@drawable/ic_video_games</item>
+        <item>@drawable/ic_womens_clothing</item>
+        <item>@drawable/ic_launcher</item>
+        <item>@drawable/ic_search</item>
+        <item>@drawable/ic_exit</item>
+    </array>
+
+    <!-- Content Description -->
+    <string name="desc_list_item_icon">Item Icon</string>
+    <string name="title_activity_splash_screen">Le Shoppe</string>
+    <string name="title_activity_splash">Le Shoppe</string>
+    <string name="title_activity_main">Le Shoppe</string>
+    <string name="title_activity_search">Search</string>
+    <string name="title_activity_rate_review">RateReviewActivity</string>
+
+    <!-- Review and Rating -->
+    <string name="rate_review_label">Rate and Review</string>
+    <string name="rate_label">Rate</string>
+    <string name="rating_result">Result: </string>
+    <string name="review_box_fill">Type in review here...</string>
+    <string name="submit">Submit</string>
+    <string name="cancel">Cancel</string>
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 
 </resources>

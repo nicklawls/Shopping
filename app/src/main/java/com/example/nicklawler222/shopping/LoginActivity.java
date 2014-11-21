@@ -2,8 +2,12 @@ package com.example.nicklawler222.shopping;
 
 import java.sql.*;
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Looper;
+import android.preference.PreferenceManager;
 import android.widget.TextView;
 
 import android.animation.Animator;
@@ -32,7 +36,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
+import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +48,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
     /**
      * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
+     *
      */
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world"
@@ -63,7 +67,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login2);
+        setContentView(R.layout.activity_login);
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
@@ -108,6 +112,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             return;
         }
 
+
         // Reset errors.
         mEmailView.setError(null);
         mPasswordView.setError(null);
@@ -118,7 +123,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
         boolean cancel = false;
         View focusView = null;
-
 
         // Check for a valid password, if the user entered one.
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
@@ -137,6 +141,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             focusView = mEmailView;
             cancel = true;
         }
+        //no empty password allowed
+        if (TextUtils.isEmpty(password)) {
+            mPasswordView.setError((getString(R.string.error_incorrect_password)));
+            focusView = mPasswordView;
+            cancel = true;
+        }
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
@@ -151,13 +161,15 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         }
     }
 
+
     private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
+        //Make a connection, do a query with the email and if the email exists then give error
+        //if the person doesn't exist then make the account with the email
         return true;
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
+
         return password.length() > 4;
     }
 
@@ -255,6 +267,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
+
+
+
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mEmail;
@@ -268,15 +283,18 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
-            String retval = "";
+            String retusr = "";
+            String retpw = "";
             try {
                 Class.forName("org.postgresql.Driver");
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
             String url;
+
             url = "jdbc:postgresql://shopandgodb.cv80ayxyiqrh.us-west-2.rds.amazonaws.com:5432/sagdb?user=shopandgo&password=goandshop";
             Connection conn;
+            Boolean login_sucess = false;
             try {
                 DriverManager.setLoginTimeout(5);
                 conn = DriverManager.getConnection(url);
@@ -285,31 +303,40 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 sql = "SELECT * FROM users WHERE username = '" + mEmail + "'";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
-                    retval = rs.getString("password");
+                    retusr = rs.getString("password");
+                    retpw = rs.getString("password");
                 }
 
+                if (retusr.equals("")) {
+                    String createuser;
+                    createuser = "INSERT INTO users VALUES ( '" + mEmail + "', '" + mPassword + "' )";
+                    st.executeUpdate(createuser);
+                    login_sucess = true;
+                }
+                else {
+                    if (retpw.equals(mPassword)) {
+                        login_sucess = true;
+                    }
+                    else {
+
+                    }
+                }
                 rs.close();
                 st.close();
                 conn.close();
-                if (retval.equals(mPassword)) {
-                    return true;
+                if ( login_sucess ) {
+                    DataHolder.getInstance().setData(mEmail);
                 }
-                else return false;
+                return login_sucess;
             } catch (SQLException e) {
                 e.printStackTrace();
-                retval = e.toString();
             }
 
             try {
-                // Simulate network access.
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
                 return false;
             }
-
-
-
-            // TODO: register the new account here.
             return false;
         }
 
@@ -320,7 +347,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
             if (success) {
                 finish();
-                Intent i = new Intent(LoginActivity.this,HomeActivity.class);
+                Intent i = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(i);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
