@@ -33,6 +33,7 @@ public class RateReviewActivity extends Activity {
     private static String str;                        // THIS IS WHERE THE STRING IS STORED
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,6 +118,8 @@ public class RateReviewActivity extends Activity {
         }
 
         protected void onPostExecute(Void product) {
+
+
         }
     }
 
