@@ -39,6 +39,8 @@ public class HomeFragment extends Fragment {
     private static final String TAG = "CallCamera";
     private static final int CAPTURE_IMAGE_ACTIVITY_REQ = 0;
     private String selectedImagePath;
+    private String filemanagerstring;
+
 
     Uri fileUri = null;
     ImageView photoImage = null;
@@ -51,6 +53,7 @@ public class HomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
         photoImage = (ImageView) rootView.findViewById(R.id.photo_image);
+
 
         //View rootView = inflater.inflate(R.layout.fragment_browse_history, container, false);
 
@@ -72,7 +75,7 @@ public class HomeFragment extends Fragment {
                 i.setType("image/*");
                 i.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(i,
-                        "Select Picture"), 1); //didn't feel like using a cool name thingy for ACTION_GET_CONTENT
+                        "Select Picture"), 1); //didn't feel like using a cool name thingy for ACTION_GET_CONTENT (not that i wrote the one for the other thingy)
             }
         });
 
@@ -126,9 +129,11 @@ public class HomeFragment extends Fragment {
                 selectedImagePath = getPath(selectedImageUri);
                 if (selectedImagePath != null) {
                     // Selected image is local image
-                    Bitmap b = new BitmapDrawable(this.getResources(),
+                    Bitmap bitmap = new BitmapDrawable(this.getResources(),
                             selectedImagePath).getBitmap();
-                    BitmapDrawable drawable = new BitmapDrawable(this.getResources(), b);
+                    int nh = (int) ( bitmap.getHeight() * (512.0 / bitmap.getWidth()) );
+                    Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
+                    BitmapDrawable drawable = new BitmapDrawable(this.getResources(), scaled);
                     photoImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
                     photoImage.setImageDrawable(drawable);
                 }
@@ -153,23 +158,23 @@ public class HomeFragment extends Fragment {
         }
     }
     public String getPath(Uri uri) {
-        // just some safety built in
-        if( uri == null ) {
-            // TODO perform some logging or show user feedback
-            return null;
-        }
-        // try to retrieve the image from the media store first
-        // this will only work for images selected from gallery
+        String selectedImagePath;
+        //1:MEDIA GALLERY --- query from MediaStore.Images.Media.DATA
         String[] projection = { MediaStore.Images.Media.DATA };
         Cursor cursor = getActivity().getContentResolver().query(uri, projection, null, null, null);
-        if( cursor != null ){
-            int column_index = cursor
-                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        if(cursor != null){
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
-            return cursor.getString(column_index);
+            selectedImagePath = cursor.getString(column_index);
+        }else{
+            selectedImagePath = null;
         }
-        // this is our fallback here
-        return uri.getPath();
+
+        if(selectedImagePath == null){
+            //2:OI FILE Manager --- call method: uri.getPath()
+            selectedImagePath = uri.getPath();
+        }
+        return selectedImagePath;
     }
 }
 //    private class FetchSQL extends AsyncTask<Void,Void,Bundle> {
