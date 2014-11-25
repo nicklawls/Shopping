@@ -135,15 +135,15 @@ public class ProductFragment extends Fragment {
 
                 String sql_store_browse_history;
                 String username = DataHolder.getInstance().getData();
-                username = "'" + username + "'";
-                java.util.Date date = new Date();
-                String timestamp = (new Timestamp(date.getTime())).toString();
 
-
-                sql_store_browse_history = "INSERT INTO browsings VALUES (";
-                sql_store_browse_history += username + ", '" + productnumbers[0] + "', '" + timestamp + "')";
-
-                int update_result = st.executeUpdate(sql_store_browse_history);
+                if (username != "default") {
+                    username = "'" + username + "'";
+                    java.util.Date date = new Date();
+                    String timestamp = (new Timestamp(date.getTime())).toString();
+                    sql_store_browse_history = "INSERT INTO browsings VALUES (";
+                    sql_store_browse_history += username + ", '" + productnumbers[0] + "', '" + timestamp + "')";
+                    int update_result = st.executeUpdate(sql_store_browse_history);
+                }
 
                 String average_rating_query;
                 average_rating_query = "SELECT round(avg(rating),1) FROM ratings WHERE product_no =";
