@@ -192,6 +192,15 @@ public class MainActivity extends Activity {
         }
         // Handle action bar actions click
         switch (item.getItemId()) {
+            case R.id.action_cart:
+                // TO GO TO CART FRAGMENT!!!!!!!
+                FragmentManager manager = getFragmentManager();
+                FragmentTransaction ft = manager.beginTransaction();
+                Fragment cart = new CartFragment();
+                ft.replace(R.id.frame_container,cart);
+                ft.addToBackStack(null);
+                ft.commit();
+                return false;
 //            case R.id.action_settings:
 //                return true;
 //            case R.id.action_search:
@@ -308,6 +317,25 @@ public class MainActivity extends Activity {
 
        //Toast.makeText(getApplicationContext(), "postexecute",   Toast.LENGTH_LONG).show();
 
+    }
+    public void addToCart(View view)
+    {
+        // CURRENTLY ADD TO CART GOES TO RECENTLY VIEWED FRAGMENT
+//        FragmentManager manager = getFragmentManager();
+//        FragmentTransaction ft = manager.beginTransaction();
+//        Fragment cart = new CartFragment();
+//        ft.replace(R.id.frame_container,cart);
+//        ft.addToBackStack(null);
+//        ft.commit();
+
+
+
+        Context context = getApplicationContext();
+        CharSequence text = "ADDED TO CART";
+        int duration = Toast.LENGTH_SHORT;
+
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
     }
 
 //    public void insertReview(View view) {
