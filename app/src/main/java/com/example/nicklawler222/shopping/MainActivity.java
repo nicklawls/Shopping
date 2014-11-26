@@ -315,49 +315,4 @@ public class MainActivity extends Activity {
        //Toast.makeText(getApplicationContext(), "postexecute",   Toast.LENGTH_LONG).show();
 
     }
-
-//    public void insertReview(View view) {
-//
-//        try {
-//            Class.forName("org.postgresql.Driver");
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//        String url;
-//        url = "jdbc:postgresql://shopandgodb.cv80ayxyiqrh.us-west-2.rds.amazonaws.com:5432/sagdb?user=shopandgo&password=goandshop";
-//        Connection conn;
-//        try {
-//            DriverManager.setLoginTimeout(5);
-//            conn = DriverManager.getConnection(url);
-//            Statement st = conn.createStatement();
-//            String sql;
-//            String username = "'" + DataHolder.getInstance().getData() + "'";
-//            String sqlrating = getApplicationContext().getRatingValue();
-//            String product = DataHolder.getInstance().getPNO();
-//
-//            String sql2 = "SELECT * FROM users";
-//            //Toast.makeText(getApplicationContext(), "running",   Toast.LENGTH_LONG).show();
-//            ResultSet rs = st.executeQuery(sql2);
-////                    while( rs.next() ){
-////                        String tmp;
-////                        tmp = rs.getString("password");
-////                        Toast.makeText(getApplicationContext(), tmp,   Toast.LENGTH_LONG).show();
-////                    }
-//            //sql = "INSERT INTO ratings VALUES (" + product + "," + username + "," + sqlrating + ",'" + str + "')";
-//            //Toast.makeText(getApplicationContext(), sql,   Toast.LENGTH_LONG).show();
-//
-//
-//            //st.executeUpdate(sql);//p_no, usernmae, rating, review
-//            //rs.close();
-//            rs.close();
-//            st.close();
-//            conn.close();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//
-//
-//
-//    }
-
 }
