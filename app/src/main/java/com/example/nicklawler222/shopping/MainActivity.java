@@ -74,28 +74,9 @@ public class MainActivity extends Activity {
 
         navDrawerItems = new ArrayList<NavDrawerItem>();
 
-        // adding nav drawer items to array
-        // Home
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[0], navMenuIcons.getResourceId(0, -1)));
-        // Cars
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[1], navMenuIcons.getResourceId(1, -1)));
-        // Men's Clothing
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1)));
-        // Office
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1)));
-        // Pets
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons.getResourceId(4, -1)));
-        // Video Games
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1)));
-        // Women's Clothing
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[6], navMenuIcons.getResourceId(6, -1)));
-        // Browse History
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[7], navMenuIcons.getResourceId(7, -1)));
-        // Search History
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[8], navMenuIcons.getResourceId(8, -1)));
-        // Login
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[9], navMenuIcons.getResourceId(9, -1)));
-
+        for( int i = 0; i < navMenuTitles.length; ++i) {
+            navDrawerItems.add(new NavDrawerItem(navMenuTitles[i], navMenuIcons.getResourceId(i,-1)));
+        }
 
         // Recycle the typed array
         navMenuIcons.recycle();
@@ -255,7 +236,28 @@ public class MainActivity extends Activity {
                 fragment = new SearchHistoryFragment();
                 break;
             case 9:
-                finish();
+                if (DataHolder.getInstance().getData() == "default") { // if no one's logged in
+                    Intent i = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(i);
+                    fragment = new HomeFragment();
+                } else {
+                    Toast.makeText(getApplicationContext(), "You're already logged in!",
+                                   Toast.LENGTH_SHORT).show();
+                }
+
+                break;
+            case 10:
+                if (DataHolder.getInstance().getData() != "default") { // if logged in
+                    DataHolder.getInstance().setData("default"); // log that nigga out
+                    // only changing the intent to change the name at the top, kind of a hack...
+                    Intent i = new Intent(MainActivity.this, MainActivity.class);
+                    startActivity(i);
+                    fragment = new HomeFragment();
+                } else {
+                    Toast.makeText(getApplicationContext(), "You're already Logged out!",
+                                   Toast.LENGTH_SHORT).show();
+                }
+                break;
             default:
                 break;
         }
@@ -303,9 +305,13 @@ public class MainActivity extends Activity {
 
     public void toRateReviewActivity(View view)
     {
-        Intent i = new Intent(MainActivity.this, RateReviewActivity.class);
-        startActivity(i);
-
+        if (DataHolder.getInstance().getData() != "default") {
+            Intent i = new Intent(MainActivity.this, RateReviewActivity.class);
+            startActivity(i);
+        } else {
+            Toast.makeText(getApplicationContext(), "Must Be Logged In To Rate/Review",
+                           Toast.LENGTH_SHORT).show();
+        }
        //Toast.makeText(getApplicationContext(), "postexecute",   Toast.LENGTH_LONG).show();
 
     }

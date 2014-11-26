@@ -31,6 +31,7 @@
         <item>Women\'s Clothing</item>
         <item>Browse History</item>
         <item>Search History</item>
+        <item>Login</item>
         <item>Logout</item>
     </string-array>
 
@@ -46,6 +47,7 @@
         <item>@drawable/ic_womens_clothing</item>
         <item>@drawable/ic_launcher</item>
         <item>@drawable/ic_search</item>
+        <item>@drawable/ic_communities</item>
         <item>@drawable/ic_exit</item>
     </array>
 
