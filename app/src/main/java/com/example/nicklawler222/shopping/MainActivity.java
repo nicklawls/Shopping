@@ -78,7 +78,32 @@ public class MainActivity extends Activity {
         navDrawerItems = new ArrayList<NavDrawerItem>();
 
         for( int i = 0; i < navMenuTitles.length; ++i) {
-            navDrawerItems.add(new NavDrawerItem(navMenuTitles[i], navMenuIcons.getResourceId(i,-1)));
+            if (i > navMenuTitles.length-7){
+                if(DataHolder.getInstance().ifLoggedIn())
+                {
+                    if (navMenuTitles[i].equals("Login")) {
+                        if (DataHolder.getInstance().ifLoggedIn()) {
+                            i = navMenuTitles.length - 1;
+                            navDrawerItems.add(new NavDrawerItem(navMenuTitles[i], navMenuIcons.getResourceId(i, -1)));
+                            break;
+                        } else {
+                            i = navMenuTitles.length - 2;
+                            navDrawerItems.add(new NavDrawerItem(navMenuTitles[i], navMenuIcons.getResourceId(i, -1)));
+                            break;
+                        }
+                    }
+                    navDrawerItems.add(new NavDrawerItem(navMenuTitles[i], navMenuIcons.getResourceId(i, -1)));
+                }
+                else
+                {
+                    i = navMenuTitles.length - 2;
+                    navDrawerItems.add(new NavDrawerItem(navMenuTitles[i], navMenuIcons.getResourceId(i, -1)));
+                    break;
+                }
+            }
+            else {
+                navDrawerItems.add(new NavDrawerItem(navMenuTitles[i], navMenuIcons.getResourceId(i, -1)));
+            }
         }
 
         // Recycle the typed array
@@ -119,6 +144,8 @@ public class MainActivity extends Activity {
             displayView(0);
         }
     }
+
+
 
     /**
      * Slide menu item click listener
@@ -178,13 +205,16 @@ public class MainActivity extends Activity {
         switch (item.getItemId()) {
             case R.id.action_cart:
                 // TO GO TO CART FRAGMENT!!!!!!!
-                FragmentManager manager = getFragmentManager();
-                FragmentTransaction ft = manager.beginTransaction();
-                Fragment cart = new CartFragment();
-                ft.replace(R.id.frame_container,cart);
-                ft.addToBackStack(null);
-                ft.commit();
-                return false;
+                if (DataHolder.getInstance().ifLoggedIn()) {
+                    new CartFragment();
+                    return true;
+                } else {
+                    Toast.makeText(getApplicationContext(), "Must be logged in to view Cart",
+                            Toast.LENGTH_SHORT).show();
+
+                    return false;
+                }
+
 //            case R.id.action_settings:
 //                return true;
 //            case R.id.action_search:
@@ -216,6 +246,91 @@ public class MainActivity extends Activity {
     /**
      * Diplaying fragment view for selected nav drawer list item
      * */
+//    private void displayView(int position) {
+//        // update the main content by replacing fragments
+//        Fragment fragment = null;
+//        switch (position) {
+//            case 0:
+//                fragment = new HomeFragment();
+//                break;
+//            case 1:
+//                fragment = new CarsFragment();
+//                break;
+//            case 2:
+//                fragment = new MensClothingFragment();
+//                break;
+//            case 3:
+//                fragment = new OfficeFragment();
+//                break;
+//            case 4:
+//                fragment = new PetsFragment();
+//                break;
+//            case 5:
+//                fragment = new VideoGamesFragment();
+//                break;
+//            case 6:
+//                fragment = new WomensClothingFragment();
+//                break;
+//            case 7:
+//                fragment = new BrowseHistoryFragment();
+//                break;
+//            case 8:
+//                fragment = new SearchHistoryFragment();
+//                break;
+//            case 9:
+//                if (DataHolder.getInstance().ifLoggedIn()) {
+//                    fragment = new RecommendationFragment();
+//                } else {
+//                    Toast.makeText(getApplicationContext(), "Must be logged in to view product recommendations",
+//                                   Toast.LENGTH_SHORT).show();
+//                }
+//                break;
+//            case 10:
+//                Intent temp = new Intent(MainActivity.this, PurchaseActivity.class);
+//                startActivity(temp);
+//                break;
+//            case 11:
+//                if (!DataHolder.getInstance().ifLoggedIn()) { // if no one's logged in
+//                    Intent i = new Intent(MainActivity.this, LoginActivity.class);
+//                    startActivity(i);
+//                    fragment = new HomeFragment();
+//                } else {
+//                    Toast.makeText(getApplicationContext(), "You're already logged in!",
+//                                   Toast.LENGTH_SHORT).show();
+//                }
+//                break;
+//            case 12:
+//                if (DataHolder.getInstance().ifLoggedIn()) { // if logged in
+//                    DataHolder.getInstance().setData("default"); // log that nigga out
+//                    // only changing the intent to change the name at the top, kind of a hack...
+//                    Intent i = new Intent(MainActivity.this, MainActivity.class);
+//                    startActivity(i);
+//                    fragment = new HomeFragment();
+//                } else {
+//                    Toast.makeText(getApplicationContext(), "You're already Logged out!",
+//                                   Toast.LENGTH_SHORT).show();
+//                }
+//                break;
+//            default:
+//                break;
+//        }
+//
+//        if (fragment != null) {
+//            FragmentManager fragmentManager = getFragmentManager();
+//            fragmentManager.beginTransaction()
+//                    .replace(R.id.frame_container, fragment).commit();
+//
+//            // update selected item and title, then close the drawer
+//            mDrawerList.setItemChecked(position, true);
+//            mDrawerList.setSelection(position);
+//            setTitle(navMenuTitles[position]);
+//            mDrawerLayout.closeDrawer(mDrawerList);
+//        } else {
+//            // error in creating fragment
+//            Log.e("MainActivity", "Error in creating fragment");
+//        }
+//    }
+
     private void displayView(int position) {
         // update the main content by replacing fragments
         Fragment fragment = null;
@@ -242,17 +357,30 @@ public class MainActivity extends Activity {
                 fragment = new WomensClothingFragment();
                 break;
             case 7:
-                fragment = new BrowseHistoryFragment();
-                break;
+                if(navDrawerItems.get(position).getTitle().equals("Login")){
+                    if (!DataHolder.getInstance().ifLoggedIn()) { // if no one's logged in
+                        Intent i = new Intent(MainActivity.this, LoginActivity.class);
+                        startActivity(i);
+                        fragment = new HomeFragment();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "You're already logged in!",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                }
+                else {
+                    fragment = new BrowseHistoryFragment();
+                    break;
+                }
             case 8:
                 fragment = new SearchHistoryFragment();
                 break;
             case 9:
-                if (DataHolder.getInstance().getData() != "default") {
+                if (DataHolder.getInstance().ifLoggedIn()) {
                     fragment = new RecommendationFragment();
                 } else {
                     Toast.makeText(getApplicationContext(), "Must be logged in to view product recommendations",
-                                   Toast.LENGTH_SHORT).show();
+                            Toast.LENGTH_SHORT).show();
                 }
                 break;
             case 10:
@@ -260,27 +388,30 @@ public class MainActivity extends Activity {
                 startActivity(temp);
                 break;
             case 11:
-                if (DataHolder.getInstance().getData() == "default") { // if no one's logged in
-                    Intent i = new Intent(MainActivity.this, LoginActivity.class);
-                    startActivity(i);
-                    fragment = new HomeFragment();
-                } else {
-                    Toast.makeText(getApplicationContext(), "You're already logged in!",
-                                   Toast.LENGTH_SHORT).show();
+                if(navDrawerItems.get(position).getTitle().equals("Login")) {
+                    if (!DataHolder.getInstance().ifLoggedIn()) { // if no one's logged in
+                        Intent i = new Intent(MainActivity.this, LoginActivity.class);
+                        startActivity(i);
+                        fragment = new HomeFragment();
+                        break;
+                    }
                 }
-                break;
-            case 12:
-                if (DataHolder.getInstance().getData() != "default") { // if logged in
+                else if(navDrawerItems.get(position).getTitle().equals("Logout")){
+                    if (DataHolder.getInstance().ifLoggedIn()) { // if logged in
                     DataHolder.getInstance().setData("default"); // log that nigga out
                     // only changing the intent to change the name at the top, kind of a hack...
                     Intent i = new Intent(MainActivity.this, MainActivity.class);
                     startActivity(i);
                     fragment = new HomeFragment();
-                } else {
-                    Toast.makeText(getApplicationContext(), "You're already Logged out!",
+                        Toast.makeText(getApplicationContext(), "Bye, come back another time!",
+                                Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "You're already Logged out!",
                                    Toast.LENGTH_SHORT).show();
+                    }
+                    break;
                 }
-                break;
+
             default:
                 break;
         }
@@ -300,7 +431,6 @@ public class MainActivity extends Activity {
             Log.e("MainActivity", "Error in creating fragment");
         }
     }
-
     @Override
     public void setTitle(CharSequence title) {
         mTitle = title;
@@ -327,7 +457,7 @@ public class MainActivity extends Activity {
     }
 
     public void toRateReviewActivity(View view) {
-        if (DataHolder.getInstance().getData() != "default") {
+        if (DataHolder.getInstance().ifLoggedIn()) {
             Intent i = new Intent(MainActivity.this, RateReviewActivity.class);
             startActivity(i);
         } else {
@@ -346,15 +476,23 @@ public class MainActivity extends Activity {
 //        ft.replace(R.id.frame_container,cart);
 //        ft.addToBackStack(null);
 //        ft.commit();
-
-
         Context context = getApplicationContext();
-        CharSequence text = "ADDED TO CART";
+        CharSequence text = "Added to Wish List";
         int duration = Toast.LENGTH_SHORT;
 
         Toast toast = Toast.makeText(context, text, duration);
         toast.show();
     }
+    public void addToWishList(View view) {
+        Context context = getApplicationContext();
+        CharSequence text = "Added to Wish List";
+        int duration = Toast.LENGTH_SHORT;
+
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
+    }
+
+
 }
 
 //    public void insertReview(View view) {

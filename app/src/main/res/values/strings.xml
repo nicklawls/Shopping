@@ -101,5 +101,8 @@
     <string name="hint_cardEXpYr">Year - 0000</string>
     <string name="prompt_email2">Email: </string>
 
+    <!--WISHLIST ACTIVITY-->
+
+    <string name="add_to_wishlist">Add to Wish list</string>
 
 </resources>
