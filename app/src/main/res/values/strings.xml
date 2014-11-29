@@ -30,6 +30,7 @@
         <item>Women\'s Clothing</item>
         <item>Browse History</item>
         <item>Search History</item>
+        <item>Product Recommendations</item>
         <item>Purchase Screen [TEMP]</item>
         <item>Login</item>
         <item>Logout</item>
@@ -47,6 +48,7 @@
         <item>@drawable/ic_womens_clothing</item>
         <item>@drawable/ic_launcher</item>
         <item>@drawable/ic_search</item>
+        <item>@drawable/ic_communities2</item>
         <item>@drawable/ic_exit</item>
         <item>@drawable/ic_login</item>
         <item>@drawable/ic_exit</item>
