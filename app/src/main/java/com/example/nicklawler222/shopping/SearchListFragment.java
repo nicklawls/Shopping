@@ -27,10 +27,8 @@ import java.util.List;
  */
 public class SearchListFragment extends Fragment implements AbsListView.OnItemClickListener {
     private List SearchListItemList;
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -143,7 +141,6 @@ public class SearchListFragment extends Fragment implements AbsListView.OnItemCl
     * >Communicating with Other Fragments</a> for more information.
     */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         public void onFragmentInteraction(String id);
     }
 

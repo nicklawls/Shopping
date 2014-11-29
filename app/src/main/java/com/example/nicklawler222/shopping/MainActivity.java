@@ -1,10 +1,5 @@
 package com.example.nicklawler222.shopping;
 
-import com.example.nicklawler222.shopping.adapter.NavDrawerListAdapter;
-import com.example.nicklawler222.shopping.model.NavDrawerItem;
-
-import java.util.ArrayList;
-import java.sql.*;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -23,11 +18,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.TextView;
 import android.widget.Toast;
+import com.example.nicklawler222.shopping.adapter.NavDrawerListAdapter;
+import com.example.nicklawler222.shopping.model.NavDrawerItem;
+import java.util.ArrayList;
 
 public class MainActivity extends Activity {
     private DrawerLayout mDrawerLayout;
@@ -51,19 +47,18 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Context context = getApplicationContext();
+
 
         CharSequence text;
-        if(DataHolder.getInstance().getData() == "default"){
-
+        String username = DataHolder.getInstance().getData();
+        if(username.equals("default")){
             text = "Welcome to our Shoppe Guest!";
         }
         else {
-            text = "Welcome to our Shoppe " + DataHolder.getInstance().getData() + "!";
+            text = "Welcome to back to Le Shoppe " + username.substring(0,1).toUpperCase() + username.substring(1) + "!";
         }
-        int duration = Toast.LENGTH_SHORT;
 
-        Toast toast = Toast.makeText(context, text, duration);
+        Toast toast = Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG);
         toast.show();
 
         setContentView(R.layout.activity_main2);

@@ -28,10 +28,8 @@ import java.util.List;
  */
 public class ProductListFragment extends Fragment implements AbsListView.OnItemClickListener {
     private List ProductListItemList;
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -48,7 +46,6 @@ public class ProductListFragment extends Fragment implements AbsListView.OnItemC
      */
     private ListAdapter mAdapter;
 
-    // TODO: Rename and change types of parameters
     public static ProductListFragment newInstance(ArrayList productnumbers, ArrayList productnames) {
         ProductListFragment fragment = new ProductListFragment();
         Bundle args = new Bundle();
@@ -146,7 +143,6 @@ public class ProductListFragment extends Fragment implements AbsListView.OnItemC
     * >Communicating with Other Fragments</a> for more information.
     */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         public void onFragmentInteraction(String id);
     }
 

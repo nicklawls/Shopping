@@ -6,8 +6,9 @@
     <TextView
         android:id="@+id/titleTextView"
         android:text="Example Title"
-        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:layout_height="32dp"
         android:layout_width="match_parent"
-        android:gravity="center_horizontal"/>
+        android:gravity="center"/>
 
 </LinearLayout>
