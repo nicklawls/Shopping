@@ -248,6 +248,14 @@ public class MainActivity extends Activity {
                 fragment = new SearchHistoryFragment();
                 break;
             case 9:
+                if (DataHolder.getInstance().getData() != "default") {
+                    fragment = new RecommendationFragment();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Myst be logged in to view product recommendations",
+                                   Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case 10:
                 if (DataHolder.getInstance().getData() == "default") { // if no one's logged in
                     Intent i = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(i);
@@ -258,7 +266,7 @@ public class MainActivity extends Activity {
                 }
 
                 break;
-            case 10:
+            case 11:
                 if (DataHolder.getInstance().getData() != "default") { // if logged in
                     DataHolder.getInstance().setData("default"); // log that nigga out
                     // only changing the intent to change the name at the top, kind of a hack...
