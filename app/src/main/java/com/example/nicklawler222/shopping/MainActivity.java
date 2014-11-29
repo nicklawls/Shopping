@@ -251,7 +251,7 @@ public class MainActivity extends Activity {
                 if (DataHolder.getInstance().getData() != "default") {
                     fragment = new RecommendationFragment();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Myst be logged in to view product recommendations",
+                    Toast.makeText(getApplicationContext(), "Must be logged in to view product recommendations",
                                    Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -268,7 +268,6 @@ public class MainActivity extends Activity {
                     Toast.makeText(getApplicationContext(), "You're already logged in!",
                                    Toast.LENGTH_SHORT).show();
                 }
-
                 break;
             case 12:
                 if (DataHolder.getInstance().getData() != "default") { // if logged in
