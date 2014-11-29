@@ -52,7 +52,15 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         Context context = getApplicationContext();
-        CharSequence text = "LET'S SHOPPE";
+
+        CharSequence text;
+        if(DataHolder.getInstance().getData() == "default"){
+
+            text = "Welcome to our Shoppe Guest!";
+        }
+        else {
+            text = "Welcome to our Shoppe " + DataHolder.getInstance().getData() + "!";
+        }
         int duration = Toast.LENGTH_SHORT;
 
         Toast toast = Toast.makeText(context, text, duration);
@@ -173,6 +181,15 @@ public class MainActivity extends Activity {
         }
         // Handle action bar actions click
         switch (item.getItemId()) {
+            case R.id.action_cart:
+                // TO GO TO CART FRAGMENT!!!!!!!
+                FragmentManager manager = getFragmentManager();
+                FragmentTransaction ft = manager.beginTransaction();
+                Fragment cart = new CartFragment();
+                ft.replace(R.id.frame_container,cart);
+                ft.addToBackStack(null);
+                ft.commit();
+                return false;
 //            case R.id.action_settings:
 //                return true;
 //            case R.id.action_search:
@@ -303,16 +320,80 @@ public class MainActivity extends Activity {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-    public void toRateReviewActivity(View view)
-    {
+    public void toRateReviewActivity(View view) {
         if (DataHolder.getInstance().getData() != "default") {
             Intent i = new Intent(MainActivity.this, RateReviewActivity.class);
             startActivity(i);
         } else {
             Toast.makeText(getApplicationContext(), "Must Be Logged In To Rate/Review",
-                           Toast.LENGTH_SHORT).show();
+                    Toast.LENGTH_SHORT).show();
         }
-       //Toast.makeText(getApplicationContext(), "postexecute",   Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(), "postexecute",   Toast.LENGTH_LONG).show();
+    }
 
+
+    public void addToCart(View view) {
+        // CURRENTLY ADD TO CART GOES TO RECENTLY VIEWED FRAGMENT
+//        FragmentManager manager = getFragmentManager();
+//        FragmentTransaction ft = manager.beginTransaction();
+//        Fragment cart = new CartFragment();
+//        ft.replace(R.id.frame_container,cart);
+//        ft.addToBackStack(null);
+//        ft.commit();
+
+
+        Context context = getApplicationContext();
+        CharSequence text = "ADDED TO CART";
+        int duration = Toast.LENGTH_SHORT;
+
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
     }
 }
+
+//    public void insertReview(View view) {
+//
+//        try {
+//            Class.forName("org.postgresql.Driver");
+//        } catch (ClassNotFouhttps://github.com/jgrana/CreditCardEntryndException e) {
+//            e.printStackTrace();
+//        }
+//        String url;
+//        url = "jdbc:postgresql://shopandgodb.cv80ayxyiqrh.us-west-2.rds.amazonaws.com:5432/sagdb?user=shopandgo&password=goandshop";
+//        Connection conn;
+//        try {
+//            DriverManager.setLoginTimeout(5);
+//            conn = DriverManager.getConnection(url);
+//            Statement st = conn.createStatement();
+//            String sql;
+//            String username = "'" + DataHolder.getInstance().getData() + "'";
+//            String sqlrating = getApplicationContext().getRatingValue();
+//            String product = DataHolder.getInstance().getPNO();
+//
+//            String sql2 = "SELECT * FROM users";
+//            //Toast.makeText(getApplicationContext(), "running",   Toast.LENGTH_LONG).show();
+//            ResultSet rs = st.executeQuery(sql2);
+////                    while( rs.next() ){
+////                        String tmp;
+////                        tmp = rs.getString("password");
+////                        Toast.makeText(getApplicationContext(), tmp,   Toast.LENGTH_LONG).show();
+////                    }
+//            //sql = "INSERT INTO ratings VALUES (" + product + "," + username + "," + sqlrating + ",'" + str + "')";
+//            //Toast.makeText(getApplicationContext(), sql,   Toast.LENGTH_LONG).show();
+//
+//
+//            //st.executeUpdate(sql);//p_no, usernmae, rating, review
+//            //rs.close();
+//            rs.close();
+//            st.close();
+//            conn.close();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+//
+//
+//    }
+
+
+
