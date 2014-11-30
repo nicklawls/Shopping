@@ -213,7 +213,8 @@ public class MainActivity extends Activity {
             case R.id.action_cart:
                 // TO GO TO CART FRAGMENT!!!!!!!
                 if (DataHolder.getInstance().ifLoggedIn()) {
-                    new CartFragment();
+                    FragmentManager fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction().replace(R.id.frame_container, new CartFragment()).commit();
                     return true;
                 } else {
                     Toast.makeText(getApplicationContext(), "Must be logged in to view Cart",
