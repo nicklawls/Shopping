@@ -1,6 +1,7 @@
 package com.example.nicklawler222.shopping;
 
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -37,8 +38,10 @@ public class DataHolder {
 
     public void setPNO( String product ) {
         // setting has_purchased on update of product_no to avoid race condition
-        checkPurchasedTask task = new checkPurchasedTask(pno_forreview, data_username);
-        task.execute((Void) null );
+        if (isLoggedIn()) {
+            checkPurchasedTask task = new checkPurchasedTask(pno_forreview, data_username);
+            task.execute((Void) null );
+        }
         pno_forreview = product;
     }
 
@@ -65,7 +68,6 @@ public class DataHolder {
             String url;
             url = "jdbc:postgresql://shopandgodb.cv80ayxyiqrh.us-west-2.rds.amazonaws.com:5432/sagdb?user=shopandgo&password=goandshop";
             Connection conn;
-            Boolean purchased = false;
 
             try {
 
@@ -75,11 +77,15 @@ public class DataHolder {
                 ResultSet rs = null;
 
                 String sql =  "SELECT count(*) FROM purchased WHERE username = ";
-                sql += "'" + username + "' AND product_no = '" + product_no + "')";
+                sql += "'" + username + "' AND product_no = '" + product_no + "'";
+                System.out.println(sql);
                 rs = st.executeQuery(sql);
                 rs.next(); // assumes one row in result
 
-                has_purchased = (rs.getString("count") == "1");
+                has_purchased = (rs.getString("count").equals("1"));
+                System.out.println(rs.getString("count"));
+
+                rs.close();
                 st.close();
                 conn.close();
             }

@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +53,10 @@ public class ProductFragment extends Fragment {
      */
     public static ProductFragment newInstance(String productNumber) {
         ProductFragment fragment = new ProductFragment();
+
+        // TODO: Figure out how to only call this once
+        DataHolder.getInstance().setPNO(productNumber);
+
         Bundle args = new Bundle();
         args.putString("product_number", productNumber);
         fragment.setArguments(args);
@@ -76,6 +81,8 @@ public class ProductFragment extends Fragment {
                              Bundle savedInstanceState) {
         Bundle args = getArguments();
         String productnumber = args.getString("product_number","");
+
+        // TODO: Figure out how to only call this once
         DataHolder.getInstance().setPNO(productnumber);
 
 
