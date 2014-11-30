@@ -1,5 +1,12 @@
 package com.example.nicklawler222.shopping;
 
+import android.os.AsyncTask;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 /**
@@ -12,7 +19,7 @@ public class DataHolder {
     private ArrayList searchHistory = new ArrayList();
     private String sqlreview;
     private boolean needtoup_sql = false;
-
+    private boolean has_purchased = false;
 
     public String getData() { return data_username; }
     public ArrayList getHistory() {return searchHistory; }
@@ -23,12 +30,67 @@ public class DataHolder {
 
     public void setData(String data) { this.data_username = data; }
     // checks to see if user is logged in
-    public boolean ifLoggedIn() {return (!data_username.equals("default"));}
+    public boolean isLoggedIn() {return (!data_username.equals("default"));}
     public void addHistory(String text) {searchHistory.add(text);}
-    public void setPNO( String product ) { pno_forreview = product; }
     public void setSQL( String sql ) { sqlreview = sql; }
     public void setUpCheck( boolean x ) { needtoup_sql = x; }
 
+    public void setPNO( String product ) {
+        // setting has_purchased on update of product_no to avoid race condition
+        checkPurchasedTask task = new checkPurchasedTask(pno_forreview, data_username);
+        task.execute((Void) null );
+        pno_forreview = product;
+    }
+
+    public Boolean hasPurchased() { // checks if logged in user has purchased current item
+        return has_purchased;
+    }
+
+    public class checkPurchasedTask extends AsyncTask<Void, Void, Void> {
+        private final String username;
+        private final String product_no;
+
+        checkPurchasedTask(String pno, String uname) {
+            product_no = pno;
+            username = uname;
+        }
+
+        protected Void doInBackground(Void ...params) {
+            try {
+                Class.forName("org.postgresql.Driver");
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            String url;
+            url = "jdbc:postgresql://shopandgodb.cv80ayxyiqrh.us-west-2.rds.amazonaws.com:5432/sagdb?user=shopandgo&password=goandshop";
+            Connection conn;
+            Boolean purchased = false;
+
+            try {
+
+                DriverManager.setLoginTimeout(5);
+                conn = DriverManager.getConnection(url);
+                Statement st = conn.createStatement();
+                ResultSet rs = null;
+
+                String sql =  "SELECT count(*) FROM purchased WHERE username = ";
+                sql += "'" + username + "' AND product_no = '" + product_no + "')";
+                rs = st.executeQuery(sql);
+                rs.next(); // assumes one row in result
+
+                has_purchased = (rs.getString("count") == "1");
+                st.close();
+                conn.close();
+            }
+
+            catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+    }
 
 
     private static final DataHolder holder = new DataHolder();

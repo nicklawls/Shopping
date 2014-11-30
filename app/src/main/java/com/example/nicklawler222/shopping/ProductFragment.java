@@ -2,10 +2,6 @@ package com.example.nicklawler222.shopping;
 
 import com.androidquery.AQuery;
 import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.database.DatabaseUtils;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.Date;
 
@@ -105,7 +100,7 @@ public class ProductFragment extends Fragment {
         Button addtoWish = (Button) rootView.findViewById(R.id.addToWishListbutton);
         Button rate = (Button) rootView.findViewById(R.id.rate_review);
 
-        if(!DataHolder.getInstance().ifLoggedIn()){
+        if(!DataHolder.getInstance().isLoggedIn()){
             addtoCart.setVisibility(View.GONE);
             addtoWish.setVisibility(View.GONE);
             rate.setVisibility(View.GONE);

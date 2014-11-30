@@ -11,7 +11,6 @@ import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -86,10 +85,10 @@ public class MainActivity extends Activity {
 
         for( int i = 0; i < navMenuTitles.length; ++i) {
             if (i > navMenuTitles.length-7){
-                if(DataHolder.getInstance().ifLoggedIn())
+                if(DataHolder.getInstance().isLoggedIn())
                 {
                     if (navMenuTitles[i].equals("Login")) {
-                        if (DataHolder.getInstance().ifLoggedIn()) {
+                        if (DataHolder.getInstance().isLoggedIn()) {
                             i = navMenuTitles.length - 1;
                             navDrawerItems.add(new NavDrawerItem(navMenuTitles[i], navMenuIcons.getResourceId(i, -1)));
                             break;
@@ -212,7 +211,7 @@ public class MainActivity extends Activity {
         switch (item.getItemId()) {
             case R.id.action_cart:
                 // TO GO TO CART FRAGMENT!!!!!!!
-                if (DataHolder.getInstance().ifLoggedIn()) {
+                if (DataHolder.getInstance().isLoggedIn()) {
                     FragmentManager fragmentManager = getFragmentManager();
                     fragmentManager.beginTransaction().replace(R.id.frame_container, new CartFragment()).commit();
                     return true;
@@ -281,7 +280,7 @@ public class MainActivity extends Activity {
                 break;
             case 7:
                 if(navDrawerItems.get(position).getTitle().equals("Login")){
-                    if (!DataHolder.getInstance().ifLoggedIn()) { // if no one's logged in
+                    if (!DataHolder.getInstance().isLoggedIn()) { // if no one's logged in
                         Intent i = new Intent(MainActivity.this, LoginActivity.class);
                         startActivity(i);
                         fragment = new HomeFragment();
@@ -299,7 +298,7 @@ public class MainActivity extends Activity {
                 fragment = new SearchHistoryFragment();
                 break;
             case 9:
-                if (DataHolder.getInstance().ifLoggedIn()) {
+                if (DataHolder.getInstance().isLoggedIn()) {
                     fragment = new RecommendationFragment();
                 } else {
                     Toast.makeText(getApplicationContext(), "Must be logged in to view product recommendations",
@@ -312,7 +311,7 @@ public class MainActivity extends Activity {
                 break;
             case 11:
                 if(navDrawerItems.get(position).getTitle().equals("Login")) {
-                    if (!DataHolder.getInstance().ifLoggedIn()) { // if no one's logged in
+                    if (!DataHolder.getInstance().isLoggedIn()) { // if no one's logged in
                         Intent i = new Intent(MainActivity.this, LoginActivity.class);
                         startActivity(i);
                         fragment = new HomeFragment();
@@ -320,7 +319,7 @@ public class MainActivity extends Activity {
                     }
                 }
                 else if(navDrawerItems.get(position).getTitle().equals("Logout")){
-                    if (DataHolder.getInstance().ifLoggedIn()) { // if logged in
+                    if (DataHolder.getInstance().isLoggedIn()) { // if logged in
                     DataHolder.getInstance().setData("default"); // log that nigga out
                     // only changing the intent to change the name at the top, kind of a hack...
                     Intent i = new Intent(MainActivity.this, MainActivity.class);
@@ -381,12 +380,15 @@ public class MainActivity extends Activity {
     }
 
     public void toRateReviewActivity(View view) {
-        if (DataHolder.getInstance().ifLoggedIn()) {
+        if (DataHolder.getInstance().isLoggedIn() && DataHolder.getInstance().hasPurchased()) {
             Intent i = new Intent(MainActivity.this, RateReviewActivity.class);
             startActivity(i);
-        } else {
+        } else if(!DataHolder.getInstance().isLoggedIn()) {
             Toast.makeText(getApplicationContext(), "Must Be Logged In To Rate/Review",
                     Toast.LENGTH_SHORT).show();
+        } else if(!DataHolder.getInstance().hasPurchased()){
+            Toast.makeText(getApplicationContext(), "Must Have Purchased Item To Rate/Review",
+                    Toast.LENGTH_LONG).show();
         }
         //Toast.makeText(getApplicationContext(), "postexecute",   Toast.LENGTH_LONG).show();
     }
