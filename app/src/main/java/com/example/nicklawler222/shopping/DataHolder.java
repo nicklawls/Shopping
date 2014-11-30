@@ -78,12 +78,12 @@ public class DataHolder {
 
                 String sql =  "SELECT count(*) FROM purchased WHERE username = ";
                 sql += "'" + username + "' AND product_no = '" + product_no + "'";
-                System.out.println(sql);
+                //System.out.println(sql);
                 rs = st.executeQuery(sql);
                 rs.next(); // assumes one row in result
 
                 has_purchased = (rs.getString("count").equals("1"));
-                System.out.println(rs.getString("count"));
+                //System.out.println(rs.getString("count"));
 
                 rs.close();
                 st.close();

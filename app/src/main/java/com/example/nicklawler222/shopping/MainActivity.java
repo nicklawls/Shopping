@@ -393,13 +393,15 @@ public class MainActivity extends Activity {
         //Toast.makeText(getApplicationContext(), "postexecute",   Toast.LENGTH_LONG).show();
     }
 
-    public class AddToCartTask extends AsyncTask<Void, Void, Void> {
+    public class AddToSomethingTask extends AsyncTask<Void, Void, Void> {
         private final String product_no;
         private final String username;
+        private final String table;
 
-        AddToCartTask(String pno, String uname) {
+        AddToSomethingTask(String tabl, String pno, String uname) {
             product_no = pno;
             username = uname;
+            table = tabl;
         }
         protected Void doInBackground(Void ... params) {
 
@@ -422,7 +424,7 @@ public class MainActivity extends Activity {
                 String sql;
 
                 if (username != "default") {
-                    sql = "INSERT INTO shopping_cart VALUES (";
+                    sql = "INSERT INTO " + table +" VALUES (";
                     sql += "'" + username + "', '" + product_no + "')";
                     int update_result = st.executeUpdate(sql);
                 }
@@ -440,30 +442,30 @@ public class MainActivity extends Activity {
     }
 
     public void addToCart(View view) {
-        // CURRENTLY ADD TO CART GOES TO RECENTLY VIEWED FRAGMENT
-//        FragmentManager manager = getFragmentManager();
-//        FragmentTransaction ft = manager.beginTransaction();
-//        Fragment cart = new CartFragment();
-//        ft.replace(R.id.frame_container,cart);
-//        ft.addToBackStack(null);
-//        ft.commit();
         String pno = DataHolder.getInstance().getPNO();
         String uname = DataHolder.getInstance().getData();
         Context context = getApplicationContext();
         CharSequence text = "Added to Cart";
         int duration = Toast.LENGTH_SHORT;
 
-        AddToCartTask task = new AddToCartTask(pno, uname);
-        task.execute((Void) null);
+        AddToSomethingTask addToCart = new AddToSomethingTask("shopping_cart",pno, uname);
+        addToCart.execute((Void) null);
 
         Toast toast = Toast.makeText(context, text, duration);
         toast.show();
     }
     
     public void addToWishList(View view) {
+        String pno = DataHolder.getInstance().getPNO();
+        String uname = DataHolder.getInstance().getData();
         Context context = getApplicationContext();
         CharSequence text = "Added to Wish List";
         int duration = Toast.LENGTH_SHORT;
+
+
+        AddToSomethingTask addToWishList = new AddToSomethingTask("wish_list", pno, uname);
+        addToWishList.execute((Void) null);
+
 
         Toast toast = Toast.makeText(context, text, duration);
         toast.show();
@@ -471,50 +473,3 @@ public class MainActivity extends Activity {
 
 
 }
-
-//    public void insertReview(View view) {
-//
-//        try {
-//            Class.forName("org.postgresql.Driver");
-//        } catch (ClassNotFouhttps://github.com/jgrana/CreditCardEntryndException e) {
-//            e.printStackTrace();
-//        }
-//        String url;
-//        url = "jdbc:postgresql://shopandgodb.cv80ayxyiqrh.us-west-2.rds.amazonaws.com:5432/sagdb?user=shopandgo&password=goandshop";
-//        Connection conn;
-//        try {
-//            DriverManager.setLoginTimeout(5);
-//            conn = DriverManager.getConnection(url);
-//            Statement st = conn.createStatement();
-//            String sql;
-//            String username = "'" + DataHolder.getInstance().getData() + "'";
-//            String sqlrating = getApplicationContext().getRatingValue();
-//            String product = DataHolder.getInstance().getPNO();
-//
-//            String sql2 = "SELECT * FROM users";
-//            //Toast.makeText(getApplicationContext(), "running",   Toast.LENGTH_LONG).show();
-//            ResultSet rs = st.executeQuery(sql2);
-////                    while( rs.next() ){
-////                        String tmp;
-////                        tmp = rs.getString("password");
-////                        Toast.makeText(getApplicationContext(), tmp,   Toast.LENGTH_LONG).show();
-////                    }
-//            //sql = "INSERT INTO ratings VALUES (" + product + "," + username + "," + sqlrating + ",'" + str + "')";
-//            //Toast.makeText(getApplicationContext(), sql,   Toast.LENGTH_LONG).show();
-//
-//
-//            //st.executeUpdate(sql);//p_no, usernmae, rating, review
-//            //rs.close();
-//            rs.close();
-//            st.close();
-//            conn.close();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//
-//
-//
-//    }
-
-
-
