@@ -284,6 +284,19 @@ public class HomeFragment extends Fragment {
         return null;
     }
 
+    /*
+    Working
+    WHEN A IMAGE IS SELECTED THE IMGURUPLOAD TASK STARTS, IT UPLOADS TO IMGUR
+        THE URL IS RETURNED FROM THE TASK, WHICH IS PARSED AND SENT TO HTMLPost
+    HTML POST gets called and sumbits a JSON node with the data to CamFIND
+        ......This is working, the token is returned and parsed and is valid
+        ........The token is sent to HTMLGrab
+
+    ISN't working
+    HTMLGrab is returning error 404: not found code
+    HTMLGrab should make a post that resembles this https://www.mashape.com/imagesearcher/camfind
+     */
+
     private class MyImgurUploadTask extends ImgurUploadTask {
         public MyImgurUploadTask(Uri imageUri) {
             super(imageUri, getActivity());
