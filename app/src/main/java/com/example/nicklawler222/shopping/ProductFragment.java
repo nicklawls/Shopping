@@ -13,6 +13,7 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.Date;
@@ -99,10 +100,28 @@ public class ProductFragment extends Fragment {
 
         new FetchSQL().execute(productnumber);
 
+        // only logged in users can view rate review, add to cart, and add to wish list button
+        Button addtoCart = (Button) rootView.findViewById(R.id.addToCartButton);
+        Button addtoWish = (Button) rootView.findViewById(R.id.addToWishListbutton);
+        Button rate = (Button) rootView.findViewById(R.id.rate_review);
 
+        if(!DataHolder.getInstance().ifLoggedIn()){
+            addtoCart.setVisibility(View.GONE);
+            addtoWish.setVisibility(View.GONE);
+            rate.setVisibility(View.GONE);
+        }
+        else
+        {
+            addtoCart.setVisibility(View.VISIBLE);
+            addtoWish.setVisibility(View.VISIBLE);
+            rate.setVisibility(View.VISIBLE);
+        }
 
         return rootView;
     }
+
+
+
     private class FetchSQL extends AsyncTask<String,Void,Bundle> {
         protected Bundle doInBackground(String... productnumbers) {
             try {

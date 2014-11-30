@@ -22,6 +22,8 @@ public class DataHolder {
 
 
     public void setData(String data) { this.data_username = data; }
+    // checks to see if user is logged in
+    public boolean ifLoggedIn() {return (!data_username.equals("default"));}
     public void addHistory(String text) {searchHistory.add(text);}
     public void setPNO( String product ) { pno_forreview = product; }
     public void setSQL( String sql ) { sqlreview = sql; }

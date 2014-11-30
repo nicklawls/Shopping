@@ -31,6 +31,7 @@
         <item>Browse History</item>
         <item>Search History</item>
         <item>Product Recommendations</item>
+        <item>Purchase Screen [TEMP]</item>
         <item>Login</item>
         <item>Logout</item>
     </string-array>
@@ -48,6 +49,7 @@
         <item>@drawable/ic_launcher</item>
         <item>@drawable/ic_search</item>
         <item>@drawable/ic_communities2</item>
+        <item>@drawable/ic_exit</item>
         <item>@drawable/ic_login</item>
         <item>@drawable/ic_exit</item>
     </array>
@@ -75,24 +77,32 @@
     <string name="title_activity_purchase">PurchaseActivity</string>
 
     <!--Purchase Activity -->
+    <!--On screen text-->
+    <string name="prompt_order">Order Total: </string>
+    <string name="prompt_shipAddr">Shipping Address: </string>
+    <string name="prompt_billAddr">Billing Address: </string>
+    <string name="prompt_cardInfo">Card Information: </string>
+    <string name="prompt_cardExp">Expiration Date: </string>
+    <string name="prompt_slash">\/</string>
+    <string name="action_purchase">Purchase</string>
+
     <!--Hints-->
-    <string name="prompt_firstName">First Name</string>
-    <string name="prompt_lastName">Last Name</string>
-    <string name="prompt_shipAddr1">Shipping Address</string>
-    <string name="prompt_shipAddr2">Apartment Number</string>
-    <string name="prompt_shipCity">City Name</string>
-    <string name="prompt_shipState">State Name</string>
-    <string name="prompt_shipZip">Zip Code</string>
-    <string name="prompt_billAddr1">Billing Address</string>
-    <string name="prompt_billAddr2">Apartment Number</string>
-    <string name="prompt_billCity">City Name</string>
-    <string name="prompt_billState">State Name</string>
-    <string name="prompt_billZip">Zip Code</string>
-    <string name="prompt_cardNum">1234 5678 9012 3456</string>
-    <string name="prompt_cardCVV">1234 5678 9012 3456</string>
-    <string name="prompt_cardExpMon">1234 5678 9012 3456</string>
-    <string name="prompt_cardEXpYr">1234 5678 9012 3456</string>
+    <string name="hint_firstName">First Name</string>
+    <string name="hint_lastName">Last Name</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_Addr1">123 E Fake St</string>
+    <string name="hint_Addr2">Apartment Number</string>
+    <string name="hint_City">City Name</string>
+    <string name="hint_State">State Name</string>
+    <string name="hint_Zip">Zip Code</string>
+    <string name="hint_cardNum">1234567890123456</string>
+    <string name="hint_cardCVV">123</string>
+    <string name="hint_cardExpMon">Month - 00</string>
+    <string name="hint_cardEXpYr">Year - 0000</string>
+    <string name="prompt_email2">Email: </string>
 
+    <!--WISHLIST ACTIVITY-->
 
+    <string name="add_to_wishlist">Add to Wish list</string>
 
 </resources>
