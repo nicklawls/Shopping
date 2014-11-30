@@ -114,6 +114,8 @@ public class ProductFragment extends Fragment {
             String url;
             url = "jdbc:postgresql://shopandgodb.cv80ayxyiqrh.us-west-2.rds.amazonaws.com:5432/sagdb?user=shopandgo&password=goandshop";
             Connection conn;
+
+
             try {
                 DriverManager.setLoginTimeout(5);
                 conn = DriverManager.getConnection(url);

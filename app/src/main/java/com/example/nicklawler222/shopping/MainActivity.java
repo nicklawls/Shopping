@@ -9,7 +9,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -23,6 +25,11 @@ import android.widget.SearchView;
 import android.widget.Toast;
 import com.example.nicklawler222.shopping.adapter.NavDrawerListAdapter;
 import com.example.nicklawler222.shopping.model.NavDrawerItem;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 public class MainActivity extends Activity {
@@ -334,6 +341,51 @@ public class MainActivity extends Activity {
         //Toast.makeText(getApplicationContext(), "postexecute",   Toast.LENGTH_LONG).show();
     }
 
+    public class AddToCartTask extends AsyncTask<Void, Void, Void> {
+        private final String product_no;
+        private final String username;
+
+        AddToCartTask(String pno, String uname) {
+            product_no = pno;
+            username = uname;
+        }
+        protected Void doInBackground(Void ... params) {
+
+            try {
+                Class.forName("org.postgresql.Driver");
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            String url;
+            url = "jdbc:postgresql://shopandgodb.cv80ayxyiqrh.us-west-2.rds.amazonaws.com:5432/sagdb?user=shopandgo&password=goandshop";
+            Connection conn;
+
+
+            try {
+
+                DriverManager.setLoginTimeout(5);
+                conn = DriverManager.getConnection(url);
+                Statement st = conn.createStatement();
+                String sql;
+
+                if (username != "default") {
+                    sql = "INSERT INTO shopping_cart VALUES (";
+                    sql += "'" + username + "', '" + product_no + "')";
+                    int update_result = st.executeUpdate(sql);
+                }
+
+                st.close();
+                conn.close();
+            }
+
+            catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+    }
 
     public void addToCart(View view) {
         // CURRENTLY ADD TO CART GOES TO RECENTLY VIEWED FRAGMENT
@@ -343,7 +395,11 @@ public class MainActivity extends Activity {
 //        ft.replace(R.id.frame_container,cart);
 //        ft.addToBackStack(null);
 //        ft.commit();
+        String pno = DataHolder.getInstance().getPNO();
+        String uname = DataHolder.getInstance().getData();
 
+        AddToCartTask task = new AddToCartTask(pno, uname);
+        task.execute((Void) null);
 
         Context context = getApplicationContext();
         CharSequence text = "ADDED TO CART";
