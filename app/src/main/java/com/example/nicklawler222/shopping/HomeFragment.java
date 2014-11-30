@@ -24,10 +24,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URI;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -44,6 +48,10 @@ public class HomeFragment extends Fragment {
     private String selectedImagePath;
     private String filemanagerstring;
 
+    private Uri mImageUri;
+    private String mImgurUrl;
+    private MyImgurUploadTask mImgurUploadTask;
+    private int mImgurUploadStatus;
 
     Uri fileUri = null;
     ImageView photoImage = null;
@@ -108,8 +116,10 @@ public class HomeFragment extends Fragment {
                     Toast.makeText(getActivity(), "Image saved successfully",
                             Toast.LENGTH_LONG).show();
                     photoUri = fileUri;
+                    mImageUri = fileUri;
                 } else {
                     photoUri = data.getData();
+                    mImageUri = data.getData();
                     Toast.makeText(getActivity(), "Image saved successfully in: " + data.getData(),
                             Toast.LENGTH_LONG).show();
                 }
@@ -128,6 +138,7 @@ public class HomeFragment extends Fragment {
             if (resultCode == -1) {
                 Toast.makeText(getActivity(), "supposed to work", Toast.LENGTH_SHORT).show();
                 Uri selectedImageUri = data.getData();
+                mImageUri = data.getData();
                 selectedImagePath = getPath(getActivity().getApplicationContext(),selectedImageUri);
                 Log.d("path_gallery",selectedImagePath); //THIS IS THE PATH TO THE IMAGE FROM GALLERY
                 //ERIC LOOK OVER HERE^//ERIC LOOK OVER HERE^//ERIC LOOK OVER HERE^//ERIC LOOK OVER HERE^//ERIC LOOK OVER HERE^
@@ -147,6 +158,10 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getActivity(), "qq", Toast.LENGTH_SHORT).show();
             }
 
+        }
+        if (mImageUri != null ) {
+            selectedImagePath = mImageUri.getPath();
+                new MyImgurUploadTask(mImageUri).execute();
         }
     }
     private void showPhoto(Uri photoUri) {
@@ -269,6 +284,78 @@ public class HomeFragment extends Fragment {
         return null;
     }
 
+    private class MyImgurUploadTask extends ImgurUploadTask {
+        public MyImgurUploadTask(Uri imageUri) {
+            super(imageUri, getActivity());
+        }
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            if (mImgurUploadTask != null) {
+                boolean cancelled = mImgurUploadTask.cancel(false);
+                if (!cancelled)
+                    this.cancel(true);
+            }
+            mImgurUploadTask = this;
+            mImgurUrl = null;
+        }
+        @Override
+        protected void onPostExecute(String imageId) {
+            super.onPostExecute(imageId);
+            mImgurUploadTask = null;
+
+            if (imageId != null) {
+                mImgurUrl = "http://imgur.com/" + imageId;
+                DataHolder.getInstance().setURL("http://i.imgur.com/" + imageId + ".jpg");
+            } else {
+                mImgurUrl = "Failed upload.";
+            }
+            ((TextView) getView().findViewById(R.id.returnedURL)).setText(mImgurUrl);
+
+            new MyHTMLPost().execute();
+            if (isVisible()) ;
+        }
+    }
+
+    private class MyHTMLPost extends HTMLPost {
+        public MyHTMLPost() {
+            super( 1 ,getActivity());
+        }
+
+        @Override
+        protected void onPostExecute(String imageId) {
+            super.onPostExecute(imageId);
+
+//            ((TextView) getView().findViewById(R.id.returnedURL)).setText(imageId);
+            String token = imageId.substring( imageId.indexOf("oken\":")+7, imageId.indexOf("\",\"ur") );
+            ((TextView) getView().findViewById(R.id.returnedURL)).setText(token);
+            DataHolder.getInstance().setTOKEN(token);
+
+            new MyHTMLGrab().execute();
+            if (isVisible()) ;
+        }
+    }
+
+    private class MyHTMLGrab extends HTMLGrab {
+        public MyHTMLGrab() {
+            super( getActivity());
+        }
+
+        @Override
+        protected void onPostExecute(String imageId) {
+            super.onPostExecute(imageId);
+
+//            ((TextView) getView().findViewById(R.id.returnedURL)).setText(imageId);
+//            String token = imageId.substring( imageId.indexOf("oken\":")+7, imageId.indexOf("\",\"ur") );
+            ((TextView) getView().findViewById(R.id.returnedURL)).setText(imageId);
+
+            if (isVisible()) ;
+        }
+    }
+
+
+
+
 
     /**
      * @param uri The Uri to check.
@@ -302,50 +389,3 @@ public class HomeFragment extends Fragment {
         return "com.google.android.apps.photos.content".equals(uri.getAuthority());
     }
 }
-//    private class FetchSQL extends AsyncTask<Void,Void,Bundle> {
-//
-//        protected Bundle doInBackground(Void... params) {
-//            try {
-//                Class.forName("org.postgresql.Driver");
-//            } catch (ClassNotFoundException e) {
-//                e.printStackTrace();
-//            }
-//            ArrayList productnumbers = new ArrayList();
-//            ArrayList productnames = new ArrayList();
-//            Bundle product = new Bundle();
-//            String url;
-//            url = "jdbc:postgresql://shopandgodb.cv80ayxyiqrh.us-west-2.rds.amazonaws.com:5432/sagdb?user=shopandgo&password=goandshop";
-//            Connection conn;
-//            try {
-//                DriverManager.setLoginTimeout(5);
-//                conn = DriverManager.getConnection(url);
-//                Statement st = conn.createStatement();
-//                String username = DataHolder.getInstance().getData();
-//                String sql;
-//                sql = "SELECT DISTINCT b.product_no,p.name  FROM browsings b,products p WHERE username = '" + username + "' AND b.product_no = p.product_no";
-//                ResultSet rs = st.executeQuery(sql);
-//
-//                while (rs.next()) {
-//                    productnumbers.add(rs.getString("product_no"));
-//                    productnames.add(rs.getString("name"));
-//                }
-//                rs.close();
-//                st.close();
-//                conn.close();
-//                product.putStringArrayList("product_no",productnumbers);
-//                product.putStringArrayList("productname",productnames);
-//                return product;
-//            } catch (SQLException e) {
-//                e.printStackTrace();
-//                return null;
-//            }
-//        }
-//
-//        protected void onPostExecute(Bundle product) {
-//            FragmentManager manager = getFragmentManager();
-//            FragmentTransaction ft = manager.beginTransaction();
-//            ft.replace(R.id.frame_container,ProductListFragment.newInstance(product.getStringArrayList("product_no"),product.getStringArrayList("productname")));
-//            ft.commit();
-//        }
-//    }
-//}
