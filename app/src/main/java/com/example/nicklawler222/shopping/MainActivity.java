@@ -305,9 +305,21 @@ public class MainActivity extends Activity {
     {
         Intent i = new Intent(MainActivity.this, RateReviewActivity.class);
         startActivity(i);
+    }
 
-       //Toast.makeText(getApplicationContext(), "postexecute",   Toast.LENGTH_LONG).show();
-
+    // Handles OnClick for "List of Ratings and Reviews" Button
+    public void toRateReviewList(View view)
+    {
+        Fragment frag = null;
+        if(view == findViewById(R.id.rate_review_list)) {
+            frag = new RateReviewListFragment();
+        }
+        if (frag != null) {
+            FragmentTransaction trans = getFragmentManager().beginTransaction();
+            trans.replace(R.id.frame_container, frag);
+            trans.addToBackStack(null);
+            trans.commit();
+        }
     }
 
 //    public void insertReview(View view) {

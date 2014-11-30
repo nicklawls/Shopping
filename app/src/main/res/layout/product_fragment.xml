@@ -7,6 +7,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/grey_overlay"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:id="@+id/product_fragment_root"
         android:gravity="start">
         <TableRow
@@ -23,12 +25,30 @@
             android:gravity="start"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content">
-            <TextView
-                android:id="@+id/productrating"
-                android:layout_height="wrap_content"
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:gravity="start"
-                android:layout_marginLeft="30dp"/>
+                android:layout_height="match_parent" >
+
+                <RatingBar
+                        android:id="@+id/prod_rating"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="1dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        style="?android:attr/ratingBarStyleSmall"
+                        android:numStars="5"
+                        android:stepSize="0.5"
+                        android:rating="@+id/float_product_rating"
+                        android:isIndicator="true" />
+
+                <TextView
+                    android:id="@+id/productrating"
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:gravity="start"
+                    android:layout_marginLeft="30dp"/>
+            </LinearLayout>
         </TableRow>
         <TableRow
             android:gravity="center_horizontal|center_vertical"
@@ -82,15 +102,26 @@
                 android:layout_width="wrap_content"
                 android:gravity="center" />
         </TableRow>
-        <LinearLayout>
+        <LinearLayout
+            android:orientation="vertical" >
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/rate_review"
                 android:text="@string/rate_review_label"
                 android:layout_marginTop="15dp"
-                android:layout_marginLeft="90dp"
+                android:layout_marginLeft="80dp"
                 android:onClick="toRateReviewActivity"/>
+
+            <Button
+                android:id="@+id/rate_review_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="30dp"
+                android:text="@string/rating_review_list_label"
+                android:onClick="toRateReviewList"/>
+
         </LinearLayout>
     </TableLayout>
 </ScrollView>
