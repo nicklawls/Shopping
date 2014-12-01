@@ -16,6 +16,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.ContactsContract;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -173,6 +174,7 @@ public class HomeFragment extends Fragment {
             BitmapDrawable drawable = new BitmapDrawable(this.getResources(), scaled);
             photoImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
             photoImage.setImageDrawable(drawable);
+
         }
     }
     /**
@@ -299,7 +301,10 @@ public class HomeFragment extends Fragment {
 
     private class MyImgurUploadTask extends ImgurUploadTask {
         public MyImgurUploadTask(Uri imageUri) {
+
             super(imageUri, getActivity());
+            ((TextView) getView().findViewById(R.id.returnedURL)).setText("Uploading Image...");
+
         }
         @Override
         protected void onPreExecute() {
@@ -323,7 +328,7 @@ public class HomeFragment extends Fragment {
             } else {
                 mImgurUrl = "Failed upload.";
             }
-            ((TextView) getView().findViewById(R.id.returnedURL)).setText(mImgurUrl);
+            ((TextView) getView().findViewById(R.id.returnedURL)).setText("Scanning Image...");
 
             new MyHTMLPost().execute();
             if (isVisible()) ;
@@ -352,6 +357,8 @@ public class HomeFragment extends Fragment {
     private class MyHTMLGrab extends HTMLGrab {
         public MyHTMLGrab() {
             super( getActivity());
+            ((TextView) getView().findViewById(R.id.returnedURL)).setText("Waiting4Results..");
+
         }
 
         @Override
@@ -360,7 +367,26 @@ public class HomeFragment extends Fragment {
 
 //            ((TextView) getView().findViewById(R.id.returnedURL)).setText(imageId);
 //            String token = imageId.substring( imageId.indexOf("oken\":")+7, imageId.indexOf("\",\"ur") );
-            ((TextView) getView().findViewById(R.id.returnedURL)).setText(imageId);
+            //((TextView) getView().findViewById(R.id.returnedURL)).setText(imageId);
+
+            Integer s1 = imageId.indexOf("ame\":")+6;
+            Integer s2 = imageId.indexOf("\"}");
+            String odata = imageId.substring( s1, s2 );
+            Log.i(TAG,"odata: " + odata);
+            String metadata[] = odata.split("\\s+");
+            DataHolder.getInstance().clearOdata();
+            for( Integer i = 0; i < metadata.length; i++ ) {
+                DataHolder.getInstance().addOData(metadata[i]);
+                Log.i(TAG,"pushed[" + i.toString() + "]: " + metadata[i]);
+
+            }
+            ArrayList storeddata = DataHolder.getInstance().getObjectData();
+            for( Integer i = 0; i < storeddata.size(); i++ ) {
+                Log.i(TAG,"metadata[" + i.toString() + "]: " + storeddata.get(i).toString());
+
+            }
+
+            ((TextView) getView().findViewById(R.id.returnedURL)).setText("Results Found");
 
             if (isVisible()) ;
         }

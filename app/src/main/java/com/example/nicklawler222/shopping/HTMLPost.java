@@ -85,7 +85,7 @@ public abstract class HTMLPost extends AsyncTask<Void, Void, String> {
 //            Log.i(TAG, "new token:" + result + ")");
             responseIn.close();
             se.consumeContent();
-            return onInput(responseIn);
+            return result;
 
 
         } catch (Exception e) {
@@ -104,20 +104,6 @@ public abstract class HTMLPost extends AsyncTask<Void, Void, String> {
         inputStream.close();
         return result;
 
-    }
-
-    protected String onInput(InputStream in) throws Exception {
-        StringBuilder sb = new StringBuilder();
-        Scanner scanner = new Scanner(in);
-        while (scanner.hasNext()) {
-            sb.append(scanner.next());
-        }
-
-        JSONObject root = new JSONObject(sb.toString());
-        String id = root.getJSONObject("data").getString("token");
-
-        Log.i(TAG, "new token:" + id + ")");
-        return id;
     }
 
 }

@@ -57,7 +57,7 @@ public abstract class HTMLGrab extends AsyncTask<Void, Void, String> {
         try {
             Log.i(TAG, "before sleep");
 
-            Thread.sleep(14000);
+            Thread.sleep(2000);
             Log.i(TAG, "after sleep");
 
 
@@ -75,22 +75,26 @@ public abstract class HTMLGrab extends AsyncTask<Void, Void, String> {
             //sets the post request as the resulting string
             //sets a request header so the page receving the request
             //will know what to do with it
-            HttpResponse httpResponse = httpclient.execute(httget);
 
-            responseIn = httpResponse.getEntity().getContent();
-            StatusLine statusLine = httpResponse.getStatusLine();
+            String completedresult = "not completed";
 
-            if (responseIn != null)
-                result = convertInputStreamToString(responseIn);
-            else
-                result = "Didnt work";
+            while ( completedresult.indexOf("ot compl") != -1 ) {
+                Thread.sleep(4000);
+                HttpResponse httpResponse = httpclient.execute(httget);
 
-            Log.i(TAG, "status: " + statusLine.getStatusCode() + "   resonse: " + httpResponse.toString());
-            Log.i(TAG, httpResponse.toString());
-            Log.i(TAG, "url: " + url );
-            Log.i(TAG, "jsonresponse: " + result + ")");
+                responseIn = httpResponse.getEntity().getContent();
+                StatusLine statusLine = httpResponse.getStatusLine();
+
+                if (responseIn != null)
+                    result = convertInputStreamToString(responseIn);
+
+                completedresult = result;
+                Log.i(TAG, "convertinputstream: " + result);
+                Log.i(TAG, "status: " + statusLine.getStatusCode() + "   resonse: " + httpResponse.toString());
+                Log.i(TAG, httpResponse.toString());
+            }
             responseIn.close();
-            return onInput(responseIn);
+            return result;
 
         } catch (Exception e) {
             Log.d("InputStream", e.getLocalizedMessage());
@@ -108,20 +112,6 @@ public abstract class HTMLGrab extends AsyncTask<Void, Void, String> {
         inputStream.close();
         return result;
 
-    }
-
-    protected String onInput(InputStream in) throws Exception {
-        StringBuilder sb = new StringBuilder();
-        Scanner scanner = new Scanner(in);
-        while (scanner.hasNext()) {
-            sb.append(scanner.next());
-        }
-
-        JSONObject root = new JSONObject(sb.toString());
-        String id = root.getJSONObject("data").getString("token");
-
-        Log.i(TAG, "jsonreturn:" + id + ")");
-        return id;
     }
 
 }
