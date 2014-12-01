@@ -37,8 +37,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.*;
 
 
 /**
@@ -302,7 +302,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 sql = "SELECT * FROM users WHERE username = '" + mEmail + "'";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
-                    retusr = rs.getString("password");
+                    retusr = rs.getString("password"); // is this an issue?
                     retpw = rs.getString("password");
                 }
 
@@ -314,6 +314,13 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 }
                 else {
                     if (retpw.equals(mPassword)) {
+                        java.util.Date date = new java.util.Date();
+                        String timestamp = (new Timestamp(date.getTime())).toString();
+                        String update_login = "UPDATE users SET last_login = '" + timestamp + "' ";
+                        update_login += "WHERE username = '" + mEmail + "' AND password = '" + retpw + "'" ;
+                        System.out.println(update_login);
+                        int result = st.executeUpdate(update_login);
+                        System.out.println(result);
                         login_sucess = true;
                     }
                     else {
