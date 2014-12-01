@@ -42,6 +42,8 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class HomeFragment extends Fragment {
     private static final String TAG = "CallCamera";
@@ -124,7 +126,7 @@ public class HomeFragment extends Fragment {
                     Toast.makeText(getActivity(), "Image saved successfully in: " + data.getData(),
                             Toast.LENGTH_LONG).show();
                 }
-                Log.d("path_gallery",photoUri.getPath()); //THIS IS THE PATH TO THE IMAGE FROM CAMERA
+                //Log.d("path_gallery",photoUri.getPath()); //THIS IS THE PATH TO THE IMAGE FROM CAMERA
                 //ERIC LOOK OVER HERE^//ERIC LOOK OVER HERE^//ERIC LOOK OVER HERE^//ERIC LOOK OVER HERE^//ERIC LOOK OVER HERE^
                 showPhoto(photoUri);
 
@@ -386,14 +388,98 @@ public class HomeFragment extends Fragment {
 
             }
 
-            ((TextView) getView().findViewById(R.id.returnedURL)).setText("Results Found");
-
+            ((TextView) getView().findViewById(R.id.returnedURL)).setText(imageId);
+            new ResultsSQL().execute();
             if (isVisible()) ;
         }
     }
 
 
+    private class ResultsSQL extends AsyncTask<Void,Void,Bundle> {
 
+        protected Bundle doInBackground(Void... params) {
+            ((TextView) getView().findViewById(R.id.returnedURL)).setText("Getting Products");
+
+            try {
+                Class.forName("org.postgresql.Driver");
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            ArrayList productnumbers = new ArrayList();
+            ArrayList productnames = new ArrayList();
+            Bundle product = new Bundle();
+
+            ////////////////////////////////////////////////////////DATA FOR COMPLEX SQL QUERY
+            Map< String, ArrayList<String> > productfeatures = new HashMap< String, ArrayList<String> >();
+            Map< String, String > pnames = new HashMap< String, String >();
+
+            String url;
+            url = "jdbc:postgresql://shopandgodb.cv80ayxyiqrh.us-west-2.rds.amazonaws.com:5432/sagdb?user=shopandgo&password=goandshop";
+            Connection conn;
+            try {
+                DriverManager.setLoginTimeout(5);
+                conn = DriverManager.getConnection(url);
+                Statement st = conn.createStatement();
+                String sql;
+                sql = "SELECT product_no, features, name FROM products";
+                ResultSet rs = st.executeQuery(sql);
+                while (rs.next()) {
+                    String tempnum = rs.getString("product_no");
+                    String tempname = rs.getString("name");
+                    if( !pnames.containsKey(tempnum) ) {
+                        pnames.put(tempnum, tempname);
+                    }
+
+                    String feat = rs.getString("features");
+                    feat = feat.substring( feat.indexOf("{")+1, feat.length()-1 );
+                    String meta[] = feat.split(",");
+                    for( int i = 0; i < meta.length; i++ ) {
+                        if( !productfeatures.containsKey(meta[i]) ) {
+                            ArrayList<String> indexnumbers = new ArrayList<String>();
+                            productfeatures.put(meta[i], indexnumbers);
+                        }
+                        productfeatures.get(meta[i]).add(tempnum);
+                    }
+                }
+
+                ArrayList<String> picfeat = DataHolder.getInstance().getObjectData();
+                for( int i = 0; i < picfeat.size(); i++ ) {
+                    boolean pfeat_inDB = productfeatures.containsKey(picfeat.get(i));
+                    if( pfeat_inDB ) {
+                        int nump_withfeat = productfeatures.get(picfeat.get(i)).size();
+                        String feat_i = picfeat.get(i);
+                        for( int j = 0; j < nump_withfeat; j++  )  {
+                            productnumbers.add(productfeatures.get(feat_i).get(j));
+                            productnames.add(pnames.get(productfeatures.get(feat_i).get(j)));
+                        }
+                    }
+                }
+                product.putStringArrayList("product_no",productnumbers);
+                product.putStringArrayList("productname",productnames);
+                Log.i(TAG, picfeat.toString());
+                Log.i(TAG, productfeatures.toString());
+                Log.i(TAG, productnumbers.toString());
+                Log.i(TAG, productnames.toString());
+
+                rs.close();
+                st.close();
+                conn.close();
+                product.putStringArrayList("product_no",productnumbers);
+                product.putStringArrayList("productname",productnames);
+                return product;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        protected void onPostExecute(Bundle product) {
+            FragmentManager manager = getFragmentManager();
+            FragmentTransaction ft = manager.beginTransaction();
+            ft.replace(R.id.frame_container,ProductListFragment.newInstance(product.getStringArrayList("product_no"),product.getStringArrayList("productname")));
+            ft.commit();
+        }
+    }
 
 
     /**
