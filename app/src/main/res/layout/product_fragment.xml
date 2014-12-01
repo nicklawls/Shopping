@@ -119,8 +119,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="30dp"
-                android:text="@string/rating_review_list_label"
-                android:onClick="toRateReviewList"/>
+                android:text="@string/rating_review_list_label"/>
 
         </LinearLayout>
     </TableLayout>

@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import java.sql.*;
@@ -38,6 +40,9 @@ import java.sql.*;
  *
  */
 public class ProductFragment extends Fragment {
+    ArrayList users = new ArrayList();
+    ArrayList ratings = new ArrayList();
+    ArrayList reviews = new ArrayList();
     TextView productrating;
     TextView productname;
     TextView productcategory;
@@ -113,8 +118,18 @@ public class ProductFragment extends Fragment {
         prod_rating = (RatingBar) rootView.findViewById(R.id.prod_rating); //average rating for rating bar
 
         new FetchSQL().execute(productnumber);
-
-
+        Button ViewRR = (Button) rootView.findViewById(R.id.rate_review_list);
+        ViewRR.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                if (!users.isEmpty()) {
+                    FragmentManager manager = getFragmentManager();
+                    FragmentTransaction ft = manager.beginTransaction();
+                    ft.replace(R.id.frame_container, RateReviewListFragment.newInstance(users,ratings,reviews));
+                    ft.addToBackStack(null);
+                    ft.commit();
+                }
+            }
+        });
 
         return rootView;
     }
@@ -125,6 +140,9 @@ public class ProductFragment extends Fragment {
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
+            users.clear();
+            ratings.clear();
+            reviews.clear();
             Bundle product = new Bundle();
             String url;
             url = "jdbc:postgresql://shopandgodb.cv80ayxyiqrh.us-west-2.rds.amazonaws.com:5432/sagdb?user=shopandgo&password=goandshop";
@@ -156,6 +174,14 @@ public class ProductFragment extends Fragment {
                 sql_store_browse_history += username + ", '" + productnumbers[0] + "', '" + timestamp + "')";
 
                 int update_result = st.executeUpdate(sql_store_browse_history);
+                String get_reviews = "SELECT * FROM ratings WHERE product_no = '" + productnumbers[0] + "'";
+                rs = st.executeQuery(get_reviews);
+                while (rs.next()) {
+                    users.add(rs.getString("username"));
+                    ratings.add(rs.getString("rating"));
+                    reviews.add(rs.getString("review"));
+                }
+
 
                 String average_rating_query;
                 average_rating_query = "SELECT round(avg(rating),1) FROM ratings WHERE product_no =";
@@ -207,6 +233,8 @@ public class ProductFragment extends Fragment {
             mListener.onFragmentInteraction(uri);
         }
     }
+
+
 
     @Override
     public void onResume() {
