@@ -57,52 +57,8 @@ public abstract class HTMLGrab extends AsyncTask<Void, Void, String> {
         try {
             Log.i(TAG, "before sleep");
 
-            Thread.sleep(6000);
+            Thread.sleep(14000);
             Log.i(TAG, "after sleep");
-
-//            URL url;
-//            url = new URL ( DOWN_URL.trim() + DataHolder.getInstance().getTOKEN().trim() );
-//            Log.i(TAG, "toconnect " + url.toString());
-//
-//            HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();
-//            Log.i(TAG, "afterconnection " + urlConn.toString());
-//
-//            urlConn.setRequestMethod("POST");
-//            urlConn.setDoInput (true);
-//            urlConn.setDoOutput(true);
-//            urlConn.setUseCaches(false);
-//            urlConn.setRequestProperty("Content-Type", "application/json");
-//            urlConn.setRequestProperty("Accept","application/json");
-//            urlConn.setRequestProperty("X-Mashape-Key", "texfF9WVUCmsh8883iQ9Vsv3bd1Qp1s1nSqjsn0DLOfWCABB3d");
-//            urlConn.connect();
-////Create JSONObject here
-//            JSONObject jsonParam = new JSONObject();
-//            jsonParam.put("X-Mashape-Key", "texfF9WVUCmsh8883iQ9Vsv3bd1Qp1s1nSqjsn0DLOfWCABB3d");
-//            Log.i(TAG, "urlconn: " + urlConn.getContent().toString());
-//
-//            DataOutputStream printout = new DataOutputStream(urlConn.getOutputStream ());
-//
-//            printout.writeBytes(jsonParam.toString());
-//            printout.flush ();
-//            printout.close ();
-//
-//            DataInputStream input = new DataInputStream(urlConn.getInputStream());
-//
-//            BufferedReader responseStreamReader = new BufferedReader(new InputStreamReader(input));
-//            String line = "";
-//            StringBuilder stringBuilder = new StringBuilder();
-//            while ((line = responseStreamReader.readLine()) != null)
-//            {
-//                stringBuilder.append(line).append("\n");
-//            }
-//            responseStreamReader.close();
-//
-//            String response = stringBuilder.toString();
-//            result = response;
-//            input.close();
-//            urlConn.disconnect();
-//            Log.i(TAG, "response: " + response);
-//            return response;
 
 
             HttpClient httpclient = new DefaultHttpClient();
