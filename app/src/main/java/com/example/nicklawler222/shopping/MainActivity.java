@@ -471,5 +471,8 @@ public class MainActivity extends Activity {
         toast.show();
     }
 
+    public void executePurchase(View view) {
+
+    }
 
 }
