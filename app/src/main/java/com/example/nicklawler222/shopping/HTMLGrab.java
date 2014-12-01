@@ -13,6 +13,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
@@ -20,6 +21,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,6 +30,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.Scanner;
 
 public abstract class HTMLGrab extends AsyncTask<Void, Void, String> {
@@ -50,7 +55,55 @@ public abstract class HTMLGrab extends AsyncTask<Void, Void, String> {
         HttpURLConnection urlConnection=null;
 
         try {
-            Thread.sleep(15000);
+            Log.i(TAG, "before sleep");
+
+            Thread.sleep(6000);
+            Log.i(TAG, "after sleep");
+
+//            URL url;
+//            url = new URL ( DOWN_URL.trim() + DataHolder.getInstance().getTOKEN().trim() );
+//            Log.i(TAG, "toconnect " + url.toString());
+//
+//            HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();
+//            Log.i(TAG, "afterconnection " + urlConn.toString());
+//
+//            urlConn.setRequestMethod("POST");
+//            urlConn.setDoInput (true);
+//            urlConn.setDoOutput(true);
+//            urlConn.setUseCaches(false);
+//            urlConn.setRequestProperty("Content-Type", "application/json");
+//            urlConn.setRequestProperty("Accept","application/json");
+//            urlConn.setRequestProperty("X-Mashape-Key", "texfF9WVUCmsh8883iQ9Vsv3bd1Qp1s1nSqjsn0DLOfWCABB3d");
+//            urlConn.connect();
+////Create JSONObject here
+//            JSONObject jsonParam = new JSONObject();
+//            jsonParam.put("X-Mashape-Key", "texfF9WVUCmsh8883iQ9Vsv3bd1Qp1s1nSqjsn0DLOfWCABB3d");
+//            Log.i(TAG, "urlconn: " + urlConn.getContent().toString());
+//
+//            DataOutputStream printout = new DataOutputStream(urlConn.getOutputStream ());
+//
+//            printout.writeBytes(jsonParam.toString());
+//            printout.flush ();
+//            printout.close ();
+//
+//            DataInputStream input = new DataInputStream(urlConn.getInputStream());
+//
+//            BufferedReader responseStreamReader = new BufferedReader(new InputStreamReader(input));
+//            String line = "";
+//            StringBuilder stringBuilder = new StringBuilder();
+//            while ((line = responseStreamReader.readLine()) != null)
+//            {
+//                stringBuilder.append(line).append("\n");
+//            }
+//            responseStreamReader.close();
+//
+//            String response = stringBuilder.toString();
+//            result = response;
+//            input.close();
+//            urlConn.disconnect();
+//            Log.i(TAG, "response: " + response);
+//            return response;
+
 
             HttpClient httpclient = new DefaultHttpClient();
             String json = "";
@@ -58,24 +111,15 @@ public abstract class HTMLGrab extends AsyncTask<Void, Void, String> {
                          //THIS IS FOR GRABBING THE METADATA FROM THE API TO PARSE LATER
             //url with the post data
             String url = DOWN_URL.trim() + DataHolder.getInstance().getTOKEN().trim();
-            HttpPost httpost = new HttpPost(url);
-            httpost.setHeader("Accept", "application/json");
-            httpost.setHeader("Content-type", "application/json");
-            httpost.setHeader("X-Mashape-Key", "texfF9WVUCmsh8883iQ9Vsv3bd1Qp1s1nSqjsn0DLOfWCABB3d");
+            HttpGet httget = new HttpGet(url);
 
-            //convert parameters into JSON object
-            //holder.put("X-Mashape-Key", "texfF9WVUCmsh8883iQ9Vsv3bd1Qp1s1nSqjsn0DLOfWCABB3d");
-            json = holder.toString();
-            //passes the results to a string builder/entity
-            StringEntity se = new StringEntity(json);
-            Log.i(TAG, "json:" + json + ")");
-
+            httget.setHeader("Accept", "application/json");
+            httget.setHeader("Content-type", "application/json");
+            httget.setHeader("X-Mashape-Key", "texfF9WVUCmsh8883iQ9Vsv3bd1Qp1s1nSqjsn0DLOfWCABB3d");
             //sets the post request as the resulting string
-            httpost.setEntity(se);
             //sets a request header so the page receving the request
             //will know what to do with it
-
-            HttpResponse httpResponse = httpclient.execute(httpost);
+            HttpResponse httpResponse = httpclient.execute(httget);
 
             responseIn = httpResponse.getEntity().getContent();
             StatusLine statusLine = httpResponse.getStatusLine();
@@ -84,12 +128,12 @@ public abstract class HTMLGrab extends AsyncTask<Void, Void, String> {
                 result = convertInputStreamToString(responseIn);
             else
                 result = "Didnt work";
+
             Log.i(TAG, "status: " + statusLine.getStatusCode() + "   resonse: " + httpResponse.toString());
             Log.i(TAG, httpResponse.toString());
             Log.i(TAG, "url: " + url );
             Log.i(TAG, "jsonresponse: " + result + ")");
             responseIn.close();
-            se.consumeContent();
             return onInput(responseIn);
 
         } catch (Exception e) {
