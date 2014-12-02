@@ -70,8 +70,8 @@ public class WishListFragment extends Fragment {
         protected void onPostExecute(Bundle product) {
             FragmentManager manager = getFragmentManager();
             FragmentTransaction ft = manager.beginTransaction();
-            ft.replace(R.id.frame_container,ProductListFragment.newInstance(product.getStringArrayList("product_no"),product.getStringArrayList("productname")));
-            ft.addToBackStack("ProductListFragment");
+            ft.replace(R.id.frame_container,WishListDisplayFragment.newInstance(product.getStringArrayList("product_no"),product.getStringArrayList("productname")));
+            ft.addToBackStack("WishListDisplayFragment");
             ft.commit();
         }
     }
@@ -80,7 +80,7 @@ public class WishListFragment extends Fragment {
         super.onDestroy();
         FragmentManager manager = getFragmentManager();
         FragmentTransaction ft = manager.beginTransaction();
-        Fragment previousInstance = getFragmentManager().findFragmentByTag("ProductListFragment");
+        Fragment previousInstance = getFragmentManager().findFragmentByTag("WishListDisplayFragment");
         if (previousInstance != null)
             ft.remove(previousInstance);
     }
