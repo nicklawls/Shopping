@@ -420,7 +420,7 @@ public class MainActivity extends Activity {
                 Statement st = conn.createStatement();
                 String sql;
 
-                if (username != "default") {
+                if (DataHolder.getInstance().isLoggedIn()) {
                     sql = "INSERT INTO " + table + " VALUES (";
                     sql += "'" + username + "', '" + product_no + "')";
                     int update_result = st.executeUpdate(sql);
@@ -486,8 +486,42 @@ public class MainActivity extends Activity {
             username = uname;
         }
 
-        public Void doInBackground(Void ...params) {
-            return (Void) null;
+        protected Void doInBackground(Void ...params) {
+            try {
+                Class.forName("org.postgresql.Driver");
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            String url;
+            url = "jdbc:postgresql://shopandgodb.cv80ayxyiqrh.us-west-2.rds.amazonaws.com:5432/sagdb?user=shopandgo&password=goandshop";
+            Connection conn;
+
+            try {
+
+                DriverManager.setLoginTimeout(5);
+                conn = DriverManager.getConnection(url);
+                Statement st = conn.createStatement();
+                String sql;
+
+                if (DataHolder.getInstance().isLoggedIn()) {
+                    // insert into purchased
+                    sql = "INSERT INTO purchased (username, product_no) SELECT username, product_no FROM shopping_cart WHERE username = '";
+                    sql += username + "'";
+                    st.executeUpdate(sql);
+
+                    // delete from shopping_cart
+                    sql = "DELETE FROM shopping_cart WHERE username = '" + username + "'";
+                    st.executeUpdate(sql);
+                }
+
+                st.close();
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            return null;
         }
     }
 
