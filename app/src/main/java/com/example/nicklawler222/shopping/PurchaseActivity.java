@@ -8,27 +8,62 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.util.AttributeSet;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.androidquery.AQuery;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
 
 
 public class PurchaseActivity extends Activity {
+    ArrayList productnumbers = new ArrayList();
+    ArrayList productnames = new ArrayList();
+    ArrayList productprice = new ArrayList();
+    ArrayList totalproductprice = new ArrayList();
+
+    private View rootView;
+    private TextView totalPrice;
+    private View mTotalPurchaseView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_purchase);
+
+        String uname = DataHolder.getInstance().getData();
+        //mTotalPurchaseView =  findViewById(R.id.order_total_num);
+
+        totalPrice = (TextView) findViewById(R.id.order_total_num);
+
+        executeTotalCart(findViewById(R.id.order_total_num));
+
+
     }
 
+    public void executeTotalCart(View view) {
+        String uname = DataHolder.getInstance().getData();
+
+        getTotalCart task = new getTotalCart(uname);
+        task.execute((Void) null);
+
+    }
 
 
 
@@ -166,5 +201,69 @@ public class PurchaseActivity extends Activity {
         }
     }
 
+    private class getTotalCart extends AsyncTask<Void, Void, Bundle> {
+        private final String username;
+
+        getTotalCart(String uname) {
+            username = uname;
+        }
+
+        protected Bundle doInBackground(Void... params) {
+            try {
+                Class.forName("org.postgresql.Driver");
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            productnumbers.clear();
+            productnames.clear();
+            productprice.clear();
+            totalproductprice.clear();
+            Bundle product = new Bundle();
+            String url;
+            url = "jdbc:postgresql://shopandgodb.cv80ayxyiqrh.us-west-2.rds.amazonaws.com:5432/sagdb?user=shopandgo&password=goandshop";
+            Connection conn;
+            try {
+                DriverManager.setLoginTimeout(5);
+                conn = DriverManager.getConnection(url);
+                Statement st = conn.createStatement();
+                String username = DataHolder.getInstance().getData();
+                String sql;
+                sql = "SELECT sc.product_no, p.name, p.price FROM shopping_cart sc, products p WHERE username = '" + username + "' AND sc.product_no = p.product_no";
+                ResultSet rs = st.executeQuery(sql);
+                while (rs.next()) {
+                    product.putString("product_name", rs.getString("name"));
+                    product.putString("product_price", rs.getString("price"));
+                    product.putString("product_no",rs.getString("product_no"));
+
+                }
+
+                sql = "SELECT sum(p.price) FROM products p, shopping_cart sc WHERE username = '" + username;
+                sql += "' AND p.product_no = sc.product_no";
+
+                rs = st.executeQuery(sql);
+                rs.next();
+
+                product.putString("total_price",rs.getString("sum"));
+
+                rs.close();
+                st.close();
+                conn.close();
+                product.putStringArrayList("product_no", productnumbers);
+                product.putStringArrayList("productname", productnames);
+                product.putStringArrayList("productprice", productprice);
+                product.putStringArrayList("totalproductprice",totalproductprice);
+                return product;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        protected void onPostExecute(Bundle product) {
+
+            totalPrice.setText(product.getString("total_price",""));
+
+        }
+    }
 
 }

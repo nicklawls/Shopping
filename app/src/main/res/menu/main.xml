@@ -4,7 +4,7 @@
         android:id="@+id/action_buy"
         android:orderInCategory="100"
         android:showAsAction="always"
-        android:icon="@drawable/ic_exit"
+        android:icon="@drawable/ic_action_cart"
         android:title="@string/action_buy"/>
     <item android:id="@+id/action_cart"
         android:icon="@drawable/ic_cart"

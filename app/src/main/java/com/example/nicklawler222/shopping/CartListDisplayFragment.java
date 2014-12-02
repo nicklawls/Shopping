@@ -29,6 +29,7 @@ import java.util.List;
  */
 public class CartListDisplayFragment extends Fragment implements AbsListView.OnItemClickListener {
     private List CartItemList;
+    private List CartTotalPrice;
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
     private OnFragmentInteractionListener mListener;
@@ -80,10 +81,17 @@ public class CartListDisplayFragment extends Fragment implements AbsListView.OnI
         ArrayList totalproductprice = args.getStringArrayList("total_product_price");
 
         CartItemList = new ArrayList();
-        for (int i = 0; i < productnames.size(); i++) {
+        //CartTotalPrice = new ArrayList();
+        //for (int i = 0; i < totalproductprice.size(); i++) {
+          //  CartTotalPrice.add(new CartListItem(totalproductprice.get(i).toString()));
+        //}
+
+            for (int i = 0; i < productnames.size(); i++) {
             CartItemList.add(new CartListItem(productnames.get(i).toString(),productnumbers.get(i).toString(), productprice.get(i).toString()));
         }
         mAdapter = new CartListAdapter(getActivity(), CartItemList);
+       // mAdapter = new CartListAdapter(getActivity(), CartTotalPrice);
+
     }
 
     @Override

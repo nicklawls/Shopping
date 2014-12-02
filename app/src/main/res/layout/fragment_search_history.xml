@@ -4,6 +4,11 @@
     tools:context="com.example.nicklawler222.shopping.SearchHistoryFragment">
 
     <TextView android:layout_width="match_parent" android:layout_height="match_parent"
-        android:text="No History Yet" />
+        android:gravity="center|top"
+        android:textSize="80dp"
+        android:paddingTop="80dp"
+        android:textAllCaps="true"
+        android:textStyle="bold"
+        android:text="No results!" />
 
 </FrameLayout>

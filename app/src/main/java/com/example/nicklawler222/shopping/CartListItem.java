@@ -25,4 +25,8 @@ public class CartListItem {
         this.itemNumber = number;
         this.itemPrice = price;
     }
+    public CartListItem(String totalItemPrice){
+        this.totalItemPrice = totalItemPrice;
+
+    }
 }

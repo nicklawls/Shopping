@@ -60,9 +60,9 @@ public class MainActivity extends Activity {
         CharSequence text;
         String username = DataHolder.getInstance().getData();
         if (username.equals("default")) {
-            text = "Welcome to our Shoppe Guest!";
+            text = "Welcome to our Shoppe, Guest!";
         } else {
-            text = "Welcome to back to Le Shoppe " + username.substring(0, 1).toUpperCase() + username.substring(1) + "!";
+            text = "Welcome to back to Le Shoppe, " + username.substring(0, 1).toUpperCase() + username.substring(1) + "!";
         }
 
         Toast toast = Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT);
