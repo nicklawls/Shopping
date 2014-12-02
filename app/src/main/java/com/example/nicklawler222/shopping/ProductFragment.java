@@ -128,6 +128,8 @@ public class ProductFragment extends Fragment {
                     ft.addToBackStack(null);
                     ft.commit();
                 }
+                else
+                    Toast.makeText(getActivity().getApplicationContext(), "Not Rated Yet",   Toast.LENGTH_LONG).show();
             }
         });
 
