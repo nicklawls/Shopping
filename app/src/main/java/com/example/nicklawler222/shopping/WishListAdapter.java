@@ -3,6 +3,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -109,6 +110,9 @@ public class WishListAdapter extends ArrayAdapter {
                 String sql;
 
                 if (username != "default") {
+                    sql = "DELETE FROM WISH_LIST WHERE username = '" + username + "' AND product_no = '" + product_no + "'";
+                    Log.d("asdf", sql);
+                    int update_result2 = st.executeUpdate(sql);
                     sql = "INSERT INTO " + table + " VALUES (";
                     sql += "'" + username + "', '" + product_no + "')";
                     int update_result = st.executeUpdate(sql);
