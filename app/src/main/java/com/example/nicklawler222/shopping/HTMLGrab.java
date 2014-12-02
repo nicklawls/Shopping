@@ -84,7 +84,10 @@ public abstract class HTMLGrab extends AsyncTask<Void, Void, String> {
 
                 responseIn = httpResponse.getEntity().getContent();
                 StatusLine statusLine = httpResponse.getStatusLine();
-
+                if( statusLine.getStatusCode() != 200 ){
+                    result = "not found";
+                    return result;
+                }
                 if (responseIn != null)
                     result = convertInputStreamToString(responseIn);
 
