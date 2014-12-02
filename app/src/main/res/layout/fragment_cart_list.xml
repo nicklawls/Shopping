@@ -17,6 +17,13 @@
         android:layout_height="32dp"
         android:layout_width="match_parent"
         android:gravity="center"></TextView>
+    <TextView
+        android:id="@+id/totalPriceView"
+        android:text="Example Title"
+        android:textSize="16sp"
+        android:layout_height="32dp"
+        android:layout_width="match_parent"
+        android:gravity="center"></TextView>
 
 
     <Button
@@ -26,12 +33,10 @@
         android:text="VIEW ITEM"
         />
 
-    <TextView
-        android:id="@+id/itemTotalPriceView"
-        android:text="Example Title"
-        android:textSize="16sp"
-        android:layout_height="32dp"
-        android:layout_width="match_parent"
-        android:gravity="center"></TextView>
+
+
 
 </LinearLayout>
+
+
+

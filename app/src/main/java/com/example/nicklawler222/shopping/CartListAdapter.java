@@ -6,6 +6,8 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -40,7 +42,7 @@ public class CartListAdapter extends ArrayAdapter {
             holder = new ViewHolder();
             holder.titleText = (TextView) viewToUse.findViewById(R.id.titleTextView);
             holder.itemPrice = (TextView) viewToUse.findViewById(R.id.itemPriceView);
-            holder.itemPrice = (TextView) viewToUse.findViewById(R.id.itemTotalPriceView);
+            holder.itemTotalPrice = (TextView) viewToUse.findViewById(R.id.totalPriceView);
             viewToUse.setTag(holder);
         }
         else {
@@ -48,7 +50,8 @@ public class CartListAdapter extends ArrayAdapter {
         }
         holder.titleText.setText(item.getItemTitle());
         holder.itemPrice.setText(item.getItemPrice());
-        holder.itemTotalPrice.setText(item.getItemPrice());
+        holder.itemTotalPrice.setText(item.getTotalItemPrice());
+
         viewToUse.setTag(holder);
         Button cart_view = (Button) viewToUse.findViewById(R.id.cart_view_button);
         cart_view.setOnClickListener(mClickListener);
@@ -72,6 +75,8 @@ public class CartListAdapter extends ArrayAdapter {
             }
         }
     };
+
+
     
 
 }

@@ -6,6 +6,8 @@ import android.app.FragmentTransaction;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -19,6 +21,22 @@ import java.util.ArrayList;
 public class CartFragment extends Fragment {
 
     public CartFragment(){}
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+        inflater.inflate(R.menu.menu_cart, menu);
+
+
+
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,7 +69,7 @@ public class CartFragment extends Fragment {
                 Statement st = conn.createStatement();
                 String username = DataHolder.getInstance().getData();
                 String sql;
-                sql = "SELECT DISTINCT sc.product_no, p.name, p.price, FROM shopping_cart sc, products p WHERE username = '" + username + "' AND sc.product_no = p.product_no";
+                sql = "SELECT sc.product_no, p.name, p.price FROM shopping_cart sc, products p WHERE username = '" + username + "' AND sc.product_no = p.product_no";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
                     productnumbers.add(rs.getString("product_no"));
@@ -70,9 +88,9 @@ public class CartFragment extends Fragment {
                 rs.close();
                 st.close();
                 conn.close();
-                product.putStringArrayList("product_no",productnumbers);
-                product.putStringArrayList("productname",productnames);
-                product.putStringArrayList("productprice",productprice);
+                product.putStringArrayList("product_no", productnumbers);
+                product.putStringArrayList("productname", productnames);
+                product.putStringArrayList("productprice", productprice);
                 product.putStringArrayList("totalproductprice",totalproductprice);
                 return product;
             } catch (SQLException e) {

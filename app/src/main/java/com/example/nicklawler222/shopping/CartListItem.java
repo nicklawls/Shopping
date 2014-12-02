@@ -20,10 +20,9 @@ public class CartListItem {
     public void setItemTitle(String itemTitle) {
         this.itemTitle = itemTitle;
     }
-    public CartListItem(String title, String number, String price, String totalPrice){
+    public CartListItem(String title, String number, String price){
         this.itemTitle = title;
         this.itemNumber = number;
         this.itemPrice = price;
-        this.totalItemPrice = totalPrice;
     }
 }

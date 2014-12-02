@@ -6,6 +6,8 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -61,6 +63,14 @@ public class CartListDisplayFragment extends Fragment implements AbsListView.OnI
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+        inflater.inflate(R.menu.menu_cart, menu);
+
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
@@ -71,7 +81,7 @@ public class CartListDisplayFragment extends Fragment implements AbsListView.OnI
 
         CartItemList = new ArrayList();
         for (int i = 0; i < productnames.size(); i++) {
-            CartItemList.add(new CartListItem(productnames.get(i).toString(),productnumbers.get(i).toString(), productprice.toString(), totalproductprice.toString()));
+            CartItemList.add(new CartListItem(productnames.get(i).toString(),productnumbers.get(i).toString(), productprice.get(i).toString()));
         }
         mAdapter = new CartListAdapter(getActivity(), CartItemList);
     }

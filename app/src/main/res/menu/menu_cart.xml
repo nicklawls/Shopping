@@ -5,12 +5,11 @@
         android:orderInCategory="100"
         android:showAsAction="always"
         android:icon="@drawable/ic_exit"
-        android:title="@string/action_buy"/>
-    <item android:id="@+id/action_cart"
-        android:icon="@drawable/ic_cart"
-        android:title="@string/action_cart"
-        android:showAsAction="always" />
-
+        android:title="BUY"/>
+    <!--<item android:id="@+id/action_cart"-->
+        <!--android:icon="@drawable/ic_cart"-->
+        <!--android:title="@string/action_cart"-->
+        <!--android:showAsAction="always" />-->
     <item android:id="@+id/action_search"
         android:icon="@drawable/ic_search"
         android:title="@string/action_search"
