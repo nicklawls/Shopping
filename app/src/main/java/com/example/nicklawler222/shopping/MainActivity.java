@@ -434,11 +434,11 @@ public class MainActivity extends Activity {
 
             return null;
         }
+    }
     // Handles OnClick for "List of Ratings and Reviews" Button
-    public void toRateReviewList(View view)
-    {
+    public void toRateReviewList(View view) {
         Fragment frag = null;
-        if(view == findViewById(R.id.rate_review_list)) {
+        if (view == findViewById(R.id.rate_review_list)) {
             frag = new RateReviewListFragment();
         }
         if (frag != null) {

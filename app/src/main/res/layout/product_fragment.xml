@@ -148,20 +148,5 @@
                     android:layout_toEndOf="@+id/addToCartButton" />
             </RelativeLayout>
         </TableRow>
-        <TableRow
-            android:gravity="center_horizontal|center_vertical"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content">
-            <RelativeLayout>
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/rate_review"
-                    android:text="@string/rate_review_label"
-                    android:layout_centerHorizontal="true"
-                    android:onClick="toRateReviewActivity"/>
-            </RelativeLayout>
-        </TableRow>
-
     </TableLayout>
 </ScrollView>
