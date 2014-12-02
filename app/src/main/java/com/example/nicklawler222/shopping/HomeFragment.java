@@ -403,13 +403,12 @@ public class HomeFragment extends Fragment {
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
-
             ArrayList productnumbers = new ArrayList();
             ArrayList productnames = new ArrayList();
             Bundle product = new Bundle();
 
             ////////////////////////////////////////////////////////DATA FOR COMPLEX SQL QUERY
-            Map< String, ArrayList<String> > productfeatures = new HashMap< String, ArrayList<String> >();
+            Map< String, ArrayList<String> > productmeta = new HashMap< String, ArrayList<String> >();
             Map< String, String > pnames = new HashMap< String, String >();
 
             String url;
@@ -420,7 +419,7 @@ public class HomeFragment extends Fragment {
                 conn = DriverManager.getConnection(url);
                 Statement st = conn.createStatement();
                 String sql;
-                sql = "SELECT product_no, features, name FROM products";
+                sql = "SELECT product_no, metadata, name FROM products";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
                     String tempnum = rs.getString("product_no");
@@ -429,35 +428,35 @@ public class HomeFragment extends Fragment {
                         pnames.put(tempnum, tempname);
                     }
 
-                    String feat = rs.getString("features");
+                    String feat = rs.getString("metadata");
                     Log.i(TAG,feat);
                     feat = feat.substring( feat.indexOf("{")+1, feat.length()-1 );
                     String meta[] = feat.split(",");
                     for( int i = 0; i < meta.length; i++ ) {
-                        if( !productfeatures.containsKey(meta[i]) ) {
+                        if( !productmeta.containsKey(meta[i]) ) {
                             ArrayList<String> indexnumbers = new ArrayList<String>();
-                            productfeatures.put(meta[i], indexnumbers);
+                            productmeta.put(meta[i], indexnumbers);
                         }
-                        productfeatures.get(meta[i]).add(tempnum);
+                        productmeta.get(meta[i]).add(tempnum);
                     }
                 }
 
                 ArrayList<String> picfeat = DataHolder.getInstance().getObjectData();
                 for( int i = 0; i < picfeat.size(); i++ ) {
-                    boolean pfeat_inDB = productfeatures.containsKey(picfeat.get(i));
+                    boolean pfeat_inDB = productmeta.containsKey(picfeat.get(i));
                     if( pfeat_inDB ) {
-                        int nump_withfeat = productfeatures.get(picfeat.get(i)).size();
+                        int nump_withfeat = productmeta.get(picfeat.get(i)).size();
                         String feat_i = picfeat.get(i);
                         for( int j = 0; j < nump_withfeat; j++  )  {
-                            productnumbers.add(productfeatures.get(feat_i).get(j));
-                            productnames.add(pnames.get(productfeatures.get(feat_i).get(j)));
+                            productnumbers.add(productmeta.get(feat_i).get(j));
+                            productnames.add(pnames.get(productmeta.get(feat_i).get(j)));
                         }
                     }
                 }
                 product.putStringArrayList("product_no",productnumbers);
                 product.putStringArrayList("productname",productnames);
                 Log.i(TAG, picfeat.toString());
-                Log.i(TAG, productfeatures.toString());
+                Log.i(TAG, productmeta.toString());
                 Log.i(TAG, productnumbers.toString());
                 Log.i(TAG, productnames.toString());
 
