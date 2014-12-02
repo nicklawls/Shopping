@@ -24,6 +24,7 @@ import android.widget.SearchView;
 import android.widget.Toast;
 import com.example.nicklawler222.shopping.adapter.NavDrawerListAdapter;
 import com.example.nicklawler222.shopping.model.NavDrawerItem;
+import com.google.android.gms.fitness.request.DataReadRequest;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -54,14 +55,12 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
 
 
-
         CharSequence text;
         String username = DataHolder.getInstance().getData();
-        if(username.equals("default")){
+        if (username.equals("default")) {
             text = "Welcome to our Shoppe Guest!";
-        }
-        else {
-            text = "Welcome to back to Le Shoppe " + username.substring(0,1).toUpperCase() + username.substring(1) + "!";
+        } else {
+            text = "Welcome to back to Le Shoppe " + username.substring(0, 1).toUpperCase() + username.substring(1) + "!";
         }
 
         Toast toast = Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG);
@@ -83,10 +82,9 @@ public class MainActivity extends Activity {
 
         navDrawerItems = new ArrayList<NavDrawerItem>();
 
-        for( int i = 0; i < navMenuTitles.length; ++i) {
-            if (i > navMenuTitles.length-7){
-                if(DataHolder.getInstance().isLoggedIn())
-                {
+        for (int i = 0; i < navMenuTitles.length; ++i) {
+            if (i > 6) {
+                if (DataHolder.getInstance().isLoggedIn()) {
                     if (navMenuTitles[i].equals("Login")) {
                         if (DataHolder.getInstance().isLoggedIn()) {
                             i = navMenuTitles.length - 1;
@@ -99,15 +97,12 @@ public class MainActivity extends Activity {
                         }
                     }
                     navDrawerItems.add(new NavDrawerItem(navMenuTitles[i], navMenuIcons.getResourceId(i, -1)));
-                }
-                else
-                {
+                } else {
                     i = navMenuTitles.length - 2;
                     navDrawerItems.add(new NavDrawerItem(navMenuTitles[i], navMenuIcons.getResourceId(i, -1)));
                     break;
                 }
-            }
-            else {
+            } else {
                 navDrawerItems.add(new NavDrawerItem(navMenuTitles[i], navMenuIcons.getResourceId(i, -1)));
             }
         }
@@ -152,10 +147,9 @@ public class MainActivity extends Activity {
     }
 
 
-
     /**
      * Slide menu item click listener
-     * */
+     */
     private class SlideMenuClickListener implements
             ListView.OnItemClickListener {
         @Override
@@ -185,7 +179,7 @@ public class MainActivity extends Activity {
             public boolean onQueryTextSubmit(String s) {
                 FragmentManager manager = getFragmentManager();
                 FragmentTransaction ft = manager.beginTransaction();
-                ft.replace(R.id.frame_container,SearchFragment.newInstance(s));
+                ft.replace(R.id.frame_container, SearchFragment.newInstance(s));
                 ft.addToBackStack(null);
                 ft.commit();
                 return false;
@@ -214,6 +208,8 @@ public class MainActivity extends Activity {
                 if (DataHolder.getInstance().isLoggedIn()) {
                     FragmentManager fragmentManager = getFragmentManager();
                     fragmentManager.beginTransaction().replace(R.id.frame_container, new CartFragment()).commit();
+
+                    setTitle("Cart");
                     return true;
                 } else {
                     Toast.makeText(getApplicationContext(), "Must be logged in to view Cart",
@@ -252,7 +248,7 @@ public class MainActivity extends Activity {
 
     /**
      * Diplaying fragment view for selected nav drawer list item
-     * */
+     */
     private void displayView(int position) {
         // update the main content by replacing fragments
         Fragment fragment = null;
@@ -279,7 +275,7 @@ public class MainActivity extends Activity {
                 fragment = new WomensClothingFragment();
                 break;
             case 7:
-                if(navDrawerItems.get(position).getTitle().equals("Login")){
+                if (navDrawerItems.get(position).getTitle().equals("Login")) {
                     if (!DataHolder.getInstance().isLoggedIn()) { // if no one's logged in
                         Intent i = new Intent(MainActivity.this, LoginActivity.class);
                         startActivity(i);
@@ -289,8 +285,7 @@ public class MainActivity extends Activity {
                                 Toast.LENGTH_SHORT).show();
                     }
                     break;
-                }
-                else {
+                } else {
                     fragment = new BrowseHistoryFragment();
                     break;
                 }
@@ -306,30 +301,31 @@ public class MainActivity extends Activity {
                 }
                 break;
             case 10:
-                Intent temp = new Intent(MainActivity.this, PurchaseActivity.class);
-                startActivity(temp);
+                fragment = new WishListFragment();
                 break;
             case 11:
-                if(navDrawerItems.get(position).getTitle().equals("Login")) {
+                fragment = new CartFragment();
+                break;
+            case 12:
+                if (navDrawerItems.get(position).getTitle().equals("Login")) {
                     if (!DataHolder.getInstance().isLoggedIn()) { // if no one's logged in
                         Intent i = new Intent(MainActivity.this, LoginActivity.class);
                         startActivity(i);
                         fragment = new HomeFragment();
                         break;
                     }
-                }
-                else if(navDrawerItems.get(position).getTitle().equals("Logout")){
+                } else if (navDrawerItems.get(position).getTitle().equals("Logout")) {
                     if (DataHolder.getInstance().isLoggedIn()) { // if logged in
-                    DataHolder.getInstance().setData("default"); // log that nigga out
-                    // only changing the intent to change the name at the top, kind of a hack...
-                    Intent i = new Intent(MainActivity.this, MainActivity.class);
-                    startActivity(i);
-                    fragment = new HomeFragment();
+                        DataHolder.getInstance().setData("default"); // log that nigga out
+                        // only changing the intent to change the name at the top, kind of a hack...
+                        Intent i = new Intent(MainActivity.this, MainActivity.class);
+                        startActivity(i);
+                        fragment = new HomeFragment();
                         Toast.makeText(getApplicationContext(), "Bye, come back another time!",
                                 Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(getApplicationContext(), "You're already Logged out!",
-                                   Toast.LENGTH_SHORT).show();
+                                Toast.LENGTH_SHORT).show();
                     }
                     break;
                 }
@@ -343,6 +339,11 @@ public class MainActivity extends Activity {
             fragmentManager.beginTransaction()
                     .replace(R.id.frame_container, fragment).commit();
 
+            //FragmentTransaction ft = fragmentManager.beginTransaction();
+            //ft.replace(R.id.frame_container, fragment);
+            //ft.addToBackStack("fromHome");
+            //ft.commit();
+
             // update selected item and title, then close the drawer
             mDrawerList.setItemChecked(position, true);
             mDrawerList.setSelection(position);
@@ -353,6 +354,22 @@ public class MainActivity extends Activity {
             Log.e("MainActivity", "Error in creating fragment");
         }
     }
+
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        Intent i = new Intent(MainActivity.this, MainActivity.class);
+//        startActivity(i);
+//        Fragment fragment = new HomeFragment();
+//        FragmentManager fragmentManager = getFragmentManager();
+//
+//        FragmentTransaction ft = fragmentManager.beginTransaction();
+//        ft.replace(R.id.frame_container, fragment);
+//        ft.addToBackStack("fromHome");
+//        ft.commit();
+//        Toast.makeText(getApplicationContext(), "Bye, come back another time!",
+//                Toast.LENGTH_SHORT).show();
+//    }
 
     @Override
     public void setTitle(CharSequence title) {
@@ -383,10 +400,10 @@ public class MainActivity extends Activity {
         if (DataHolder.getInstance().isLoggedIn() && DataHolder.getInstance().hasPurchased()) {
             Intent i = new Intent(MainActivity.this, RateReviewActivity.class);
             startActivity(i);
-        } else if(!DataHolder.getInstance().isLoggedIn()) {
+        } else if (!DataHolder.getInstance().isLoggedIn()) {
             Toast.makeText(getApplicationContext(), "Must Be Logged In To Rate/Review",
                     Toast.LENGTH_SHORT).show();
-        } else if(!DataHolder.getInstance().hasPurchased()){
+        } else if (!DataHolder.getInstance().hasPurchased()) {
             Toast.makeText(getApplicationContext(), "Must Have Purchased Item To Rate/Review",
                     Toast.LENGTH_LONG).show();
         }
@@ -403,7 +420,8 @@ public class MainActivity extends Activity {
             username = uname;
             table = tabl;
         }
-        protected Void doInBackground(Void ... params) {
+
+        protected Void doInBackground(Void... params) {
 
             try {
                 Class.forName("org.postgresql.Driver");
@@ -424,16 +442,14 @@ public class MainActivity extends Activity {
                 String sql;
 
                 if (username != "default") {
-                    sql = "INSERT INTO " + table +" VALUES (";
+                    sql = "INSERT INTO " + table + " VALUES (";
                     sql += "'" + username + "', '" + product_no + "')";
                     int update_result = st.executeUpdate(sql);
                 }
 
                 st.close();
                 conn.close();
-            }
-
-            catch (SQLException e) {
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
 
@@ -444,31 +460,27 @@ public class MainActivity extends Activity {
     public void addToCart(View view) {
         String pno = DataHolder.getInstance().getPNO();
         String uname = DataHolder.getInstance().getData();
-        Context context = getApplicationContext();
-        CharSequence text = "Added to Cart";
-        int duration = Toast.LENGTH_SHORT;
 
-        AddToSomethingTask addToCart = new AddToSomethingTask("shopping_cart",pno, uname);
+
+        AddToSomethingTask addToCart = new AddToSomethingTask("shopping_cart", pno, uname);
         addToCart.execute((Void) null);
 
-        Toast toast = Toast.makeText(context, text, duration);
-        toast.show();
+        Toast.makeText(getApplicationContext(), "Added to Cart", Toast.LENGTH_SHORT).show();
     }
-    
+
     public void addToWishList(View view) {
         String pno = DataHolder.getInstance().getPNO();
         String uname = DataHolder.getInstance().getData();
-        Context context = getApplicationContext();
-        CharSequence text = "Added to Wish List";
-        int duration = Toast.LENGTH_SHORT;
 
+
+        Toast.makeText(getApplicationContext(), "Added to WishList", Toast.LENGTH_SHORT).show();
 
         AddToSomethingTask addToWishList = new AddToSomethingTask("wish_list", pno, uname);
         addToWishList.execute((Void) null);
 
 
-        Toast toast = Toast.makeText(context, text, duration);
-        toast.show();
+        Toast.makeText(getApplicationContext(), "Added to WishList", Toast.LENGTH_SHORT).show();
+
     }
 
 

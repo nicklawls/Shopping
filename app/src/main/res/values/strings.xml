@@ -31,7 +31,8 @@
         <item>Browse History</item>
         <item>Search History</item>
         <item>Product Recommendations</item>
-        <item>Purchase Screen [TEMP]</item>
+        <item>Wish List</item>
+        <item>Cart</item>
         <item>Login</item>
         <item>Logout</item>
     </string-array>
@@ -49,7 +50,8 @@
         <item>@drawable/ic_launcher</item>
         <item>@drawable/ic_search</item>
         <item>@drawable/ic_communities2</item>
-        <item>@drawable/ic_exit</item>
+        <item>@drawable/ic_wishlist</item>
+        <item>@drawable/ic_cart</item>
         <item>@drawable/ic_login</item>
         <item>@drawable/ic_exit</item>
     </array>
