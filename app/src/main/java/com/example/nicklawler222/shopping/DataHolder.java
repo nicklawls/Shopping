@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Eric on 11/13/2014.
@@ -21,12 +22,16 @@ public class DataHolder {
     private String sqlreview;
     private boolean needtoup_sql = false;
     private boolean has_purchased = false;
+    private ArrayList<String> object_data = new ArrayList<String>();
+    public String SEARCH_URL;
+    public String TOKEN;
 
     public String getData() { return data_username; }
     public ArrayList getHistory() {return searchHistory; }
+    public ArrayList<String> getObjectData() { return object_data; }
     public String getPNO() { return pno_forreview; }
-    public String getSQL() { return sqlreview; }
-    public boolean getUpCheck() { return needtoup_sql; }
+    public String getURL() { return SEARCH_URL; }
+    public String getTOKEN() { return TOKEN; }
 
 
     public void setData(String data) { this.data_username = data; }
@@ -35,6 +40,10 @@ public class DataHolder {
     public void addHistory(String text) {searchHistory.add(text);}
     public void setSQL( String sql ) { sqlreview = sql; }
     public void setUpCheck( boolean x ) { needtoup_sql = x; }
+    public void addOData(String text) {object_data.add(text);}
+    public void clearOdata() { object_data.clear(); }
+    public void setURL( String x ) { SEARCH_URL = x; }
+    public void setTOKEN( String x ) { TOKEN = x; }
 
     public void setPNO( String product ) {
         // setting has_purchased on update of product_no to avoid race condition
@@ -98,6 +107,9 @@ public class DataHolder {
         }
     }
 
+    public static final String MY_IMGUR_CLIENT_ID = "20538314177cb5f";
+    public static final String MY_IMGUR_CLIENT_SECRET = "99fb936ab1862c209f86c2d4f837591ccbef2b4a";
+    public static final String MY_IMGUR_REDIRECT_URL = "http://imgur.com";
 
     private static final DataHolder holder = new DataHolder();
     public static DataHolder getInstance() {return holder;}

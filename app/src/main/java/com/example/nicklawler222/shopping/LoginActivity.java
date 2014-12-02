@@ -316,9 +316,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                     if (retpw.equals(mPassword)) {
                         login_sucess = true;
                     }
-                    else {
 
-                    }
                 }
                 rs.close();
                 st.close();
