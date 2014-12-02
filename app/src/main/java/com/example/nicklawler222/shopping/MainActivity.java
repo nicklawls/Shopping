@@ -479,4 +479,16 @@ public class MainActivity extends Activity {
 
     }
 
+    public class PurchaseTask extends AsyncTask<Void, Void, Void> {
+        private final String username;
+
+        PurchaseTask(String uname) {
+            username = uname;
+        }
+
+        public Void doInBackground(Void ...params) {
+            return (Void) null;
+        }
+    }
+
 }
