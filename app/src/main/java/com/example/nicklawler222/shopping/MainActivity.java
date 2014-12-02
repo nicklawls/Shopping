@@ -337,6 +337,7 @@ public class MainActivity extends Activity {
                         Intent i = new Intent(MainActivity.this, MainActivity.class);
                         startActivity(i);
                         fragment = new HomeFragment();
+                        DataHolder.getInstance().getTheFuckOuttaHere();
                         Toast.makeText(getApplicationContext(), "Bye, come back another time!",
                                 Toast.LENGTH_SHORT).show();
                     } else {

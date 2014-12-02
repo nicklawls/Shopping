@@ -32,7 +32,7 @@ public class DataHolder {
     public String getPNO() { return pno_forreview; }
     public String getURL() { return SEARCH_URL; }
     public String getTOKEN() { return TOKEN; }
-
+    public void getTheFuckOuttaHere() {searchHistory.clear();}
 
     public void setData(String data) { this.data_username = data; }
     // checks to see if user is logged in
