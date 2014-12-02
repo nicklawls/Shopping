@@ -3,6 +3,7 @@ package com.example.nicklawler222.shopping;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 
 
@@ -20,7 +21,13 @@ public class PurchaseActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        MenuInflater inflater = getMenuInflater();
+        if(DataHolder.getInstance().isLoggedIn()){
+            inflater.inflate(R.menu.main, menu);
+        }
+        else {
+            inflater.inflate(R.menu.menu_search, menu);
+        }
         return true;
     }
 
