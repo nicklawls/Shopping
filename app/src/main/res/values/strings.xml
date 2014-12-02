@@ -68,8 +68,8 @@
     <!-- Review and Rating -->
     <string name="rate_review_label">Rate and Review</string>
     <string name="rate_label">Rate</string>
-    <string name="user_list_label">User: </string>
-    <string name="rating_list_label">Rating: </string>
+    <string name="user_list_label">User:</string>
+    <string name="rating_list_label">Rating:</string>
     <string name="review_list_label">Review:</string>
     <string name="rating_result">Result: </string>
     <string name="review_box_fill">Type in review here...</string>

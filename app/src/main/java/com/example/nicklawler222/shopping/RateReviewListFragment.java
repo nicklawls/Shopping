@@ -1,50 +1,59 @@
 package com.example.nicklawler222.shopping;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.os.Bundle;
-import android.app.ListFragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
-import android.widget.ListView;
+        import android.app.Activity;
+        import android.app.FragmentManager;
+        import android.app.FragmentTransaction;
+        import android.os.Bundle;
+        import android.app.Fragment;
+        import android.view.LayoutInflater;
+        import android.view.View;
+        import android.view.ViewGroup;
+        import android.widget.AbsListView;
+        import android.widget.AdapterView;
+        import android.widget.ListAdapter;
+        import android.widget.TextView;
 
 
-import com.example.nicklawler222.shopping.dummy.DummyContent;
-
-import java.util.ArrayList;
-import java.util.List;
+        import java.util.ArrayList;
+        import java.util.List;
 
 /**
  * A fragment representing a list of Items.
  * <p />
+ * Large screen devices (such as tablets) are supported by replacing the ListView
+ * with a GridView.
  * <p />
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
-
-public class RateReviewListFragment extends Fragment {
-
+public class RateReviewListFragment extends Fragment implements AbsListView.OnItemClickListener {
     private List RateReviewListItemList;
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
-    private String mParam1;
-    private String mParam2;
+    // TODO: Rename and change types of parameters
 
-    private AbsListView RRListView;
-    private OnFragmentInteractionListener RRListener;
+
+    private OnFragmentInteractionListener mListener;
+
+    /**
+     * The fragment's ListView/GridView.
+     */
+    private AbsListView mListView;
+
+    /**
+     * The Adapter which will be used to populate the ListView/GridView with
+     * Views.
+     */
     private ListAdapter mAdapter;
 
+    // TODO: Rename and change types of parameters
     public static RateReviewListFragment newInstance(ArrayList users, ArrayList ratings, ArrayList reviews) {
         RateReviewListFragment fragment = new RateReviewListFragment();
         Bundle args = new Bundle();
-
-        args.putStringArrayList("array_users", users);
-        args.putStringArrayList("array_ratings", ratings);
-        args.putStringArrayList("array_reviews", reviews);
+        args.putStringArrayList("users",users);
+        args.putStringArrayList("ratings",ratings);
+        args.putStringArrayList("reviews",reviews);
         fragment.setArguments(args);
         return fragment;
     }
@@ -59,40 +68,29 @@ public class RateReviewListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        /* NOT SURE IF THIS PART IS RIGHT...
         Bundle args = getArguments();
-        ArrayList user_names = args.getStringArrayList("array_users");
-        ArrayList user_ratings = args.getStringArrayList("array_ratings");
-        ArrayList user_reviews = args.getStringArrayList("array_reviews");
-
+        ArrayList users = args.getStringArrayList("users");
+        ArrayList ratings = args.getStringArrayList("ratings");
+        ArrayList reviews = args.getStringArrayList("reviews");
         RateReviewListItemList = new ArrayList();
-        for (int i = 0; i < user_names.size(); i++) {
-            RateReviewListItemList.add(new RateReviewListItem(user_names.get(i).toString(),user_ratings.get(i).toString(), user_reviews.get(i).toString()));
+        for (int i = 0; i < users.size(); i++) {
+            RateReviewListItemList.add(new RateReviewListItem(users.get(i).toString(),reviews.get(i).toString(),ratings.get(i).toString()));
         }
-        mAdapter = new RateReviewListAdapter(getActivity(), RateReviewListItemList);**/
-
-//        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
-//        }
-//
-//        // TODO: Change Adapter to display your content
-//        setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
-//                android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS));
+        mAdapter = new RateReviewListAdapter(getActivity(), RateReviewListItemList);
     }
 
 
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_rate_review_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_category, container, false);
 
         // Set the adapter
-       // RRListView = (AbsListView) view.findViewById(android.R.id.list);
-        //((AdapterView<ListAdapter>) RRListView).setAdapter(mAdapter);
+        mListView = (AbsListView) view.findViewById(android.R.id.list);
+        ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
 
         // Set OnItemClickListener so we can be notified on item clicks
-       //RRListView.setOnItemClickListener(this);
+        mListView.setOnItemClickListener(this);
 
         return view;
     }
@@ -100,31 +98,54 @@ public class RateReviewListFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-//        try {
-//            mListener = (OnFragmentInteractionListener) activity;
-//        } catch (ClassCastException e) {
-//            throw new ClassCastException(activity.toString()
-//                + " must implement OnFragmentInteractionListener");
-//        }
+        /*try {
+            mListener = (OnFragmentInteractionListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                + " must implement OnFragmentInteractionListener");
+        }*/
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        RRListener = null;
+        mListener = null;
+    }
+
+
+    @Override public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//        ProductListItem item = (ProductListItem) this.ProductListItemList.get(position);
+//        FragmentManager manager = getFragmentManager();
+//        FragmentTransaction ft = manager.beginTransaction();
+//        ft.replace(R.id.frame_container,ProductFragment.newInstance(item.getItemNumber().toString()));
+//        ft.addToBackStack(null);
+//        ft.commit();
     }
 
 
     /**
-    * This interface must be implemented by activities that contain this
-    * fragment to allow an interaction in this fragment to be communicated
-    * to the activity and potentially other fragments contained in that
-    * activity.
-    * <p>
-    * See the Android Training lesson <a href=
-    * "http://developer.android.com/training/basics/fragments/communicating.html"
-    * >Communicating with Other Fragments</a> for more information.
-    */
+     * The default content for this Fragment has a TextView that is shown when
+     * the list is empty. If you would like to change the text, call this method
+     * to supply the text it should use.
+     */
+    public void setEmptyText(CharSequence emptyText) {
+        View emptyView = mListView.getEmptyView();
+
+        if (emptyText instanceof TextView) {
+            ((TextView) emptyView).setText(emptyText);
+        }
+    }
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(String id);
