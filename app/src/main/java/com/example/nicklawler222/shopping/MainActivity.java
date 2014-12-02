@@ -465,7 +465,6 @@ public class MainActivity extends Activity {
         String uname = DataHolder.getInstance().getData();
 
 
-        Toast.makeText(getApplicationContext(), "Added to WishList", Toast.LENGTH_SHORT).show();
 
         AddToSomethingTask addToWishList = new AddToSomethingTask("wish_list", pno, uname);
         addToWishList.execute((Void) null);

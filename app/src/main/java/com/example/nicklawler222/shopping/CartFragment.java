@@ -34,12 +34,13 @@ public class CartFragment extends Fragment {
         protected Bundle doInBackground(Void... params) {
             try {
                 Class.forName("org.postgresql.Driver");
-            }
-            catch (ClassNotFoundException e) {
+            } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
             ArrayList productnumbers = new ArrayList();
             ArrayList productnames = new ArrayList();
+            ArrayList productprice = new ArrayList();
+            ArrayList totalproductprice = new ArrayList();
             Bundle product = new Bundle();
             String url;
             url = "jdbc:postgresql://shopandgodb.cv80ayxyiqrh.us-west-2.rds.amazonaws.com:5432/sagdb?user=shopandgo&password=goandshop";
@@ -50,17 +51,22 @@ public class CartFragment extends Fragment {
                 Statement st = conn.createStatement();
                 String username = DataHolder.getInstance().getData();
                 String sql;
-                sql = "SELECT DISTINCT sc.product_no, p.name  FROM shopping_cart sc, products p WHERE username = '" + username + "' AND sc.product_no = p.product_no";
+                sql = "SELECT DISTINCT sc.product_no, p.name, p.price, SUM(p.price)  FROM shopping_cart sc, products p WHERE username = '" + username + "' AND sc.product_no = p.product_no";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
                     productnumbers.add(rs.getString("product_no"));
                     productnames.add(rs.getString("name"));
+                    productprice.add(rs.getString("price"));
+                    totalproductprice.add(rs.getString("SUM"));
+
                 }
                 rs.close();
                 st.close();
                 conn.close();
                 product.putStringArrayList("product_no",productnumbers);
                 product.putStringArrayList("productname",productnames);
+                product.putStringArrayList("productprice",productprice);
+                product.putStringArrayList("totalproductprice",totalproductprice);
                 return product;
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -71,8 +77,18 @@ public class CartFragment extends Fragment {
         protected void onPostExecute(Bundle product) {
             FragmentManager manager = getFragmentManager();
             FragmentTransaction ft = manager.beginTransaction();
-            ft.replace(R.id.frame_container,ProductListFragment.newInstance(product.getStringArrayList("product_no"),product.getStringArrayList("productname")));
+            ft.replace(R.id.frame_container,CartListDisplayFragment.newInstance(product.getStringArrayList("product_no"),product.getStringArrayList("productname"), product.getStringArrayList("productprice"), product.getStringArrayList("totalproductprice")));
+            ft.addToBackStack("CartFragment");
             ft.commit();
         }
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction ft = manager.beginTransaction();
+        Fragment previousInstance = getFragmentManager().findFragmentByTag("CartFragment");
+        if (previousInstance != null)
+            ft.remove(previousInstance);
     }
 }
