@@ -339,11 +339,6 @@ public class MainActivity extends Activity {
             fragmentManager.beginTransaction()
                     .replace(R.id.frame_container, fragment).commit();
 
-            //FragmentTransaction ft = fragmentManager.beginTransaction();
-            //ft.replace(R.id.frame_container, fragment);
-            //ft.addToBackStack("fromHome");
-            //ft.commit();
-
             // update selected item and title, then close the drawer
             mDrawerList.setItemChecked(position, true);
             mDrawerList.setSelection(position);
@@ -354,22 +349,6 @@ public class MainActivity extends Activity {
             Log.e("MainActivity", "Error in creating fragment");
         }
     }
-
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        Intent i = new Intent(MainActivity.this, MainActivity.class);
-//        startActivity(i);
-//        Fragment fragment = new HomeFragment();
-//        FragmentManager fragmentManager = getFragmentManager();
-//
-//        FragmentTransaction ft = fragmentManager.beginTransaction();
-//        ft.replace(R.id.frame_container, fragment);
-//        ft.addToBackStack("fromHome");
-//        ft.commit();
-//        Toast.makeText(getApplicationContext(), "Bye, come back another time!",
-//                Toast.LENGTH_SHORT).show();
-//    }
 
     @Override
     public void setTitle(CharSequence title) {
@@ -454,6 +433,19 @@ public class MainActivity extends Activity {
             }
 
             return null;
+        }
+    // Handles OnClick for "List of Ratings and Reviews" Button
+    public void toRateReviewList(View view)
+    {
+        Fragment frag = null;
+        if(view == findViewById(R.id.rate_review_list)) {
+            frag = new RateReviewListFragment();
+        }
+        if (frag != null) {
+            FragmentTransaction trans = getFragmentManager().beginTransaction();
+            trans.replace(R.id.frame_container, frag);
+            trans.addToBackStack(null);
+            trans.commit();
         }
     }
 

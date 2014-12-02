@@ -7,6 +7,7 @@
     <string name="action_settings">Settings</string>
     <string name="action_search">Web search</string>
     <string name="search_hint">Product Name</string>
+    <string name="title_activity_home"></string>
     <string name="title_section1">Home</string>
     <string name="title_section2">Shop by Category</string>
     <string name="title_section3">Recently Viewed</string>
@@ -62,11 +63,14 @@
     <string name="title_activity_splash">Le Shoppe</string>
     <string name="title_activity_main">Le Shoppe</string>
     <string name="title_activity_search">Search</string>
-    <string name="title_activity_rate_review">RateReviewActivity</string>
+    <string name="title_activity_rate_review">Rate and Review</string>
 
     <!-- Review and Rating -->
     <string name="rate_review_label">Rate and Review</string>
     <string name="rate_label">Rate</string>
+    <string name="user_list_label">User: </string>
+    <string name="rating_list_label">Rating: </string>
+    <string name="review_list_label">Review:</string>
     <string name="rating_result">Result: </string>
     <string name="review_box_fill">Type in review here...</string>
     <string name="submit">Submit</string>
@@ -74,6 +78,8 @@
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_rate_review_list">List of Ratings and Reviews</string>
+    <string name="rating_review_list_label">List of Ratings and Reviews</string>
     <string name="action_cart">Cart</string>
     <string name="add_to_cart">Add to Cart</string>
     <string name="title_activity_purchase">PurchaseActivity</string>

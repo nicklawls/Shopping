@@ -2,6 +2,14 @@ package com.example.nicklawler222.shopping;
 
 import com.androidquery.AQuery;
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.media.Rating;
+import android.preference.PreferenceManager;
+import android.database.DatabaseUtils;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -11,7 +19,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.util.Date;
 
 import java.sql.*;
@@ -33,6 +45,9 @@ public class ProductFragment extends Fragment {
     TextView productprice;
     TextView productdescription;
     TextView productfeatures;
+    RatingBar prod_rating;
+    float float_product_rating;
+    Button RRList_button;
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -100,6 +115,8 @@ public class ProductFragment extends Fragment {
 
         productfeatures = (TextView) rootView.findViewById(R.id.productfeatures);
 
+        prod_rating = (RatingBar) rootView.findViewById(R.id.prod_rating); //average rating for rating bar
+
         new FetchSQL().execute(productnumber);
 
         // only logged in users can view rate review, add to cart, and add to wish list button
@@ -155,7 +172,7 @@ public class ProductFragment extends Fragment {
 
                 String sql_store_browse_history;
                 String username = DataHolder.getInstance().getData();
-
+               
                 if (username != "default") {
                     username = "'" + username + "'";
                     java.util.Date date = new Date();
@@ -197,6 +214,13 @@ public class ProductFragment extends Fragment {
             productprice.setText(product.getString("product_price",""));
             productdescription.setText(product.getString("product_description",""));
             productfeatures.setText(product.getString("product_features",""));
+
+            // Average Rating Bar Display for each Product
+            if(product.getString("product_avg_rating","") == "No Ratings")
+                prod_rating.setRating(0);
+            else
+                prod_rating.setRating(Float.valueOf(product.getString("product_avg_rating", "")));
+            float_product_rating = prod_rating.getRating();
         }
 
 
@@ -225,6 +249,7 @@ public class ProductFragment extends Fragment {
         mListener = null;
     }
 
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -239,5 +264,6 @@ public class ProductFragment extends Fragment {
 
         public void onFragmentInteraction(Uri uri);
     }
+
 
 }
