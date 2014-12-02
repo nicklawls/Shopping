@@ -11,6 +11,7 @@ import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -28,6 +29,7 @@ import com.google.android.gms.fitness.request.DataReadRequest;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -63,8 +65,12 @@ public class MainActivity extends Activity {
             text = "Welcome to back to Le Shoppe " + username.substring(0, 1).toUpperCase() + username.substring(1) + "!";
         }
 
-        Toast toast = Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG);
+        Toast toast = Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT);
         toast.show();
+        if(!username.equals("default")) {
+            new getWishListNotifications().execute();
+        }
+
 
         setContentView(R.layout.activity_main2);
 
@@ -435,19 +441,62 @@ public class MainActivity extends Activity {
             return null;
         }
     }
-    // Handles OnClick for "List of Ratings and Reviews" Button
-    public void toRateReviewList(View view) {
-        Fragment frag = null;
-        if (view == findViewById(R.id.rate_review_list)) {
-            frag = new RateReviewListFragment();
+    public class getWishListNotifications extends AsyncTask<Void, Void, String> {
+
+
+        protected String doInBackground(Void... params) {
+
+            try {
+                Class.forName("org.postgresql.Driver");
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            String url;
+            url = "jdbc:postgresql://shopandgodb.cv80ayxyiqrh.us-west-2.rds.amazonaws.com:5432/sagdb?user=shopandgo&password=goandshop";
+            Connection conn;
+            String text = "";
+
+            try {
+
+                DriverManager.setLoginTimeout(5);
+                conn = DriverManager.getConnection(url);
+                Statement st = conn.createStatement();
+                String sql;
+
+                sql = "SELECT COUNT(*) FROM users u, products p, wish_list w WHERE p.last_update > u.last_login AND w.username = u.username AND w.product_no = p.product_no AND u.username = '" + DataHolder.getInstance().getData() + "'";
+                ResultSet rs = st.executeQuery(sql);
+                while (rs.next()) {
+                    text = rs.getString("count");
+                }
+                String update_login = "UPDATE users SET last_login = (now() at time zone 'utc') ";
+                update_login += "WHERE username = '" + DataHolder.getInstance().getData() + "'";
+                System.out.println(update_login);
+                int result = st.executeUpdate(update_login);
+                System.out.println(result);
+                rs.close();
+                st.close();
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return text;
         }
-        if (frag != null) {
-            FragmentTransaction trans = getFragmentManager().beginTransaction();
-            trans.replace(R.id.frame_container, frag);
-            trans.addToBackStack(null);
-            trans.commit();
+        @Override
+        protected void onPostExecute(String result) {
+
+            super.onPostExecute(result);
+            if (Integer.parseInt(result) > 1) {
+                result += " items in your Wish List were updated.";
+            }
+            else if (Integer.parseInt(result) > 0) {
+                result += " item in your Wish List was updated.";
+            }
+            else return;
+            Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
         }
+
     }
+    // Handles OnClick for "List of Ratings and Reviews" Button
 
     public void addToCart(View view) {
         String pno = DataHolder.getInstance().getPNO();
