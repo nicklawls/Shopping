@@ -426,7 +426,7 @@ public class MainActivity extends Activity {
                 Statement st = conn.createStatement();
                 String sql;
 
-                if (username != "default") {
+                if (DataHolder.getInstance().isLoggedIn()) {
                     sql = "INSERT INTO " + table + " VALUES (";
                     sql += "'" + username + "', '" + product_no + "')";
                     int update_result = st.executeUpdate(sql);
@@ -513,13 +513,17 @@ public class MainActivity extends Activity {
         String pno = DataHolder.getInstance().getPNO();
         String uname = DataHolder.getInstance().getData();
 
-
-
         AddToSomethingTask addToWishList = new AddToSomethingTask("wish_list", pno, uname);
         addToWishList.execute((Void) null);
-
-
         Toast.makeText(getApplicationContext(), "Added to WishList", Toast.LENGTH_SHORT).show();
+    }
+
+    public void executePurchase(View view) {
+        String uname = DataHolder.getInstance().getData();
+
+        PurchaseTask task = new PurchaseTask(uname);
+        task.execute((Void) null);
+        Toast.makeText(getApplicationContext(), "Purchase Sucessful", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -566,18 +570,6 @@ public class MainActivity extends Activity {
             }
 
             return null;
-        }
-    }
-
-    public class PurchaseTask extends AsyncTask<Void, Void, Void> {
-        private final String username;
-
-        PurchaseTask(String uname) {
-            username = uname;
-        }
-
-        public Void doInBackground(Void ...params) {
-            return (Void) null;
         }
     }
 
