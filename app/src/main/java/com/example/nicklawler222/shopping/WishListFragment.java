@@ -49,7 +49,7 @@ public class WishListFragment extends Fragment {
                 Statement st = conn.createStatement();
                 String username = DataHolder.getInstance().getData();
                 String sql;
-                sql = "SELECT DISTINCT b.product_no,p.name  FROM browsings b,products p WHERE username = '" + username + "' AND b.product_no = p.product_no";
+                sql = "SELECT DISTINCT wl.product_no, p.name  FROM wish_list wl, products p WHERE username = '" + username + "' AND wl.product_no = p.product_no";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
                     productnumbers.add(rs.getString("product_no"));
