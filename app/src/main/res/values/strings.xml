@@ -91,6 +91,10 @@
     <string name="prompt_slash">\/</string>
     <string name="action_purchase">Purchase</string>
 
+    <string name="user_list_label">User:</string>
+    <string name="rating_list_label">Rating:</string>
+    <string name="review_list_label">Review:</string>
+
     <!--Hints-->
     <string name="hint_firstName">First Name</string>
     <string name="hint_lastName">Last Name</string>
