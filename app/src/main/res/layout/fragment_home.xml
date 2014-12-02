@@ -1,22 +1,49 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:weightSum="1">
 
-    <TextView
-        android:id="@+id/txtLabel"
+    <Button
+        android:id="@+id/button_filefromphone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:textSize="16dp"
-        android:text="Home View"/>
+        android:text="phone"
+        android:layout_gravity="center_vertical"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/button_callcamera"
+        android:layout_toEndOf="@+id/button_callcamera" />
 
-    <ImageView android:layout_width="wrap_content"
+    <ImageView
+        android:id="@+id/photo_image"
+        android:contentDescription="@string/uploadurl"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/txtLabel"
-        android:src="@drawable/ic_home"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"/>
+        android:layout_below="@+id/returnedURL" />
+
+    <Button
+        android:id="@+id/button_callcamera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="camera"
+        android:layout_gravity="bottom"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="56dp"
+        android:text="waitingforupload"
+        android:id="@+id/returnedURL"
+        android:layout_weight="0.26"
+        android:layout_gravity="center_vertical"
+        android:minWidth="100px"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/button_filefromphone"
+        android:layout_toRightOf="@+id/button_filefromphone"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 
 </RelativeLayout>
+

@@ -68,9 +68,6 @@
     <!-- Review and Rating -->
     <string name="rate_review_label">Rate and Review</string>
     <string name="rate_label">Rate</string>
-    <string name="user_list_label">User:</string>
-    <string name="rating_list_label">Rating:</string>
-    <string name="review_list_label">Review:</string>
     <string name="rating_result">Result: </string>
     <string name="review_box_fill">Type in review here...</string>
     <string name="submit">Submit</string>
@@ -94,6 +91,10 @@
     <string name="prompt_slash">\/</string>
     <string name="action_purchase">Purchase</string>
 
+    <string name="user_list_label">User:</string>
+    <string name="rating_list_label">Rating:</string>
+    <string name="review_list_label">Review:</string>
+
     <!--Hints-->
     <string name="hint_firstName">First Name</string>
     <string name="hint_lastName">Last Name</string>
@@ -112,5 +113,6 @@
     <!--WISHLIST ACTIVITY-->
 
     <string name="add_to_wishlist">Add to Wish list</string>
+    <string name="uploadurl">will vary; image taken from camera</string>
 
 </resources>

@@ -323,9 +323,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                         System.out.println(result);
                         login_sucess = true;
                     }
-                    else {
 
-                    }
                 }
                 rs.close();
                 st.close();
