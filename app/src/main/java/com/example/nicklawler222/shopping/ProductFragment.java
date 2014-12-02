@@ -201,11 +201,6 @@ public class ProductFragment extends Fragment {
                     int update_result = st.executeUpdate(sql_store_browse_history);
                 }
 
-
-                sql_store_browse_history = "INSERT INTO browsings VALUES (";
-                sql_store_browse_history += username + ", '" + productnumbers[0] + "', '" + timestamp + "')";
-
-                int update_result = st.executeUpdate(sql_store_browse_history);
                 String get_reviews = "SELECT * FROM ratings WHERE product_no = '" + productnumbers[0] + "'";
                 rs = st.executeQuery(get_reviews);
                 while (rs.next()) {
