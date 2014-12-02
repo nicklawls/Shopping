@@ -51,15 +51,22 @@ public class CartFragment extends Fragment {
                 Statement st = conn.createStatement();
                 String username = DataHolder.getInstance().getData();
                 String sql;
-                sql = "SELECT DISTINCT sc.product_no, p.name, p.price, SUM(p.price)  FROM shopping_cart sc, products p WHERE username = '" + username + "' AND sc.product_no = p.product_no";
+                sql = "SELECT DISTINCT sc.product_no, p.name, p.price, FROM shopping_cart sc, products p WHERE username = '" + username + "' AND sc.product_no = p.product_no";
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
                     productnumbers.add(rs.getString("product_no"));
                     productnames.add(rs.getString("name"));
                     productprice.add(rs.getString("price"));
-                    totalproductprice.add(rs.getString("SUM"));
-
                 }
+
+                sql = "SELECT sum(p.price) FROM products p, shopping_cart sc WHERE username = '" + username;
+                sql += "' AND p.product_no = sc.product_no";
+
+                rs = st.executeQuery(sql);
+                rs.next();
+
+                totalproductprice.add(rs.getString("sum"));
+
                 rs.close();
                 st.close();
                 conn.close();
