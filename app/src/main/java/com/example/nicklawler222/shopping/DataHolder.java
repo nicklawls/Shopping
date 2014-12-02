@@ -91,7 +91,7 @@ public class DataHolder {
                 rs = st.executeQuery(sql);
                 rs.next(); // assumes one row in result
 
-                has_purchased = (rs.getString("count").equals("1"));
+                has_purchased = (!rs.getString("count").equals("0"));
                 //System.out.println(rs.getString("count"));
 
                 rs.close();
