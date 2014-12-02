@@ -321,6 +321,10 @@ public class HomeFragment extends Fragment {
         }
         @Override
         protected void onPostExecute(String imageId) {
+            if( imageId.indexOf("error") != -1 ) {
+                ((TextView) getView().findViewById(R.id.returnedURL)).setText("Error on imgur upload");
+                return;
+            }
             super.onPostExecute(imageId);
             mImgurUploadTask = null;
 
@@ -339,14 +343,13 @@ public class HomeFragment extends Fragment {
 
     private class MyHTMLPost extends HTMLPost {
         public MyHTMLPost() {
-            super( 1 ,getActivity());
+            super( getActivity());
         }
 
         @Override
         protected void onPostExecute(String imageId) {
             super.onPostExecute(imageId);
 
-//            ((TextView) getView().findViewById(R.id.returnedURL)).setText(imageId);
             String token = imageId.substring( imageId.indexOf("oken\":")+7, imageId.indexOf("\",\"ur") );
             ((TextView) getView().findViewById(R.id.returnedURL)).setText(token);
             DataHolder.getInstance().setTOKEN(token);
@@ -365,30 +368,27 @@ public class HomeFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String imageId) {
+            if( imageId.indexOf("error") != -1 ){
+                ((TextView) getView().findViewById(R.id.returnedURL)).setText(imageId);
+                return;
+            }
+            ((TextView) getView().findViewById(R.id.returnedURL)).setText("Fetching: " + imageId);
+
             super.onPostExecute(imageId);
-
-//            ((TextView) getView().findViewById(R.id.returnedURL)).setText(imageId);
-//            String token = imageId.substring( imageId.indexOf("oken\":")+7, imageId.indexOf("\",\"ur") );
-            //((TextView) getView().findViewById(R.id.returnedURL)).setText(imageId);
-
+            //Cuts, parses, data and clears old picture data
             Integer s1 = imageId.indexOf("ame\":")+6;
             Integer s2 = imageId.indexOf("\"}");
             String odata = imageId.substring( s1, s2 );
             Log.i(TAG,"odata: " + odata);
             String metadata[] = odata.split("\\s+");
             DataHolder.getInstance().clearOdata();
+
+            //Stores the picture data
             for( Integer i = 0; i < metadata.length; i++ ) {
                 DataHolder.getInstance().addOData(metadata[i]);
-                Log.i(TAG,"pushed[" + i.toString() + "]: " + metadata[i]);
-
-            }
-            ArrayList storeddata = DataHolder.getInstance().getObjectData();
-            for( Integer i = 0; i < storeddata.size(); i++ ) {
-                Log.i(TAG,"metadata[" + i.toString() + "]: " + storeddata.get(i).toString());
-
             }
 
-            ((TextView) getView().findViewById(R.id.returnedURL)).setText(imageId);
+            ((TextView) getView().findViewById(R.id.returnedURL)).setText(odata);
             new ResultsSQL().execute();
             if (isVisible()) ;
         }
@@ -398,13 +398,12 @@ public class HomeFragment extends Fragment {
     private class ResultsSQL extends AsyncTask<Void,Void,Bundle> {
 
         protected Bundle doInBackground(Void... params) {
-            ((TextView) getView().findViewById(R.id.returnedURL)).setText("Getting Products");
-
             try {
                 Class.forName("org.postgresql.Driver");
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
+
             ArrayList productnumbers = new ArrayList();
             ArrayList productnames = new ArrayList();
             Bundle product = new Bundle();
@@ -431,6 +430,7 @@ public class HomeFragment extends Fragment {
                     }
 
                     String feat = rs.getString("features");
+                    Log.i(TAG,feat);
                     feat = feat.substring( feat.indexOf("{")+1, feat.length()-1 );
                     String meta[] = feat.split(",");
                     for( int i = 0; i < meta.length; i++ ) {

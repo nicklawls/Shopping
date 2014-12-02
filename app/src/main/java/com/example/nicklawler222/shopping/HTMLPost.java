@@ -33,12 +33,10 @@ public abstract class HTMLPost extends AsyncTask<Void, Void, String> {
     private static final String TAG = HTMLPost.class.getSimpleName();
 
     private Activity mActivity;
-    private Integer moption;
     public static final String UPLOAD_URL = "https://camfind.p.mashape.com/image_requests";
     public static final String DOWN_URL = "https://camfind.p.mashape.com/image_responses/";
 
-    public HTMLPost( Integer option,  Activity activity) {
-        this.moption = option;
+    public HTMLPost( Activity activity) {
         this.mActivity = activity;
     }
 
@@ -47,42 +45,35 @@ public abstract class HTMLPost extends AsyncTask<Void, Void, String> {
 
         String result = "";
         InputStream responseIn = null;
-        HttpURLConnection urlConnection=null;
 
         try {
-//            Thread.sleep(15000);
-
             HttpClient httpclient = new DefaultHttpClient();
             String json = "";
             JSONObject holder = new JSONObject();
 
-            //url with the post data
+            //Connect
             HttpPost httpost = new HttpPost(UPLOAD_URL);
 
-            //convert parameters into JSON object
+            //Builds the JSON object needed for the API, loads it into the StrinEnt for httpost
             holder.put("language", "en");
             holder.put("locale", "en_US");
             holder.put("remote_image_url", DataHolder.getInstance().getURL());
             json = holder.toString();
-            //passes the results to a string builder/entity
             StringEntity se = new StringEntity(json);
-//            Log.i(TAG, "json:" + json + ")");
 
-            //sets the post request as the resulting string
+            //Set request properties for the json request
             httpost.setEntity(se);
-            //sets a request header so the page receving the request
-            //will know what to do with it
             httpost.setHeader("Accept", "application/json");
             httpost.setHeader("Content-type", "application/json");
             httpost.setHeader("X-Mashape-Key", "texfF9WVUCmsh8883iQ9Vsv3bd1Qp1s1nSqjsn0DLOfWCABB3d");
 
+            //execute the json request and grab the results
             HttpResponse httpResponse = httpclient.execute(httpost);
             responseIn = httpResponse.getEntity().getContent();
             if (responseIn != null)
                 result = convertInputStreamToString(responseIn);
             else
                 result = "Didnt work";
-//            Log.i(TAG, "new token:" + result + ")");
             responseIn.close();
             se.consumeContent();
             return result;
@@ -103,7 +94,6 @@ public abstract class HTMLPost extends AsyncTask<Void, Void, String> {
 
         inputStream.close();
         return result;
-
     }
 
 }

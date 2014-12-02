@@ -62,15 +62,8 @@ public abstract class ImgurUploadTask extends AsyncTask<Void, Void, String> {
                 return onInput(responseIn);
             }
             else {
-                Log.i(TAG, "responseCode=" + conn.getResponseCode());
-                responseIn = conn.getErrorStream();
-                StringBuilder sb = new StringBuilder();
-                Scanner scanner = new Scanner(responseIn);
-                while (scanner.hasNext()) {
-                    sb.append(scanner.next());
-                }
-                Log.i(TAG, "error response: " + sb.toString());
-                return null;
+                String err = "error during Imgur Upload";
+                return err;
             }
         } catch (Exception ex) {
             Log.e(TAG, "Error during POST", ex);

@@ -39,8 +39,6 @@ public abstract class HTMLGrab extends AsyncTask<Void, Void, String> {
     private static final String TAG = HTMLGrab.class.getSimpleName();
 
     private Activity mActivity;
-    private Integer moption;
-    public static final String UPLOAD_URL = "https://camfind.p.mashape.com/image_requests";
     public static final String DOWN_URL = "https://camfind.p.mashape.com/image_responses/";
 
     public HTMLGrab( Activity activity) {
@@ -55,46 +53,44 @@ public abstract class HTMLGrab extends AsyncTask<Void, Void, String> {
         HttpURLConnection urlConnection=null;
 
         try {
-            Log.i(TAG, "before sleep");
-
             Thread.sleep(2000);
-            Log.i(TAG, "after sleep");
-
 
             HttpClient httpclient = new DefaultHttpClient();
-            String json = "";
-            JSONObject holder = new JSONObject();
-                         //THIS IS FOR GRABBING THE METADATA FROM THE API TO PARSE LATER
-            //url with the post data
+            //THIS IS FOR GRABBING THE METADATA FROM THE API TO PARSE LATER
+            //Connect
             String url = DOWN_URL.trim() + DataHolder.getInstance().getTOKEN().trim();
             HttpGet httget = new HttpGet(url);
 
             httget.setHeader("Accept", "application/json");
             httget.setHeader("Content-type", "application/json");
             httget.setHeader("X-Mashape-Key", "texfF9WVUCmsh8883iQ9Vsv3bd1Qp1s1nSqjsn0DLOfWCABB3d");
-            //sets the post request as the resulting string
-            //sets a request header so the page receving the request
-            //will know what to do with it
 
             String completedresult = "not completed";
 
+            //Refreshes content every 4 seconds until the api finishes the result
+            Integer i = 0;
             while ( completedresult.indexOf("ot compl") != -1 ) {
+                i++;
+                if( i > 10 ) {
+                    result = "error during grab, timeout";
+                    return result;
+                }
                 Thread.sleep(4000);
                 HttpResponse httpResponse = httpclient.execute(httget);
 
                 responseIn = httpResponse.getEntity().getContent();
                 StatusLine statusLine = httpResponse.getStatusLine();
                 if( statusLine.getStatusCode() != 200 ){
-                    result = "not found";
+                    result = "error connection failed";
                     return result;
                 }
                 if (responseIn != null)
                     result = convertInputStreamToString(responseIn);
 
                 completedresult = result;
-                Log.i(TAG, "convertinputstream: " + result);
-                Log.i(TAG, "status: " + statusLine.getStatusCode() + "   resonse: " + httpResponse.toString());
-                Log.i(TAG, httpResponse.toString());
+//                Log.i(TAG, "convertinputstream: " + result);
+//                Log.i(TAG, "status: " + statusLine.getStatusCode() + "   resonse: " + httpResponse.toString());
+//                Log.i(TAG, httpResponse.toString());
             }
             responseIn.close();
             return result;
