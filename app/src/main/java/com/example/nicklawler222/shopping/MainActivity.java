@@ -513,18 +513,17 @@ public class MainActivity extends Activity {
         String pno = DataHolder.getInstance().getPNO();
         String uname = DataHolder.getInstance().getData();
 
-
-        Toast.makeText(getApplicationContext(), "Added to WishList", Toast.LENGTH_SHORT).show();
-
         AddToSomethingTask addToWishList = new AddToSomethingTask("wish_list", pno, uname);
         addToWishList.execute((Void) null);
-
-
         Toast.makeText(getApplicationContext(), "Added to WishList", Toast.LENGTH_SHORT).show();
-
     }
 
     public void executePurchase(View view) {
+        String uname = DataHolder.getInstance().getData();
+
+        PurchaseTask task = new PurchaseTask(uname);
+        task.execute((Void) null);
+        Toast.makeText(getApplicationContext(), "Purchase Sucessful", Toast.LENGTH_SHORT).show();
 
     }
 
