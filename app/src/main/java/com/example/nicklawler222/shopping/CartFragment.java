@@ -34,7 +34,8 @@ public class CartFragment extends Fragment {
         protected Bundle doInBackground(Void... params) {
             try {
                 Class.forName("org.postgresql.Driver");
-            } catch (ClassNotFoundException e) {
+            }
+            catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
             ArrayList productnumbers = new ArrayList();
