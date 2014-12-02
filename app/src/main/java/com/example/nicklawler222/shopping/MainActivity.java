@@ -486,8 +486,11 @@ public class MainActivity extends Activity {
             username = uname;
         }
 
-        public Void doInBackground(Void ...params) {
-            return (Void) null;
+        protected Void doInBackground(Void ...params) {
+            // establish connection
+
+
+            return null;
         }
     }
 
