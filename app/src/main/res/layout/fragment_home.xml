@@ -3,47 +3,68 @@
     android:layout_width="match_parent"
     android:weightSum="1">
 
-    <Button
+    <ImageButton
+        android:layout_marginTop="40dp"
+        android:layout_width="100dp"
+        android:layout_marginStart="70dp"
+        android:layout_height="100dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/camera"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/camera"
+        android:id="@+id/button_callcamera"/>
+
+    <ImageButton
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="fitCenter"
+        android:contentDescription="@string/phone"
         android:id="@+id/button_filefromphone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="phone"
-        android:layout_gravity="center_vertical"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/button_callcamera"
-        android:layout_toEndOf="@+id/button_callcamera" />
-
-    <ImageView
-        android:id="@+id/photo_image"
-        android:contentDescription="@string/uploadurl"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/returnedURL" />
-
-    <Button
-        android:id="@+id/button_callcamera"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="camera"
-        android:layout_gravity="bottom"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:background="@android:color/transparent"
+        android:src="@drawable/image_file"
+        android:layout_toEndOf="@+id/button_callcamera"
+        android:layout_alignTop="@+id/button_callcamera"
+        android:layout_toRightOf="@+id/button_callcamera" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="56dp"
         android:text="waitingforupload"
         android:id="@+id/returnedURL"
+        android:layout_marginTop="10dp"
         android:layout_weight="0.26"
-        android:layout_gravity="center_vertical"
-        android:minWidth="100px"
-        android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/button_filefromphone"
-        android:layout_toRightOf="@+id/button_filefromphone"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:minWidth="100dp"
+        android:layout_below="@+id/button_callcamera"
+        android:layout_centerHorizontal="true" />
 
+    <ImageView
+        android:id="@+id/photo_image"
+        android:contentDescription="@string/uploadurl"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/returnedURL"
+        android:layout_height="wrap_content"/>
 
 </RelativeLayout>
 
+    <!--<Button-->
+    <!--android:id="@+id/button_filefromphone"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="phone"-->
+    <!--android:layout_gravity="center_vertical"-->
+    <!--android:layout_alignParentTop="true"-->
+    <!--android:layout_toRightOf="@+id/button_callcamera"-->
+    <!--android:layout_toEndOf="@+id/button_callcamera" />-->
+
+
+    <!--<Button-->
+    <!--android:id="@+id/button_callcamera"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="camera"-->
+    <!--android:layout_gravity="bottom"-->
+    <!--android:layout_alignParentTop="true"-->
+    <!--android:layout_alignParentLeft="true"-->
+    <!--android:layout_alignParentStart="true" />-->

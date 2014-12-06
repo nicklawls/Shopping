@@ -116,4 +116,10 @@ public class CartFragment extends Fragment {
         if (previousInstance != null)
             ft.remove(previousInstance);
     }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
 }

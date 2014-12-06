@@ -24,6 +24,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -72,7 +73,7 @@ public class HomeFragment extends Fragment {
         //View rootView = inflater.inflate(R.layout.fragment_browse_history, container, false);
 
         //new FetchSQL().execute();
-        Button callCameraButton = (Button) rootView.findViewById(R.id.button_callcamera);
+        ImageButton callCameraButton = (ImageButton) rootView.findViewById(R.id.button_callcamera);
         callCameraButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -82,7 +83,7 @@ public class HomeFragment extends Fragment {
                 startActivityForResult(i, CAPTURE_IMAGE_ACTIVITY_REQ); //capture image activity req is 0, this differentiates ACTION_IMAGE_CAPTURE from ACTION_GET_CONTENT
             }
         });
-        Button fileFromPhone = (Button) rootView.findViewById(R.id.button_filefromphone);
+        ImageButton fileFromPhone = (ImageButton) rootView.findViewById(R.id.button_filefromphone);
         fileFromPhone.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent i = new Intent();
@@ -98,7 +99,7 @@ public class HomeFragment extends Fragment {
     }
     private File getOutputPhotoFile() {
         File directory = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), "blah");
+                Environment.DIRECTORY_PICTURES), "Le Shoppe");
         if (!directory.exists()) {
             if (!directory.mkdirs()) {
                 Log.e(TAG, "Failed to create storage directory.");

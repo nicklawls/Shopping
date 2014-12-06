@@ -3,6 +3,7 @@ package com.example.nicklawler222.shopping;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -156,13 +157,33 @@ public class RateReviewActivity extends Activity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_search) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_cart:
+                // TO GO TO CART FRAGMENT!!!!!!!
+                if (DataHolder.getInstance().isLoggedIn()) {
+                    Intent i = new Intent(RateReviewActivity.this, MainActivity.class);
+                    startActivity(i);
+                    //FragmentManager fragmentManager = getFragmentManager();
+                    //fragmentManager.beginTransaction().replace(R.id.frame_container, new CartFragment()).commit();
+                    //setTitle("Cart");
+                    return true;
+                } else {
+                    Toast.makeText(getApplicationContext(), "Must be logged in to view Cart",
+                            Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            case R.id.action_buy:
+                if (DataHolder.getInstance().isLoggedIn()) {
+                    Intent i = new Intent(RateReviewActivity.this, PurchaseActivity.class);
+                    startActivity(i);
+                    setTitle("Checkout");
+                    return true;
+                } else {
+                    Toast.makeText(getApplicationContext(), "Must be logged in to view Checkout",
+                            Toast.LENGTH_SHORT).show();
+                }
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 }

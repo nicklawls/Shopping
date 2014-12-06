@@ -42,7 +42,7 @@ public class CartListAdapter extends ArrayAdapter {
             holder = new ViewHolder();
             holder.titleText = (TextView) viewToUse.findViewById(R.id.titleTextView);
             holder.itemPrice = (TextView) viewToUse.findViewById(R.id.itemPriceView);
-            holder.itemTotalPrice = (TextView) viewToUse.findViewById(R.id.totalPriceView);
+            //holder.itemTotalPrice = (TextView) viewToUse.findViewById(R.id.totalPriceView);
             viewToUse.setTag(holder);
         }
         else {
@@ -50,7 +50,7 @@ public class CartListAdapter extends ArrayAdapter {
         }
         holder.titleText.setText(item.getItemTitle());
         holder.itemPrice.setText(item.getItemPrice());
-        holder.itemTotalPrice.setText(item.getTotalItemPrice());
+        //holder.itemTotalPrice.setText(item.getTotalItemPrice());
 
         viewToUse.setTag(holder);
         Button cart_view = (Button) viewToUse.findViewById(R.id.cart_view_button);

@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -51,7 +52,7 @@ public class ProductFragment extends Fragment {
     TextView productfeatures;
     RatingBar prod_rating;
     float float_product_rating;
-    Button RRList_button;
+    ImageButton RRList_button;
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -122,7 +123,7 @@ public class ProductFragment extends Fragment {
         prod_rating = (RatingBar) rootView.findViewById(R.id.prod_rating); //average rating for rating bar
 
         new FetchSQL().execute(productnumber);
-        Button ViewRR = (Button) rootView.findViewById(R.id.rate_review_list);
+        ImageButton ViewRR = (ImageButton) rootView.findViewById(R.id.rate_review_list);
         ViewRR.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 if (!users.isEmpty()) {
@@ -138,9 +139,9 @@ public class ProductFragment extends Fragment {
         });
 
         // only logged in users can view rate review, add to cart, and add to wish list button
-        Button addtoCart = (Button) rootView.findViewById(R.id.addToCartButton);
-        Button addtoWish = (Button) rootView.findViewById(R.id.addToWishListbutton);
-        Button rate = (Button) rootView.findViewById(R.id.rate_review);
+        ImageButton addtoCart = (ImageButton) rootView.findViewById(R.id.addToCartButton);
+        ImageButton addtoWish = (ImageButton) rootView.findViewById(R.id.addToWishListbutton);
+        ImageButton rate = (ImageButton) rootView.findViewById(R.id.rate_review);
 
         if(!DataHolder.getInstance().isLoggedIn()){
             addtoCart.setVisibility(View.GONE);

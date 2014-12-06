@@ -37,18 +37,16 @@ public class PurchaseActivity extends Activity {
     ArrayList productprice = new ArrayList();
     ArrayList totalproductprice = new ArrayList();
 
-    private View rootView;
     private TextView totalPrice;
-    private View mTotalPurchaseView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         setContentView(R.layout.activity_purchase);
 
         String uname = DataHolder.getInstance().getData();
-        //mTotalPurchaseView =  findViewById(R.id.order_total_num);
 
         totalPrice = (TextView) findViewById(R.id.order_total_num);
 
@@ -71,7 +69,10 @@ public class PurchaseActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main, menu);
+
+            inflater.inflate(R.menu.menu_search, menu);
+
+
 
         // Associate searchable configuration with the SearchView
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
@@ -98,7 +99,8 @@ public class PurchaseActivity extends Activity {
         };
         searchView.setOnQueryTextListener(queryTextListener);
 
-        return super.onCreateOptionsMenu(menu);
+        return true;
+        //return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -112,6 +114,8 @@ public class PurchaseActivity extends Activity {
             case R.id.action_cart:
                 // TO GO TO CART FRAGMENT!!!!!!!
                 if (DataHolder.getInstance().isLoggedIn()) {
+                    Intent i = new Intent(PurchaseActivity.this, MainActivity.class);
+                    startActivity(i);
                     FragmentManager fragmentManager = getFragmentManager();
                     fragmentManager.beginTransaction().replace(R.id.frame_container, new CartFragment()).commit();
 
@@ -120,23 +124,18 @@ public class PurchaseActivity extends Activity {
                 } else {
                     Toast.makeText(getApplicationContext(), "Must be logged in to view Cart",
                             Toast.LENGTH_SHORT).show();
-
                     return false;
                 }
             case R.id.action_buy:
                 if (DataHolder.getInstance().isLoggedIn()) {
                     Intent i = new Intent(PurchaseActivity.this, PurchaseActivity.class);
                     startActivity(i);
-                    finish();
                     setTitle("Checkout");
                     return true;
                 } else {
                     Toast.makeText(getApplicationContext(), "Must be logged in to view Checkout",
                             Toast.LENGTH_SHORT).show();
-
-                    return false;
                 }
-
             default:
                 return super.onOptionsItemSelected(item);
         }
